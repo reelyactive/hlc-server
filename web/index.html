@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title> reelyActive: Hyperlocal Context </title>
+    <link rel="stylesheet" href="style/main.css">
+    <script type="text/javascript">
+      function goto() {
+        var identifier = document.forms[0].identifier.value;
+        if((identifier.length === 12) || (identifier.length === 16)) {
+          window.location.href = 'id/' + identifier;
+        }
+        else {
+          window.location.href = 'at/' + identifier;
+        }
+        return false;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="content">
+      <img src="images/logo.png">
+      <form action="" method="get" onsubmit="return goto()">
+        <input type="text" name="identifier" id="identifier" size="16" maxlength="16">
+        <input type="submit" value="Search">
+      </form>
+      <br>
+      <p> Learn more at <a href="http://context.reelyactive.com/context.html"> context.reelyactive.com </a> </p>
+    </div>
+  </body>
+</html>
