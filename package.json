@@ -1,10 +1,7 @@
 {
   "name": "hlc-server",
   "homepage": "https://github.com/reelyactive/hlc-server/",
-  "author": {
-    "name": "reelyActive",
-    "email": "webdev@reelyactive.com"
-  },
+  "author": "reelyActive <webdev@reelyactive.com>",
   "description": "Serves up hyperlocal context (HLC) for the Internet of Things.",
   "keywords": [
     "reelyActive",
@@ -30,5 +27,9 @@
     "body-parser": ">=1.8.0",
     "basic-auth-connect": ">=1.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/reelyactive/hlc-server/issues"
+  },
+  "license": "MIT"
 }
