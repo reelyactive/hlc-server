@@ -7,7 +7,7 @@ HLC: Hyperlocal Context
 
 How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  _Read more at:_ [context.reelyactive.com](http://context.reelyactive.com/context.html)
 
-hlc-server provides a layer on top of our other npmjs package, [barnowl](https://www.npmjs.org/package/barnowl).  Please first consult the documentation for barnowl which is far more mature at this point!
+hlc-server provides a layer on top of our other npmjs package, [barnowl](https://www.npmjs.org/package/barnowl).  Please _first_ consult the [documentation for barnowl](https://www.npmjs.org/package/barnowl) which is far more mature at this point!
 
 
 Installation
@@ -36,11 +36,11 @@ Querying Hyperlocal Context
 
 To query the real-time context where a BLE device is emitting the AdvA-48 identifier 1a:2b:3c:4d:5e:6f make the following request:
 
-    [http://localhost/id/1a2b3c4d5e6f](http://localhost/id/1a2b3c4d5e6f)
+- [http://localhost/id/1a2b3c4d5e6f](http://localhost/id/1a2b3c4d5e6f)
 
 To query the real-time context of a place named _notman_ make the following request:
 
-    [http://localhost/at/notman](http://localhost/at/notman)
+- [http://localhost/at/notman](http://localhost/at/notman)
 
 
 Administrative Interface
