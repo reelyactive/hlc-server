@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title> reelyActive: Hyperlocal Context </title>
+    <link rel="stylesheet" href="../style/main.css">
+  </head>
+  <body>
+    <div id="content">
+      <h1> Administrative Interface </h1>
+      <p> IDs are EUI-64 or AdvA-48 format, comma-separated <br>
+          <i>Example: 001bc50940100000, 1a2b3c4d5e6f</i> </p>
+      <form method="post">
+        ID: <input type="text" name="identifier" size="16" maxlength="16"><br>
+        URL: <input type="text" name="url" size="32"><br>
+        <input type="submit" name="action" value="Add ID">
+        <input type="submit" name="action" value="Remove ID">
+      </form>
+      <br>
+      <form method="post">
+        Place name: <input type="text" name="place" size="16"><br>
+        IDs: <input type="text" name="ids" size="32"><br>
+        <input type="submit" name="action" value="Add Place">
+        <input type="submit" name="action" value="Remove Place">
+      </form>
+      <p> <a href="../"> Return to main page </a> </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "name": "hlc-server",
+  "homepage": "https://github.com/reelyactive/hlc-server/",
+  "author": "reelyActive <webdev@reelyactive.com>",
+  "description": "Serves up hyperlocal context (HLC) for the Internet of Things.",
+  "keywords": [
+    "reelyActive",
+    "Hyperlocal Context",
+    "IoT"
+  ],
+  "version": "0.0.0",
+  "engines": {
+    "node": "^0.10.0"
+  },
+  "main": "./lib/server.js",
+  "bin": {
+    "barnowl": "./bin/hlc-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reelyactive/hlc-server.git"
+  },
+  "dependencies": {
+    "barnowl": "^0.3.8",
+    "nedb": ">=0.11.0",
+    "express": ">=4.0.0",
+    "body-parser": ">=1.8.0",
+    "basic-auth-connect": ">=1.0.0"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/reelyactive/hlc-server/issues"
+  },
+  "license": "MIT"
+}
