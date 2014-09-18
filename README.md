@@ -42,6 +42,10 @@ To query the real-time context of a place named _notman_ make the following requ
 
 - [http://localhost:3001/at/notman](http://localhost:3001/at/notman)
 
+A _test_ place is permanently enabled and is associated with IDs 001bc50940800000 and 001bc50940810000:
+
+- [http://localhost:3001/at/test](http://localhost:3001/at/test)
+
 
 Administrative Interface
 ------------------------
