@@ -25,7 +25,8 @@
     "nedb": ">=0.11.0",
     "express": ">=4.0.0",
     "body-parser": ">=1.8.0",
-    "basic-auth-connect": ">=1.0.0"
+    "basic-auth-connect": ">=1.0.0",
+    "cors": ">=2.4.2"
   },
   "devDependencies": {},
   "bugs": {
