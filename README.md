@@ -30,6 +30,28 @@ Then browse to [http://localhost:3001](http://localhost:3001) to see the landing
 
 ![HLC landing page](http://reelyactive.com/images/hlc-landing.png)
 
+Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http://localhost:3001/at/test)) to see the following test output:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": { "href": "http://localhost:3001/at/test" }
+      },
+      "devices": {
+        "001bc50940100000": {
+          "identifier": {
+            "type": "EUI-64",
+            "value": "001bc50940100000"
+          },
+          "url": "http://reelyactive.com/metadata/test.json",
+          "href": "http://localhost:3001/id/001bc50940100000"
+        }
+      }
+    }
+
 
 Querying Hyperlocal Context
 ---------------------------
