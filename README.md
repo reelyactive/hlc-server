@@ -21,14 +21,36 @@ Hello Hyperlocal Context
 
 ```javascript
 var server = require('hlc-server');
-var app = new server();
+var app = new server({ httpPort: 3001 }); // Default port is 3001
 
-app.bind('udp', '192.168.1.101:50000'); // See barnowl: "Where to listen?"
+app.bind('udp', '192.168.1.101:50000');   // See barnowl: "Where to listen?"
 ```
 
-Then browse to [http://localhost](http://localhost) to see the landing page.
+Then browse to [http://localhost:3001](http://localhost:3001) to see the landing page.
 
 ![HLC landing page](http://reelyactive.com/images/hlc-landing.png)
+
+Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http://localhost:3001/at/test)) to see the following test output:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": { "href": "http://localhost:3001/at/test" }
+      },
+      "devices": {
+        "001bc50940100000": {
+          "identifier": {
+            "type": "EUI-64",
+            "value": "001bc50940100000"
+          },
+          "url": "http://reelyactive.com/metadata/test.json",
+          "href": "http://localhost:3001/id/001bc50940100000"
+        }
+      }
+    }
 
 
 Querying Hyperlocal Context
@@ -36,17 +58,21 @@ Querying Hyperlocal Context
 
 To query the real-time context where a BLE device is emitting the AdvA-48 identifier 1a:2b:3c:4d:5e:6f make the following request:
 
-- [http://localhost/id/1a2b3c4d5e6f](http://localhost/id/1a2b3c4d5e6f)
+- [http://localhost:3001/id/1a2b3c4d5e6f](http://localhost:3001/id/1a2b3c4d5e6f)
 
 To query the real-time context of a place named _notman_ make the following request:
 
-- [http://localhost/at/notman](http://localhost/at/notman)
+- [http://localhost:3001/at/notman](http://localhost:3001/at/notman)
+
+A _test_ place is permanently enabled and is associated with IDs 001bc50940800000 and 001bc50940810000:
+
+- [http://localhost:3001/at/test](http://localhost:3001/at/test)
 
 
 Administrative Interface
 ------------------------
 
-Browse to [http://localhost/admin](http://localhost/admin) to associate IDs with URLs containing JSON metadata, and to add places and their associated IDs.  The default username and password are both _admin_.
+Browse to [http://localhost:3001/admin](http://localhost:3001/admin) to associate IDs with URLs containing JSON metadata, and to add places and their associated IDs.  The default username and password are both _admin_.
 
 
 What's next?
