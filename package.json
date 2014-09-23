@@ -8,13 +8,13 @@
     "Hyperlocal Context",
     "IoT"
   ],
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "node": "^0.10.0"
   },
   "main": "./lib/server.js",
   "bin": {
-    "barnowl": "./bin/hlc-server"
+    "hlc-server": "./bin/hlc-server"
   },
   "repository": {
     "type": "git",
