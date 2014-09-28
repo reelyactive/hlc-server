@@ -75,6 +75,21 @@ Administrative Interface
 Browse to [http://localhost:3001/admin](http://localhost:3001/admin) to associate IDs with URLs containing JSON metadata, and to add places and their associated IDs.  The default username and password are both _admin_.
 
 
+Options
+-------
+
+You can create an instance of hlc-server with any or all of the following options (the ones shown are the defaults):
+
+    {
+      httpPort: 3001,
+      authUser: 'admin',
+      authPass: 'admin',
+      useCors: false
+    }
+
+Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to set useCors to true.
+
+
 What's next?
 ------------
 
