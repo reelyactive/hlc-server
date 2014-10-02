@@ -2,14 +2,14 @@
   "name": "hlc-server",
   "homepage": "https://github.com/reelyactive/hlc-server/",
   "author": "reelyActive <webdev@reelyactive.com>",
-  "description": "Serves up hyperlocal context (HLC) for the Internet of Things by associating all devices identified in a Smart Space with their respective metadata.",
+  "description": "Serves up hyperlocal context (HLC) for the Internet of Things by associating all devices identified in a Smart Space with their respective metadata.  We believe in an open Internet of Things.",
   "keywords": [
     "reelyActive",
     "Hyperlocal Context",
     "IoT",
     "BLE"
   ],
-  "version": "0.1.2",
+  "version": "0.1.3",
   "engines": {
     "node": "^0.10.0"
   },
