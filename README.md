@@ -23,7 +23,8 @@ Hello Hyperlocal Context
 var server = require('hlc-server');
 var app = new server({ httpPort: 3001 }); // Default port is 3001
 
-app.bind('udp', '192.168.1.101:50000');   // See barnowl: "Where to listen?"
+// See barnowl: "Where to listen?"
+app.bind( { protocol: 'udp', path: '192.168.1.101:50000' } );
 ```
 
 Then browse to [http://localhost:3001](http://localhost:3001) to see the landing page.
@@ -114,7 +115,7 @@ The following implicit associations are supported.  In other words, the implicit
     * iBeacon UUID: b9407f30f5f8466eaff925556b57fe6d
     * URL: http://reelyactive.com/metadata/estimote.json
     * [Product link](http://estimote.com/#jump-to-products)
-- Roximty beacon
+- Roximity beacon
     * iBeacon UUID: 8deefbb9f7384297804096668bb44281
     * URL: http://reelyactive.com/metadata/roximity.json
     * [Product link](http://roximity.com/)
