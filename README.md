@@ -96,6 +96,10 @@ Implicit Associations
 
 The following implicit associations are supported.  In other words, the implicit _url_ will be provided unless the device is already uniquely associated, via its identifier, with a _url_.  If you're one of the manufacturers below and would like the URL to instead point to an API on your server please [contact us](http://context.reelyactive.com/contact.html).
 
+- reelyActive Active RFID Tag (RA-T411)
+    * Identifier Type: EUI-64
+    * URL: http://reelyactive.com/metadata/ra-t411.json
+    * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-t411)
 - reelyActive Bluetooth Smart reelceiver (RA-R436)
     * UUID: 7265656c794163746976652055554944
     * URL: http://reelyactive.com/metadata/ra-r436.json
