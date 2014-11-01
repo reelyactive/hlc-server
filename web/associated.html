@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title> reelyActive: Hyperlocal Context </title>
+    <link rel="stylesheet" href="style/main.css">
+    <script type="text/javascript">
+      function loadParameters() {
+        var url = window.location.search.split("url=").pop().split('&').shift();
+        $('#queryUrl').html(url);
+        $('a#queryUrl').prop("href", url);
+      }
+    </script>
+  </head>
+  <body onload="loadParameters()">
+    <div id="content">
+      <img src="images/logo.png">
+      <p> Your device can be queried at the following URL: </p>
+      <p><a id="queryUrl" href=""></a><p>
+      <br>
+      <p> <a href="index.html"> Hyperlocal Context </a> &nbsp; | &nbsp; Learn more at <a href="http://context.reelyactive.com/context.html"> context.reelyactive.com </a> </p>
+    </div>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+  </body>
+</html>
