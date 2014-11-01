@@ -9,6 +9,8 @@ How can computers understand the context of what's happening in a space? First a
 
 hlc-server provides a layer on top of our other npmjs package, [barnowl](https://www.npmjs.org/package/barnowl).  Please _first_ consult the [documentation for barnowl](https://www.npmjs.org/package/barnowl) which is far more mature at this point!
 
+hlc-server is the middle piece in the [json-silo](https://www.npmjs.org/package/json-silo) - hlc-server - [smartspaces](https://www.npmjs.org/package/smartspaces) stack.  The easiest way to learn how these all fit together is our [Make a Smart Space tutorial](http://reelyactive.github.io/make-a-smartspace.html).
+
 
 Installation
 ------------
