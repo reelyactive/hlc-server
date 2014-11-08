@@ -23,10 +23,10 @@ Hello Hyperlocal Context
 
 ```javascript
 var server = require('hlc-server');
-var app = new server({ httpPort: 3001 }); // Default port is 3001
+var app = new server();
 
 // See barnowl: "Where to listen?"
-app.bind( { protocol: 'udp', path: '192.168.1.101:50000' } );
+app.bind( { protocol: 'test', path: 'default' } );
 ```
 
 Then browse to [http://localhost:3001](http://localhost:3001) to see the landing page.
@@ -59,7 +59,7 @@ Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http
 Querying Hyperlocal Context
 ---------------------------
 
-To query the real-time context where a BLE device is emitting the AdvA-48 identifier 1a:2b:3c:4d:5e:6f make the following request:
+To query the real-time context where a Bluetooth Smart device is emitting the AdvA-48 identifier 1a:2b:3c:4d:5e:6f make the following request:
 
 - [http://localhost:3001/id/1a2b3c4d5e6f](http://localhost:3001/id/1a2b3c4d5e6f)
 
@@ -87,7 +87,9 @@ You can create an instance of hlc-server with any or all of the following option
       httpPort: 3001,
       authUser: 'admin',
       authPass: 'admin',
-      useCors: false
+      useCors: false,
+      maxDecoders: 3,
+      maxStaleMilliseconds: 10000
     }
 
 Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to set useCors to true.
