@@ -78,6 +78,16 @@ Administrative Interface
 Browse to [http://localhost:3001/admin](http://localhost:3001/admin) to associate IDs with URLs containing JSON metadata, and to add places and their associated IDs.  The default username and password are both _admin_.
 
 
+Connecting with services
+------------------------
+
+You can connect the [barnacles](https://www.npmjs.org/package/barnacles) inside hlc-server with any of the services they support.  For detailed information about each service consult the [barnacles documentation](https://www.npmjs.org/package/barnacles).  A service is added as follows:
+
+```javascript
+app.addNotificationService(options);
+```
+
+
 Options
 -------
 
