@@ -7,7 +7,7 @@ HLC: Hyperlocal Context
 
 How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  _Read more at:_ [context.reelyactive.com](http://context.reelyactive.com/context.html)
 
-hlc-server provides a layer on top of our other npmjs packages, [barnowl](https://www.npmjs.org/package/barnowl) and [barnacles](https://www.npmjs.org/package/barnacles).  Please _first_ consult the [documentation for barnowl](https://www.npmjs.org/package/barnowl) which is far more mature at this point!
+hlc-server acts as a wrapper around our other npmjs packages, [barnowl](https://www.npmjs.org/package/barnowl) and [barnacles](https://www.npmjs.org/package/barnacles).  Please _first_ consult the [documentation for barnowl](https://www.npmjs.org/package/barnowl) which is far more mature at this point!
 
 hlc-server is the middle piece in the [json-silo](https://www.npmjs.org/package/json-silo) - hlc-server - [smartspaces](https://www.npmjs.org/package/smartspaces) stack.  The easiest way to learn how these all fit together is our [Make a Smart Space tutorial](http://reelyactive.github.io/make-a-smartspace.html).
 
