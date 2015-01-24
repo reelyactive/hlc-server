@@ -9,7 +9,7 @@
     "IoT",
     "BLE"
   ],
-  "version": "0.1.10",
+  "version": "0.1.11",
   "engines": {
     "node": "^0.10.0"
   },
@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "barnowl": ">=0.4.4",
-    "barnacles": ">=0.0.6",
-    "nedb": ">=0.11.0",
+    "barnacles": ">=0.0.7",
+    "nedb": ">=1.1.1",
     "express": ">=4.0.0",
     "body-parser": ">=1.8.0",
     "basic-auth-connect": ">=1.0.0",
