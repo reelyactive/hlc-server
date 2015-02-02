@@ -142,6 +142,8 @@ The following implicit associations are supported.  In other words, the implicit
     * URL: http://reelyactive.com/metadata/apple.json
 - Curious devices (any SCAN_REQ)
     * URL: http://reelyactive.com/metadata/curious.json
+- Bluetooth Smart devices (anything else which is Bluetooth Smart)
+    * URL: http://reelyactive.com/metadata/bluetoothsmart.json
 
 
 What's next?
