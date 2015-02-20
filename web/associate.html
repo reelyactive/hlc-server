@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title> reelyActive: Hyperlocal Context </title>
+    <link rel="stylesheet" href="style/main.css">
+    <script type="text/javascript">
+      function loadParameters() {
+        var url = window.location.search.split("url=").pop().split('&').shift();
+        var hasUrl = window.location.search.indexOf("url=") != -1;
+        if(hasUrl) {
+          $('#jsonUrl').prop("value", url);
+          $('#jsonUrl').prop("readonly", true);
+        }
+      }
+    </script>
+  </head>
+  <body onload="loadParameters()">
+    <div id="content">
+      <img src="images/logo.png">
+      <p> IDs are EUI-64 or AdvA-48 format, comma-separated, no spaces <br>
+          <i>Example: 001bc50940100000,1a2b3c4d5e6f</i> </p>
+      <form method="post" action="associate">
+        Device ID: <input type="text" name="identifier" size="16" maxlength="16"><br>
+        JSON URL: <input id="jsonUrl" type="text" name="url" size="32"><br>
+        <input type="submit" name="action" value="Add ID">
+      </form>
+      <br>
+      <p> <a href="index.html"> Hyperlocal Context </a> &nbsp; | &nbsp; Learn more at <a href="http://context.reelyactive.com/context.html"> context.reelyactive.com </a> </p>
+    </div>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+  </body>
+</html>

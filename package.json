@@ -2,13 +2,14 @@
   "name": "hlc-server",
   "homepage": "https://github.com/reelyactive/hlc-server/",
   "author": "reelyActive <webdev@reelyactive.com>",
-  "description": "Serves up hyperlocal context (HLC) for the Internet of Things.",
+  "description": "Serves up hyperlocal context (HLC) for the Internet of Things by associating all devices identified in a Smart Space with their respective metadata.  We believe in an open Internet of Things.",
   "keywords": [
     "reelyActive",
     "Hyperlocal Context",
-    "IoT"
+    "IoT",
+    "BLE"
   ],
-  "version": "0.1.0",
+  "version": "0.1.13",
   "engines": {
     "node": "^0.10.0"
   },
@@ -21,8 +22,9 @@
     "url": "https://github.com/reelyactive/hlc-server.git"
   },
   "dependencies": {
-    "barnowl": "^0.3.8",
-    "nedb": ">=0.11.0",
+    "barnowl": ">=0.4.4",
+    "barnacles": ">=0.0.8",
+    "nedb": ">=1.1.1",
     "express": ">=4.0.0",
     "body-parser": ">=1.8.0",
     "basic-auth-connect": ">=1.0.0",
@@ -32,5 +34,8 @@
   "bugs": {
     "url": "https://github.com/reelyactive/hlc-server/issues"
   },
+  "contributors": [
+    { "name": "Jeffrey Dungen" }
+  ],
   "license": "MIT"
 }
