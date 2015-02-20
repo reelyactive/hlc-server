@@ -6,10 +6,9 @@
   "keywords": [
     "reelyActive",
     "Hyperlocal Context",
-    "IoT",
-    "BLE"
+    "IoT"
   ],
-  "version": "0.1.13",
+  "version": "0.2.0",
   "engines": {
     "node": "^0.10.0"
   },
@@ -24,10 +23,11 @@
   "dependencies": {
     "barnowl": ">=0.4.4",
     "barnacles": ">=0.0.8",
+    "barterer": ">=0.1.3",
+    "chickadee": ">=0.1.0",
     "nedb": ">=1.1.1",
     "express": ">=4.0.0",
     "body-parser": ">=1.8.0",
-    "basic-auth-connect": ">=1.0.0",
     "cors": ">=2.4.2"
   },
   "devDependencies": {},
