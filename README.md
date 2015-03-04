@@ -68,7 +68,7 @@ Create a new device association via [chickadee](https://www.npmjs.org/package/ch
       "url": "http://myjson.info/story/test"
     }
 
-__GET /id/identifier__
+__GET /id/id__
 
 Retrieve real-time location/context for a given device via [barterer](https://www.npmjs.org/package/barterer).  For example, the identifier 001bc50940100000 would return:
 
@@ -105,6 +105,15 @@ Retrieve real-time location/context for a given device via [barterer](https://ww
           "href": "http://localhost:3001/id/001bc50940100000"
         }
       }
+    }
+
+__PUT /id/id__
+
+Update a device association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/lonely](http://myjson.info/story/lonely) include the following JSON:
+
+    {
+      "identifier": "001bc50940100000",
+      "url": "http://myjson.info/story/lonely"
     }
 
 __POST /at__
@@ -190,8 +199,8 @@ You can create an instance of hlc-server with any or all of the following option
 
     {
       httpPort: 3001,
-      authUser: 'admin',
-      authPass: 'admin',
+      password: 'admin',
+      secret: "YoureProbablyGonnaWantToChangeIt",
       useCors: false,
       maxDecoders: 3,
       maxStaleMilliseconds: 10000
