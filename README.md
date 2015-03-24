@@ -59,6 +59,12 @@ Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http
 RESTful interactions
 --------------------
 
+Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to hlc-server.
+
+__GET /id?value=identifier__
+
+Retrieve the device association based on the given identifier value via [chickadee](https://www.npmjs.org/package/chickadee).  This can be useful for retrieving the static identifier of a device based on its current cyclic identifier.  For example to retrieve the association related to a Bluetooth Smart device advertising "2c0ffeeb4bed" as a random address you would GET /id?value=2c0ffeeb4bed.
+
 __POST /id__
 
 Create a new device association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
