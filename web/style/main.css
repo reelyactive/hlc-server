@@ -31,6 +31,39 @@ a {
      text-shadow: 0px 1px 1px #aaaaaa;
   }
 
+table {
+  border-collapse: collapse;
+  border: 1px solid #5a5a5a;
+  width: 100%;
+  font-size: 12pt;
+}
+
+th, td {
+  border: 1px solid #5a5a5a;
+  padding: 1px;
+}
+
+header {
+  background-color: #5a5a5a;
+  color: #fff;
+  text-align: left;
+}
+
+  header h1 {
+    margin-top: 0;
+    padding: 4px;
+  }
+
+footer {
+  background-color: #5a5a5a;
+  color: #fff;
+  text-align: right;
+}
+
+  footer a {
+    color: #fff;
+  }
+
 #content {
   min-width: 480px;
   width: 50%;
@@ -39,4 +72,39 @@ a {
   margin-right: auto;
 }
 
+.device-header {
+  background-color: #0770a2;
+  color: #fff;
+  text-align: left;
+}
 
+  .device-header a {
+    color: #fff;
+    font-weight: 600;
+  }
+
+.device-identifier {
+  float: left;
+  width: 50%;
+  text-align: left;
+}
+
+  .device-identifier pre {
+    font-size: 10pt;
+    line-height: 1.0em;
+    margin-top: 8px;
+    margin-left: 1em;
+  }
+
+.device-decodings {
+  float: left;
+  width: 50%;
+}
+
+  .device-decodings table {
+    margin-top: 8px;
+  }
+
+.device-footer {
+  clear: both;
+}
