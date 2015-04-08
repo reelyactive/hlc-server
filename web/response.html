@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title> reelyActive API </title>
+    <link rel="stylesheet" href="../style/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+    <script type="text/javascript" src="../js/response.js"></script>
+  </head>
+  <body ng-app="response">
+    <div ng-controller="ApiCtrl" id="content">
+      <header> <h1> Status: {{meta.message}} </h1> </header>
+      <div ng-repeat="device in devices">
+        <div class="device-header">
+          <a ng-href="{{device.href}}"> {{device.identifier.value}} </a> &nbsp; | &nbsp;
+          <a ng-href="{{device.url}}"> Metadata </a> 
+        </div>
+        <div class="device-identifier">
+          <pre>{{device.identifier | json}}</pre>
+        </div>
+        <div class="device-decodings">
+          <table>
+            <tr>
+              <th> RSSI </th>
+              <th> Decoder ID </th>
+              <th> Meta </th>
+            </tr>
+            <tr ng-repeat="decoding in device.radioDecodings">
+              <td> {{decoding.rssi}} </td>
+              <td> <a ng-href="{{decoding.href}}"> {{decoding.identifier.value}} </a> </td>
+              <td> <a ng-href="{{decoding.url}}"> url </a> </td>
+            </tr>
+          </table>
+        </div>
+        <div class="device-footer"> &nbsp; </div>
+      </div>
+      <footer> <a ng-href="{{links.self.href}}"> {{links.self.href}} </a> </footer>
+    </div>
+  </body>
+</html>
