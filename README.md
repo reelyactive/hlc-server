@@ -76,7 +76,7 @@ Create a new device association via [chickadee](https://www.npmjs.org/package/ch
 
 __GET /id/id__
 
-Retrieve real-time location/context for a given device via [barterer](https://www.npmjs.org/package/barterer).  For example, the identifier 001bc50940100000 would return:
+Retrieve real-time location/context for a given device via [barterer](https://www.npmjs.org/package/barterer).  If _Accept: text/html_ is given priority in the request header, a human-friendly HTML rendering of the query result is returned.  Otherwise, for example, the identifier 001bc50940100000 would return:
 
     {
       "_meta": {
@@ -133,7 +133,7 @@ Create a new place association via [chickadee](https://www.npmjs.org/package/chi
 
 __GET /at/place__
 
-Retrieve real-time location/context for a given place via [barterer](https://www.npmjs.org/package/barterer).  For example, the place named _test_ would return:
+Retrieve real-time location/context for a given place via [barterer](https://www.npmjs.org/package/barterer).  If _Accept: text/html_ is given priority in the request header, a human-friendly HTML rendering of the query result is returned.  Otherwise, for example, the place named _test_ would return:
 
     {
       "_meta": {
