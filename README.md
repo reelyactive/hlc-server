@@ -49,6 +49,18 @@ Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http
             "type": "EUI-64",
             "value": "001bc50940100000"
           },
+          "timestamp": "2015-01-01T12:34:56.789Z",
+          "radioDecodings": [
+            {
+              "rssi": 129,
+              "identifier": {
+                "type": "EUI-64",
+                "value": "001bc50940800000"
+              },
+              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+              "href": "http://localhost:3001/id/001bc50940800000"
+            }
+          ],
           "url": "http://reelyactive.com/metadata/test.json",
           "href": "http://localhost:3001/id/001bc50940100000"
         }
@@ -104,7 +116,9 @@ Retrieve real-time location/context for a given device via [barterer](https://ww
               "identifier": {
                 "type": "EUI-64",
                 "value": "001bc50940800000"
-              }
+              },
+              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+              "href": "http://localhost:3001/id/001bc50940800000"
             }
           ],
           "url": "http://reelyactive.com/metadata/test.json",
@@ -154,6 +168,18 @@ Retrieve real-time location/context for a given place via [barterer](https://www
               "transmissionCount": 0
             }
           },
+          "timestamp": "2015-01-01T12:34:56.789Z",
+          "radioDecodings": [
+            {
+              "rssi": 141,
+              "identifier": {
+                "type": "EUI-64",
+                "value": "001bc50940800000"
+              },
+              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+              "href": "http://localhost:3001/id/001bc50940800000"
+            }
+          ],
           "url": "http://reelyactive.com/metadata/test.json",
           "href": "http://localhost:3001/id/001bc50940100000"
         },
@@ -175,6 +201,18 @@ Retrieve real-time location/context for a given place via [barterer](https://www
               "completeLocalName": "reelyActive"
             }
           },
+          "timestamp": "2015-01-01T12:34:56.789Z",
+          "radioDecodings": [
+            {
+              "rssi": 111,
+              "identifier": {
+                "type": "EUI-64",
+                "value": "001bc50940810000"
+              },
+              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+              "href": "http://localhost:3001/id/001bc50940810000"
+            }
+          ],
           "url": "http://reelyactive.com/metadata/bluetoothsmart.json",
           "href": "http://localhost:3001/id/fee150bada55"
         }
