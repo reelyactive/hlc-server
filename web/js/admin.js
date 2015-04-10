@@ -22,7 +22,8 @@ angular.module("adminpanel", [])
 
     // ----- PUT /id/identifier -----
     $scope.device.update = function(item, event) {
-      var json = { url: $scope.device.url };
+      var json = { identifier: $scope.device.identifier,
+                   url: $scope.device.url };
 
       $http.put("../id/" + $scope.device.identifier, json)
         .success(function(data, status, headers, config) {
