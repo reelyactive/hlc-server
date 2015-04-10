@@ -9,6 +9,7 @@
   <body ng-app="response">
     <div ng-controller="ApiCtrl" id="content">
       <header> <h1> Status: {{meta.message}} </h1> </header>
+      <p> {{message}} </p>
       <div ng-repeat="device in devices">
         <div class="device-header">
           <a ng-href="{{device.href}}"> {{device.identifier.value}} </a> &nbsp; | &nbsp;
