@@ -1,11 +1,18 @@
 angular.module("association", [])
 
   // Association controller
-  .controller("AssociationCtrl", function($scope, $http) {
+  .controller("AssociationCtrl", function($scope, $http, $window) {
     $scope.success = false;
     $scope.device = {};
     $scope.device.message = '';
     $scope.device.href = '';
+
+    var url = $window.location.search.split("url=").pop().split('&').shift();
+    var hasUrl = $window.location.search.indexOf("url=") != -1;
+    if(hasUrl) {
+      $scope.device.url = url;
+      // TODO: make url field readonly
+    }
 
     // ----- PUT /id/identifier -----
     $scope.device.update = function(item, event) {
