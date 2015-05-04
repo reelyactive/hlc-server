@@ -13,7 +13,6 @@
         <form>
           ID: <input type="text" name="identifier" ng-model="device.identifier" size="16" maxlength="16"><br>
           URL: <input type="text" name="url" ng-model="device.url" size="32"><br>
-          <button ng-click="device.create()">Create</button>
           <button ng-click="device.update()">Update</button>
           <button ng-click="device.delete()">Delete</button>
         </form>
@@ -23,10 +22,11 @@
       <div ng-controller="placeApi">
         <form>
           Place name: <input type="text" name="place" ng-model="place.place" size="16"><br>
-          IDs: <input type="text" name="identifiers" ng-model="place.identifiers" size="32"><br>
           <button ng-click="place.create()">Create</button>
-          <button ng-click="place.update()">Update</button>
-          <button ng-click="place.delete()">Delete</button>
+          <button ng-click="place.delete()">Delete</button><br>
+          Device: <input type="text" name="device" ng-model="place.device" size="16"><br>
+          <button ng-click="place.updateDevice()">Update</button>
+          <button ng-click="place.deleteDevice()">Delete</button>
         </form>
         <p> {{place.message}} </p>
       </div>
