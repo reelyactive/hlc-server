@@ -33,7 +33,7 @@ Then browse to [http://localhost:3001](http://localhost:3001) to see the landing
 
 ![HLC landing page](http://reelyactive.com/images/hlc-landing.png)
 
-Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http://localhost:3001/at/test)) to see the following test output:
+Type _test_ in the search bar (or browse to [http://localhost:3001/places/test/context](http://localhost:3001/places/test/context)) to see the following test output:
 
     {
       "_meta": {
@@ -41,7 +41,7 @@ Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http
         "statusCode": 200
       },
       "_links": {
-        "self": { "href": "http://localhost:3001/at/test" }
+        "self": { "href": "http://localhost:3001/places/test/context" }
       },
       "devices": {
         "001bc50940100000": {
@@ -73,151 +73,29 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to hlc-server.
 
-__GET /id?value=identifier__
+__GET/PUT/DELETE /devices/id/association__
 
-Retrieve the device association based on the given identifier value via [chickadee](https://www.npmjs.org/package/chickadee).  This can be useful for retrieving the static identifier of a device based on its current cyclic identifier.  For example to retrieve the association related to a Bluetooth Smart device advertising "2c0ffeeb4bed" as a random address you would GET /id?value=2c0ffeeb4bed.
+See [chickadee](https://www.npmjs.org/package/chickadee).
 
-__POST /id__
+__GET /devices/id/context__
 
-Create a new device association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
+See [barterer](https://www.npmjs.org/package/barterer).  Note that GET /id/id is retained as a legacy alias.
 
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/test"
-    }
+__POST /places__
 
-__GET /id/id__
+See [chickadee](https://www.npmjs.org/package/chickadee).
 
-Retrieve real-time location/context for a given device via [barterer](https://www.npmjs.org/package/barterer).  If _Accept: text/html_ is given priority in the request header, a human-friendly HTML rendering of the query result is returned.  Otherwise, for example, the identifier 001bc50940100000 would return:
+__GET/PUT/DELETE /places/place__
 
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3001/id/001bc50940100000"
-        }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000",
-            "flags": {
-              "transmissionCount": 0
-            }
-          },
-          "timestamp": "2015-01-01T12:34:56.789Z",
-          "radioDecodings": [
-            {
-              "rssi": 136,
-              "identifier": {
-                "type": "EUI-64",
-                "value": "001bc50940800000"
-              },
-              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
-              "href": "http://localhost:3001/id/001bc50940800000"
-            }
-          ],
-          "url": "http://reelyactive.com/metadata/test.json",
-          "href": "http://localhost:3001/id/001bc50940100000"
-        }
-      }
-    }
+See [chickadee](https://www.npmjs.org/package/chickadee).
 
-__PUT /id/id__
+__GET /places/place/context__
 
-Update a device association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/lonely](http://myjson.info/story/lonely) include the following JSON:
+See [barterer](https://www.npmjs.org/package/barterer).  Note that GET /at/place is retained as a legacy alias.
 
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/lonely"
-    }
+__PUT/DELETE /places/place/devices/id__
 
-__POST /at__
-
-Create a new place association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a place named _test_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
-
-    {
-      "place": "test",
-      "identifiers": [ "001bc50940800000", "001bc50940810000" ]
-    }
-
-__GET /at/place__
-
-Retrieve real-time location/context for a given place via [barterer](https://www.npmjs.org/package/barterer).  If _Accept: text/html_ is given priority in the request header, a human-friendly HTML rendering of the query result is returned.  Otherwise, for example, the place named _test_ would return:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3001/at/test"
-         }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000",
-            "flags": {
-              "transmissionCount": 0
-            }
-          },
-          "timestamp": "2015-01-01T12:34:56.789Z",
-          "radioDecodings": [
-            {
-              "rssi": 141,
-              "identifier": {
-                "type": "EUI-64",
-                "value": "001bc50940800000"
-              },
-              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
-              "href": "http://localhost:3001/id/001bc50940800000"
-            }
-          ],
-          "url": "http://reelyactive.com/metadata/test.json",
-          "href": "http://localhost:3001/id/001bc50940100000"
-        },
-        "fee150bada55": {
-          "identifier": {
-            "type": "ADVA-48",
-            "value": "fee150bada55",
-            "advHeader": {
-              "type": "ADV_NONCONNECT_IND",
-              "length": 22,
-              "txAdd": "random",
-              "rxAdd": "public"
-            },
-            "advData": {
-              "flags": [
-                "LE Limited Discoverable Mode",
-                "BR/EDR Not Supported"
-              ],
-              "completeLocalName": "reelyActive"
-            }
-          },
-          "timestamp": "2015-01-01T12:34:56.789Z",
-          "radioDecodings": [
-            {
-              "rssi": 111,
-              "identifier": {
-                "type": "EUI-64",
-                "value": "001bc50940810000"
-              },
-              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
-              "href": "http://localhost:3001/id/001bc50940810000"
-            }
-          ],
-          "url": "http://reelyactive.com/metadata/bluetoothsmart.json",
-          "href": "http://localhost:3001/id/fee150bada55"
-        }
-      }
-    }
+See [chickadee](https://www.npmjs.org/package/chickadee).
 
 
 Administrative Interface
