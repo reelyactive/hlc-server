@@ -16,15 +16,14 @@ angular.module("association", [])
 
     // ----- PUT /id/identifier -----
     $scope.device.update = function(item, event) {
-      var json = { identifier: $scope.device.identifier,
-                   url: $scope.device.url };
+      var json = { url: $scope.device.url };
 
-      $http.put('../id/' + $scope.device.identifier, json)
+      $http.put('../devices/' + $scope.device.identifier + '/association', json)
         .success(function(data, status, headers, config) {
           $scope.success = true;
           $scope.device.message = 'Successfully associated device';
-          $scope.device.href = 'id/' + $scope.device.identifier;
-          $scope.device.query = 'Query /id/' + $scope.device.identifier + ' now!';
+          $scope.device.href = 'devices/' + $scope.device.identifier + '/context';
+          $scope.device.query = 'Query /devices/' + $scope.device.identifier + ' now!';
         })
         .error(function(data, status, headers, config) {
           $scope.device.message = "FAILED. Status code " + status;
