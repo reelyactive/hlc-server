@@ -1,99 +1,211 @@
 angular.module("adminpanel", [])
 
-  // Devices controller
-  .controller("deviceApi", function($scope, $http) {
-    $scope.device = {};
-    $scope.device.message = "";
+  // Association controller
+  .controller("AssociationCtrl", function($scope, $http) {
+    $scope.association = { };
+    $scope.message = '';
 
-    // ----- PUT /devices/id/association -----
-    $scope.device.update = function(item, event) {
-      var json = { url: $scope.device.url };
+    // ----- GET /associations/{id} -----
+    $scope.association.get = function(item, event) {
 
-      $http.put("../devices/" + $scope.device.identifier + '/association', json)
+      $http.get('../associations/' + $scope.association.id)
         .success(function(data, status, headers, config) {
-          $scope.device.message = "Successfully updated " +
-                                  $scope.device.identifier;
+          var association = data.devices[$scope.association.id];
+          $scope.association.url = association.url;
+          $scope.association.tags = association.tags;
+          $scope.association.directory = association.directory;
+          $scope.message = 'Successfully retrieved ' +
+                           $scope.association.id;
         })
         .error(function(data, status, headers, config) {
-          $scope.device.message = "FAILED. Status code " + status;
+          $scope.message = 'GET FAILED. Status code ' + status;
         });
     }
 
-    // ----- DELETE /devices/id/association -----
-    $scope.device.delete = function(item, event) {
+    // ----- PUT /associations/{id} -----
+    $scope.association.put = function(item, event) {
+      var json = {};
+      if($scope.association.url !== '') {
+        json.url = $scope.association.url;
+      }
+      if($scope.association.tags !== '') {
+        json.tags = $scope.association.tags;
+      }
+      if($scope.association.directory !== '') {
+        json.directory = $scope.association.directory;
+      }
+      if(Object.keys(json).length === 0) {
+        $scope.message = 'ERROR. Enter at least one field.';
+        return;
+      }
 
-      $http.delete("../devices/" + $scope.device.identifier + '/association')
+      $http.put('../associations/' + $scope.association.id, json)
         .success(function(data, status, headers, config) {
-          $scope.device.message = "Successfully deleted " +
-                                  $scope.device.identifier;
+          $scope.message = 'Successfully updated ' +
+                           $scope.association.id;
         })
         .error(function(data, status, headers, config) {
-          $scope.device.message = "FAILED. Status code " + status;
-        });
-    }
-  })
-
-  // Places controller
-  .controller("placeApi", function($scope, $http) {
-    $scope.place = {};
-    $scope.place.message = "";
-
-    // ----- POST /places -----
-    $scope.place.create = function(item, event) {
-      var json = { name: $scope.place.place,
-                   devices: [] };
-
-      $http.post("../places", json)
-        .success(function(data, status, headers, config) {
-          $scope.place.message = "Successfully created " +
-                                 $scope.place.place;
-        })
-        .error(function(data, status, headers, config) {
-          $scope.device.message = "FAILED. Status code " + status;
+          $scope.message = 'PUT FAILED. Status code ' + status;
         });
     }
 
-    // ----- DELETE /places/place -----
-    $scope.place.delete = function(item, event) {
+    // ----- DELETE /associations/{id} -----
+    $scope.association.delete = function(item, event) {
 
-      $http.delete("../places/" + $scope.place.place)
+      $http.delete('../associations/' + $scope.association.id)
         .success(function(data, status, headers, config) {
-          $scope.place.message = "Successfully deleted " +
-                                 $scope.place.place;
+          $scope.association.url = '';
+          $scope.association.tags = '';
+          $scope.association.directory = '';
+          $scope.message = 'Successfully deleted ' +
+                           $scope.association.id;
         })
         .error(function(data, status, headers, config) {
-          $scope.device.message = "FAILED. Status code " + status;
+          $scope.message = 'DELETE FAILED. Status code ' + status;
         });
     }
 
-    // ----- PUT /places/place/devices/id -----
-    $scope.place.updateDevice = function(item, event) {
-      var json = { device: { type: "infrastructure" } };
+    // ----- GET /associations/{id}/url -----
+    $scope.association.getUrl = function(item, event) {
 
-      $http.put("../places/" + $scope.place.place + "/devices/" +
-                $scope.place.device, json)
+      $http.get('../associations/' + $scope.association.id + '/url')
         .success(function(data, status, headers, config) {
-          $scope.place.message = "Successfully added " +
-                                 $scope.place.device + " to " +
-                                 $scope.place.place;
+          var association = data.devices[$scope.association.id];
+          $scope.association.url = association.url;
+          $scope.message = 'Successfully retrieved url of ' +
+                           $scope.association.id;
         })
         .error(function(data, status, headers, config) {
-          $scope.device.message = "FAILED. Status code " + status;
+          $scope.message = 'GET FAILED. Status code ' + status;
         });
     }
 
-    // ----- DELETE /places/place/devices/id -----
-    $scope.place.deleteDevice = function(item, event) {
+    // ----- PUT /associations/{id}/url -----
+    $scope.association.putUrl = function(item, event) {
+      if($scope.association.url === '') {
+        $scope.message = 'ERROR. Enter a URL.';
+        return;
+      }
 
-      $http.delete("../places/" + $scope.place.place + "/devices/" +
-                $scope.place.device)
+      var json = { url: $scope.association.url };
+
+      $http.put('../associations/' + $scope.association.id + '/url', json)
         .success(function(data, status, headers, config) {
-          $scope.place.message = "Successfully deleted " +
-                                  $scope.place.device + " from " +
-                                  $scope.place.place;
+          $scope.message = 'Successfully updated url of ' +
+                           $scope.association.id;
         })
         .error(function(data, status, headers, config) {
-          $scope.device.message = "FAILED. Status code " + status;
+          $scope.message = 'PUT FAILED. Status code ' + status;
+        });
+    }
+
+    // ----- DELETE /associations/{id}/url -----
+    $scope.association.deleteUrl = function(item, event) {
+
+      $http.delete('../associations/' + $scope.association.id + '/url')
+        .success(function(data, status, headers, config) {
+          $scope.association.url = '';
+          $scope.message = 'Successfully deleted url of ' +
+                           $scope.association.id;
+        })
+        .error(function(data, status, headers, config) {
+          $scope.message = 'DELETE FAILED. Status code ' + status;
+        });
+    }
+
+    // ----- GET /associations/{id}/tags -----
+    $scope.association.getTags = function(item, event) {
+
+      $http.get('../associations/' + $scope.association.id + '/tags')
+        .success(function(data, status, headers, config) {
+          var association = data.devices[$scope.association.id];
+          $scope.association.tags = association.tags;
+          $scope.message = 'Successfully retrieved tags of ' +
+                           $scope.association.id;
+        })
+        .error(function(data, status, headers, config) {
+          $scope.message = 'GET FAILED. Status code ' + status;
+        });
+    }
+
+    // ----- PUT /associations/{id}/tags -----
+    $scope.association.putTags = function(item, event) {
+      if($scope.association.tags === '') {
+        $scope.message = 'ERROR. Enter a tag.';
+        return;
+      }
+
+      var json = { tags: $scope.association.tags };
+
+      $http.put('../associations/' + $scope.association.id + '/tags', json)
+        .success(function(data, status, headers, config) {
+          $scope.message = 'Successfully updated tags of ' +
+                           $scope.association.id;
+        })
+        .error(function(data, status, headers, config) {
+          $scope.message = 'PUT FAILED. Status code ' + status;
+        });
+    }
+
+    // ----- DELETE /associations/{id}/tags -----
+    $scope.association.deleteTags = function(item, event) {
+
+      $http.delete('../associations/' + $scope.association.id + '/tags')
+        .success(function(data, status, headers, config) {
+          $scope.association.tags = '';
+          $scope.message = 'Successfully deleted tags of ' +
+                           $scope.association.id;
+        })
+        .error(function(data, status, headers, config) {
+          $scope.message = 'DELETE FAILED. Status code ' + status;
+        });
+    }
+
+    // ----- GET /associations/{id}/directory -----
+    $scope.association.getDirectory = function(item, event) {
+
+      $http.get('../associations/' + $scope.association.id + '/directory')
+        .success(function(data, status, headers, config) {
+          var association = data.devices[$scope.association.id];
+          $scope.association.directory = association.directory;
+          $scope.message = 'Successfully retrieved directory of ' +
+                           $scope.association.id;
+        })
+        .error(function(data, status, headers, config) {
+          $scope.message = 'GET FAILED. Status code ' + status;
+        });
+    }
+
+    // ----- PUT /associations/{id}/directory -----
+    $scope.association.putDirectory = function(item, event) {
+      if($scope.association.directory === '') {
+        $scope.message = 'ERROR. Enter a directory.';
+        return;
+      }
+
+      var json = { directory: $scope.association.directory };
+
+      $http.put('../associations/' + $scope.association.id + '/directory', json)
+        .success(function(data, status, headers, config) {
+          $scope.message = 'Successfully updated directory of ' +
+                           $scope.association.id;
+        })
+        .error(function(data, status, headers, config) {
+          $scope.message = 'PUT FAILED. Status code ' + status;
+        });
+    }
+
+    // ----- DELETE /associations/{id}/directory -----
+    $scope.association.deleteDirectory = function(item, event) {
+
+      $http.delete('../associations/' + $scope.association.id + '/directory')
+        .success(function(data, status, headers, config) {
+          $scope.association.directory = '';
+          $scope.message = 'Successfully deleted directory of ' +
+                           $scope.association.id;
+        })
+        .error(function(data, status, headers, config) {
+          $scope.message = 'DELETE FAILED. Status code ' + status;
         });
     }
   });

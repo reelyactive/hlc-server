@@ -7,28 +7,31 @@
   <body ng-app="adminpanel">
     <div id="content">
       <h1> Administrative Interface </h1>
-      <p> IDs are EUI-64 or AdvA-48 format, comma-separated, no spaces <br>
-          <i>Example: 001bc50940100000,1a2b3c4d5e6f</i> </p>
-      <div ng-controller="deviceApi">
+      <p> IDs are EUI-64 or AdvA-48 format <br>
+          <i>Example: 001bc50940100000 or 1a2b3c4d5e6f</i> </p>
+      <div ng-controller="AssociationCtrl">
         <form>
-          ID: <input type="text" name="identifier" ng-model="device.identifier" size="16" maxlength="16"><br>
-          URL: <input type="text" name="url" ng-model="device.url" size="32"><br>
-          <button ng-click="device.update()">Update</button>
-          <button ng-click="device.delete()">Delete</button>
+          ID: <input type="text" ng-model="association.id" size="16">
+          <button ng-click="association.get()">Retrieve</button>
+          <button ng-click="association.put()">Replace</button>
+          <button ng-click="association.delete()">Delete</button>
+          <br>
+          URL: <input type="text" ng-model="association.url" size="16">
+          <button ng-click="association.getUrl()">Retrieve</button>
+          <button ng-click="association.putUrl()">Replace</button>
+          <button ng-click="association.deleteUrl()">Delete</button>
+          <br>
+          Tags: <input type="text" ng-model="association.tags" size="16">
+          <button ng-click="association.getTags()">Retrieve</button>
+          <button ng-click="association.putTags()">Replace</button>
+          <button ng-click="association.deleteTags()">Delete</button>
+          <br>
+          Directory: <input type="text" ng-model="association.directory" size="16">
+          <button ng-click="association.getDirectory()">Retrieve</button>
+          <button ng-click="association.putDirectory()">Replace</button>
+          <button ng-click="association.deleteDirectory()">Delete</button>
         </form>
-        <p> {{device.message}} </p>
-      </div>
-      <br>
-      <div ng-controller="placeApi">
-        <form>
-          Place name: <input type="text" name="place" ng-model="place.place" size="16"><br>
-          <button ng-click="place.create()">Create</button>
-          <button ng-click="place.delete()">Delete</button><br>
-          Device: <input type="text" name="device" ng-model="place.device" size="16"><br>
-          <button ng-click="place.updateDevice()">Update</button>
-          <button ng-click="place.deleteDevice()">Delete</button>
-        </form>
-        <p> {{place.message}} </p>
+        <p> {{message}} </p>
       </div>
       <br>
       <p> <a href="../"> Return to main page </a> </p>
