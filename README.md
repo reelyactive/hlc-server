@@ -33,39 +33,7 @@ Then browse to [http://localhost:3001](http://localhost:3001) to see the landing
 
 ![HLC landing page](http://reelyactive.com/images/hlc-landing.png)
 
-Type _test_ in the search bar (or browse to [http://localhost:3001/places/test/context](http://localhost:3001/places/test/context)) to see the following test output:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": { "href": "http://localhost:3001/places/test/context" }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000"
-          },
-          "timestamp": "2015-01-01T12:34:56.789Z",
-          "radioDecodings": [
-            {
-              "rssi": 129,
-              "identifier": {
-                "type": "EUI-64",
-                "value": "001bc50940800000"
-              },
-              "url": "http://reelyactive.com/metadata/ra-rxxx.json",
-              "href": "http://localhost:3001/id/001bc50940800000"
-            }
-          ],
-          "url": "http://reelyactive.com/metadata/test.json",
-          "href": "http://localhost:3001/id/001bc50940100000"
-        }
-      }
-    }
+Type _test_ in the search bar (or browse to [http://localhost:3001/contextnear/tags/test](http://localhost:3001/contextnear/tags/test)) to see a _contextual_ visualisation of what is near the test device(s).  Alternatively, browse to [http://localhost:3001/whatnear/transmitter/fee150bada55](http://localhost:3001/whatnear/transmitter/fee150bada55) for a _non-contextual_ visualisation of the same query.
 
 
 RESTful interactions
@@ -73,29 +41,45 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to hlc-server.
 
-__GET/PUT/DELETE /devices/id/association__
+__GET /whereis/transmitter/{device-id}__
+
+__GET /whatnear/transmitter/{device-id}__
+
+__GET /whatat/receiver/{device-id}__
+
+See [barterer](https://www.npmjs.org/package/barterer).
+
+__GET /contextnear/transmitter/{device-id}__
+
+__GET /contextat/receiver/{device-id}__
 
 See [chickadee](https://www.npmjs.org/package/chickadee).
 
-__GET /devices/id/context__
+__GET/PUT/DELETE /associations/{device-id}/__
 
-See [barterer](https://www.npmjs.org/package/barterer).  Note that GET /id/id is retained as a legacy alias.
+__GET/PUT/DELETE /associations/{device-id}/url__
 
-__POST /places__
+__GET/PUT/DELETE /associations/{device-id}/directory__
 
-See [chickadee](https://www.npmjs.org/package/chickadee).
-
-__GET/PUT/DELETE /places/place__
+__GET/PUT/DELETE /associations/{device-id}/tags__
 
 See [chickadee](https://www.npmjs.org/package/chickadee).
 
-__GET /places/place/context__
+__POST /events__
 
-See [barterer](https://www.npmjs.org/package/barterer).  Note that GET /at/place is retained as a legacy alias.
+See [barnacles](https://www.npmjs.org/package/barnacles).
 
-__PUT/DELETE /places/place/devices/id__
+__GET /statistics__
 
-See [chickadee](https://www.npmjs.org/package/chickadee).
+See [barnacles](https://www.npmjs.org/package/barnacles).
+
+__GET /at/{directory}__
+
+Legacy route (deprecated).  Redirects to /contextat/directory/{directory}.
+
+__GET /id/{device-id}__
+
+Legacy route (deprecated).  Redirects to /contextat/receiver/{device-id} if the device id matches that of a receiver, otherwise to /contextnear/transmitter/{device-id}.
 
 
 Administrative Interface
