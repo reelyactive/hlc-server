@@ -2,8 +2,8 @@ hlc-server
 ==========
 
 
-HLC: Hyperlocal Context
------------------------
+HLC: Hyperlocal Context for the IoT
+-----------------------------------
 
 How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  _Read more at:_ [context.reelyactive.com](http://context.reelyactive.com/context.html)
 
@@ -51,7 +51,13 @@ See [barterer](https://www.npmjs.org/package/barterer).
 
 __GET /contextnear/transmitter/{device-id}__
 
+__GET /contextnear/tags/{device-id}__
+
 __GET /contextat/receiver/{device-id}__
+
+__GET /contextat/directory/{device-id}__
+
+__GET /contextat/tags/{device-id}__
 
 See [chickadee](https://www.npmjs.org/package/chickadee).
 
