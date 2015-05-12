@@ -5,7 +5,7 @@ hlc-server
 HLC: Hyperlocal Context for the IoT
 -----------------------------------
 
-How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  _Read more at:_ [context.reelyactive.com](http://context.reelyactive.com/context.html)
+How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  Learn more at: [context.reelyactive.com](http://context.reelyactive.com/context.html)
 
 __In the scheme of Things (pun intended)__
 
@@ -116,8 +116,10 @@ You can create an instance of hlc-server with any or all of the following option
       password: 'admin',
       secret: "YoureProbablyGonnaWantToChangeIt",
       useCors: false,
-      maxDecoders: 3,
-      maxStaleMilliseconds: 10000
+      barnowl: { n: 3, enableMixing: true }, // see barnowl
+      barnacles: {},                         // see barnacles
+      barterer: {},                          // see barterer
+      chickadee: {}                          // see chickadee
     }
 
 Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to set useCors to true.
