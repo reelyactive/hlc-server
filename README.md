@@ -116,13 +116,16 @@ You can create an instance of hlc-server with any or all of the following option
       password: 'admin',
       secret: "YoureProbablyGonnaWantToChangeIt",
       useCors: false,
+      protectedRequests: [
+        { path: "/associations/", methods: [ "PUT", "DELETE" ] }
+      ],
       barnowl: { n: 3, enableMixing: true }, // see barnowl
       barnacles: {},                         // see barnacles
       barterer: {},                          // see barterer
       chickadee: {}                          // see chickadee
     }
 
-Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to set useCors to true.
+Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to set useCors to true.  To remove authentication from all routes, set protectedRequests to [].
 
 
 Implicit Associations
