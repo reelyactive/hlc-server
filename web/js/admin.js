@@ -1,9 +1,9 @@
-angular.module("adminpanel", [])
+angular.module("adminpanel", [ 'ui.bootstrap' ])
 
   // Association controller
   .controller("AssociationCtrl", function($scope, $http) {
     $scope.association = { };
-    $scope.message = '';
+    $scope.message = 'Start by entering an ID';
 
     // ----- GET /associations/{id} -----
     $scope.association.get = function(item, event) {

@@ -1,42 +1,123 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title> reelyActive: Hyperlocal Context </title>
+    <title> reelyActive Hyperlocal Context </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.1/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../js/admin.js"></script>
   </head>
   <body ng-app="adminpanel">
-    <div id="content">
-      <h1> Administrative Interface </h1>
-      <p> IDs are EUI-64 or AdvA-48 format <br>
-          <i>Example: 001bc50940100000 or 1a2b3c4d5e6f</i> </p>
-      <div ng-controller="AssociationCtrl">
-        <form>
-          ID: <input type="text" ng-model="association.id" size="16">
-          <button ng-click="association.get()">Retrieve</button>
-          <button ng-click="association.put()">Replace</button>
-          <button ng-click="association.delete()">Delete</button>
-          <br>
-          URL: <input type="text" ng-model="association.url" size="16">
-          <button ng-click="association.getUrl()">Retrieve</button>
-          <button ng-click="association.putUrl()">Replace</button>
-          <button ng-click="association.deleteUrl()">Delete</button>
-          <br>
-          Tags: <input type="text" ng-model="association.tags" size="16">
-          <button ng-click="association.getTags()">Retrieve</button>
-          <button ng-click="association.putTags()">Replace</button>
-          <button ng-click="association.deleteTags()">Delete</button>
-          <br>
-          Directory: <input type="text" ng-model="association.directory" size="16">
-          <button ng-click="association.getDirectory()">Retrieve</button>
-          <button ng-click="association.putDirectory()">Replace</button>
-          <button ng-click="association.deleteDirectory()">Delete</button>
-        </form>
-        <p> {{message}} </p>
+    <div>
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle"
+                  ng-init="navCollapsed = true"
+                  ng-click="navCollapsed = !navCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://context.reelyactive.com">
+            <strong>reely</strong>Active
+          </a>
+        </div>
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'"
+             ng-click="navCollapsed = true">
+        </div>
+      </nav>
+      <div class="row">
+        <div class="col-xs-1 col-md-2 col-lg-3"></div>
+        <div class="col-xs-10 col-md-8 col-lg-6">
+
+          <h1 class="text-center"> Administrative Interface </h1>
+          <p class="text-center"> IDs are EUI-64 or AdvA-48 format <br>
+              <i>Example: 001bc50940100000 or 1a2b3c4d5e6f</i> </p>
+          <div ng-controller="AssociationCtrl">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="identifier" class="col-sm-2 control-label">ID:</label>
+                <div class="col-sm-5">
+                  <input type="text" ng-model="association.id" size="16"
+                         class="form-control" id="identifier">
+                </div>
+                <div class="col-sm-5">
+                  <button ng-click="association.get()"
+                          class="btn btn-info"> Retrieve </button>
+                  <button ng-click="association.put()"
+                          class="btn btn-warning"> Replace </button>
+                  <button ng-click="association.delete()"
+                          class="btn btn-danger"> Delete </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="url" class="col-sm-2 control-label">URL:</label>
+                <div class="col-sm-5">
+                  <input type="text" ng-model="association.url" size="16"
+                         class="form-control" id="url">
+                </div>
+                <div class="col-sm-5">
+                  <button ng-click="association.getUrl()"
+                          class="btn btn-info"> Retrieve </button>
+                  <button ng-click="association.putUrl()"
+                          class="btn btn-warning"> Replace </button>
+                  <button ng-click="association.deleteUrl()"
+                          class="btn btn-danger"> Delete </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="tags" class="col-sm-2 control-label">Tags:</label>
+                <div class="col-sm-5">
+                  <input type="text" ng-model="association.tags" size="16"
+                         class="form-control" id="tags">
+                </div>
+                <div class="col-sm-5">
+                  <button ng-click="association.getTags()"
+                          class="btn btn-info"> Retrieve </button>
+                  <button ng-click="association.putTags()"
+                          class="btn btn-warning"> Replace </button>
+                  <button ng-click="association.deleteTags()"
+                          class="btn btn-danger"> Delete </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="directory" class="col-sm-2 control-label">Directory:</label>
+                <div class="col-sm-5">
+                  <input type="text" ng-model="association.directory" size="16"
+                         class="form-control" id="directory">
+                </div>
+                <div class="col-sm-5">
+                  <button ng-click="association.getDirectory()"
+                          class="btn btn-info"> Retrieve </button>
+                  <button ng-click="association.putDirectory()"
+                          class="btn btn-warning"> Replace </button>
+                  <button ng-click="association.deleteDirectory()"
+                          class="btn btn-danger"> Delete </button>
+                </div>
+              </div>
+            </form>
+            <div class="well text-center">
+              {{message}}
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-1 col-md-2 col-lg-3"></div>
       </div>
-      <br>
-      <p> <a href="../"> Return to main page </a> </p>
+      <footer class="footer">
+        <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
+        &nbsp; | &nbsp;
+        <a href="http://context.reelyactive.com"
+           tooltip="We believe in an open Internet of Things"
+           tooltip-placement="right">
+          &copy; reelyActive 2014-2015
+        </a>
+      </footer>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
-    <script type="text/javascript" src="../js/admin.js"></script>
   </body>
 </html>
+
+
+
+
