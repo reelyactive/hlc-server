@@ -3,7 +3,7 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
   // Association controller
   .controller("AssociationCtrl", function($scope, $http) {
     $scope.association = { };
-    $scope.message = 'Start by entering an ID';
+    $scope.alerts = [];
 
     // ----- GET /associations/{id} -----
     $scope.association.get = function(item, event) {
@@ -14,13 +14,15 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
           $scope.association.url = association.url;
           $scope.association.tags = association.tags;
           $scope.association.directory = association.directory;
-          $scope.message = 'Successfully retrieved ' +
-                           $scope.association.id;
+          var message = 'Successfully retrieved ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'GET FAILED. Status code ' + status;
+          var message = 'Could not retrieve ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- PUT /associations/{id} -----
     $scope.association.put = function(item, event) {
@@ -35,19 +37,23 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
         json.directory = $scope.association.directory;
       }
       if(Object.keys(json).length === 0) {
-        $scope.message = 'ERROR. Enter at least one field.';
+        var message = 'Did not replace ' + $scope.association.id +
+                      ', enter at least one field (URL, Tags and/or Directory).';
+        $scope.alerts.push( { type: 'danger', message: message } );
         return;
       }
 
       $http.put('../associations/' + $scope.association.id, json)
         .success(function(data, status, headers, config) {
-          $scope.message = 'Successfully updated ' +
-                           $scope.association.id;
+          var message = 'Successfully replaced ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'PUT FAILED. Status code ' + status;
+          var message = 'Could not replace ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- DELETE /associations/{id} -----
     $scope.association.delete = function(item, event) {
@@ -57,13 +63,15 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
           $scope.association.url = '';
           $scope.association.tags = '';
           $scope.association.directory = '';
-          $scope.message = 'Successfully deleted ' +
-                           $scope.association.id;
+          var message = 'Successfully deleted ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'DELETE FAILED. Status code ' + status;
+          var message = 'Could not delete ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- GET /associations/{id}/url -----
     $scope.association.getUrl = function(item, event) {
@@ -72,18 +80,23 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
         .success(function(data, status, headers, config) {
           var association = data.devices[$scope.association.id];
           $scope.association.url = association.url;
-          $scope.message = 'Successfully retrieved url of ' +
-                           $scope.association.id;
+          var message = 'Successfully retrieved URL of ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'GET FAILED. Status code ' + status;
+          var message = 'Could not retrieve URL of ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- PUT /associations/{id}/url -----
     $scope.association.putUrl = function(item, event) {
-      if($scope.association.url === '') {
-        $scope.message = 'ERROR. Enter a URL.';
+      if((typeof($scope.association.url) === 'undefined') ||
+         ($scope.association.url === '')) {
+        var message = 'Cannot replace URL of ' + $scope.association.id +
+                      ', URL field is empty.';
+        $scope.alerts.push( { type: 'danger', message: message } );
         return;
       }
 
@@ -91,13 +104,15 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
 
       $http.put('../associations/' + $scope.association.id + '/url', json)
         .success(function(data, status, headers, config) {
-          $scope.message = 'Successfully updated url of ' +
-                           $scope.association.id;
+          var message = 'Successfully replaced URL of ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'PUT FAILED. Status code ' + status;
+          var message = 'Could not replace URL of ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- DELETE /associations/{id}/url -----
     $scope.association.deleteUrl = function(item, event) {
@@ -105,13 +120,15 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
       $http.delete('../associations/' + $scope.association.id + '/url')
         .success(function(data, status, headers, config) {
           $scope.association.url = '';
-          $scope.message = 'Successfully deleted url of ' +
-                           $scope.association.id;
+          var message = 'Successfully deleted URL of ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'DELETE FAILED. Status code ' + status;
+          var message = 'Could not delete URL of ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- GET /associations/{id}/tags -----
     $scope.association.getTags = function(item, event) {
@@ -120,18 +137,23 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
         .success(function(data, status, headers, config) {
           var association = data.devices[$scope.association.id];
           $scope.association.tags = association.tags;
-          $scope.message = 'Successfully retrieved tags of ' +
-                           $scope.association.id;
+          var message = 'Successfully retrieved tags of ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'GET FAILED. Status code ' + status;
+          var message = 'Could not retrieve tags of ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- PUT /associations/{id}/tags -----
     $scope.association.putTags = function(item, event) {
-      if($scope.association.tags === '') {
-        $scope.message = 'ERROR. Enter a tag.';
+      if((typeof($scope.association.tags) === 'undefined') ||
+         ($scope.association.tags === '')) {
+        var message = 'Cannot replace tags of ' + $scope.association.id +
+                      ', tags field is empty.';
+        $scope.alerts.push( { type: 'danger', message: message } );
         return;
       }
 
@@ -139,13 +161,15 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
 
       $http.put('../associations/' + $scope.association.id + '/tags', json)
         .success(function(data, status, headers, config) {
-          $scope.message = 'Successfully updated tags of ' +
-                           $scope.association.id;
+          var message = 'Successfully replaced tags of ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'PUT FAILED. Status code ' + status;
+          var message = 'Could not replace tags of ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- DELETE /associations/{id}/tags -----
     $scope.association.deleteTags = function(item, event) {
@@ -153,13 +177,15 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
       $http.delete('../associations/' + $scope.association.id + '/tags')
         .success(function(data, status, headers, config) {
           $scope.association.tags = '';
-          $scope.message = 'Successfully deleted tags of ' +
-                           $scope.association.id;
+          var message = 'Successfully deleted tags of ' + $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'DELETE FAILED. Status code ' + status;
+          var message = 'Could not delete tags of ' + $scope.association.id +
+                        ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- GET /associations/{id}/directory -----
     $scope.association.getDirectory = function(item, event) {
@@ -168,18 +194,24 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
         .success(function(data, status, headers, config) {
           var association = data.devices[$scope.association.id];
           $scope.association.directory = association.directory;
-          $scope.message = 'Successfully retrieved directory of ' +
-                           $scope.association.id;
+          var message = 'Successfully retrieved directory of ' +
+                        $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'GET FAILED. Status code ' + status;
+          var message = 'Could not retrieve directory of ' +
+                        $scope.association.id + ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- PUT /associations/{id}/directory -----
     $scope.association.putDirectory = function(item, event) {
-      if($scope.association.directory === '') {
-        $scope.message = 'ERROR. Enter a directory.';
+      if((typeof($scope.association.directory) === 'undefined') ||
+         ($scope.association.directory === '')) {
+        var message = 'Cannot replace directory of ' + $scope.association.id +
+                      ', directory field is empty.';
+        $scope.alerts.push( { type: 'danger', message: message } );
         return;
       }
 
@@ -187,13 +219,16 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
 
       $http.put('../associations/' + $scope.association.id + '/directory', json)
         .success(function(data, status, headers, config) {
-          $scope.message = 'Successfully updated directory of ' +
-                           $scope.association.id;
+          var message = 'Successfully replaced directory of ' +
+                        $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'PUT FAILED. Status code ' + status;
+          var message = 'Could not replace directory of ' +
+                        $scope.association.id + ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
 
     // ----- DELETE /associations/{id}/directory -----
     $scope.association.deleteDirectory = function(item, event) {
@@ -201,11 +236,19 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
       $http.delete('../associations/' + $scope.association.id + '/directory')
         .success(function(data, status, headers, config) {
           $scope.association.directory = '';
-          $scope.message = 'Successfully deleted directory of ' +
-                           $scope.association.id;
+          var message = 'Successfully deleted directory of ' +
+                        $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
         })
         .error(function(data, status, headers, config) {
-          $scope.message = 'DELETE FAILED. Status code ' + status;
+          var message = 'Could not delete directory of ' +
+                        $scope.association.id + ', Status code ' + status;
+          $scope.alerts.push( { type: 'danger', message: message } );
         });
-    }
+    };
+
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
+    };
+
   });

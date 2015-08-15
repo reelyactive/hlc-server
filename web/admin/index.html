@@ -98,8 +98,9 @@
                 </div>
               </div>
             </form>
-            <div class="well text-center">
-              {{message}}
+            <div>
+              <alert ng-repeat="alert in alerts" type="{{alert.type}}"
+                     close="closeAlert($index)"> {{alert.message}} </alert>
             </div>
           </div>
         </div>
