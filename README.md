@@ -2,14 +2,16 @@ hlc-server
 ==========
 
 
-HLC: Hyperlocal Context
------------------------
+HLC: Hyperlocal Context for the IoT
+-----------------------------------
 
-How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  _Read more at:_ [context.reelyactive.com](http://context.reelyactive.com/context.html)
+How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  Learn more at: [context.reelyactive.com](http://context.reelyactive.com/context.html)
+
+__In the scheme of Things (pun intended)__
 
 hlc-server acts as a convenience wrapper around our other npmjs packages, [barnowl](https://www.npmjs.org/package/barnowl), [barnacles](https://www.npmjs.org/package/barnacles), [barterer](https://www.npmjs.org/package/barterer) and [chickadee](https://www.npmjs.org/package/chickadee).  You may consult the documentation for each individual package for a better understanding of the ensemble.
 
-hlc-server is the middle piece in the [json-silo](https://www.npmjs.org/package/json-silo) - hlc-server - [smartspaces](https://www.npmjs.org/package/smartspaces) stack.  The easiest way to learn how these all fit together is our [Make a Smart Space tutorial](http://reelyactive.github.io/make-a-smartspace.html).
+hlc-server is the middle piece in the [json-silo](https://www.npmjs.org/package/json-silo) - hlc-server - [smartspaces](https://www.npmjs.org/package/smartspaces) stack.  The easiest way to learn how these all fit together is our [Make a Smart Space tutorial](http://reelyactive.github.io/make-a-smartspace.html) on our [developer page](http://reelyactive.github.io/).
 
 
 Installation
@@ -33,27 +35,7 @@ Then browse to [http://localhost:3001](http://localhost:3001) to see the landing
 
 ![HLC landing page](http://reelyactive.com/images/hlc-landing.png)
 
-Type _test_ in the search bar (or browse to [http://localhost:3001/at/test](http://localhost:3001/at/test)) to see the following test output:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": { "href": "http://localhost:3001/at/test" }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000"
-          },
-          "url": "http://reelyactive.com/metadata/test.json",
-          "href": "http://localhost:3001/id/001bc50940100000"
-        }
-      }
-    }
+Type _test_ in the search bar (or browse to [http://localhost:3001/contextnear/tags/test](http://localhost:3001/contextnear/tags/test)) to see a _contextual_ visualisation of what is near the test device(s).  Alternatively, browse to [http://localhost:3001/whatnear/transmitter/fee150bada55](http://localhost:3001/whatnear/transmitter/fee150bada55) for a _non-contextual_ visualisation of the same query.
 
 
 RESTful interactions
@@ -61,125 +43,51 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to hlc-server.
 
-__GET /id?value=identifier__
+__GET /whereis/transmitter/{device-id}__
 
-Retrieve the device association based on the given identifier value via [chickadee](https://www.npmjs.org/package/chickadee).  This can be useful for retrieving the static identifier of a device based on its current cyclic identifier.  For example to retrieve the association related to a Bluetooth Smart device advertising "2c0ffeeb4bed" as a random address you would GET /id?value=2c0ffeeb4bed.
+__GET /whatnear/transmitter/{device-id}__
 
-__POST /id__
+__GET /whatat/receiver/{device-id}__
 
-Create a new device association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
+See [barterer](https://www.npmjs.org/package/barterer).
 
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/test"
-    }
+__GET /contextnear/transmitter/{device-id}__
 
-__GET /id/id__
+__GET /contextnear/tags/{device-id}__
 
-Retrieve real-time location/context for a given device via [barterer](https://www.npmjs.org/package/barterer).  For example, the identifier 001bc50940100000 would return:
+__GET /contextat/receiver/{device-id}__
 
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3001/id/001bc50940100000"
-        }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000",
-            "flags": {
-              "transmissionCount": 0
-            }
-          },
-          "timestamp": "2015-01-01T12:34:56.789Z",
-          "radioDecodings": [
-            {
-              "rssi": 136,
-              "identifier": {
-                "type": "EUI-64",
-                "value": "001bc50940800000"
-              }
-            }
-          ],
-          "url": "http://reelyactive.com/metadata/test.json",
-          "href": "http://localhost:3001/id/001bc50940100000"
-        }
-      }
-    }
+__GET /contextat/directory/{device-id}__
 
-__PUT /id/id__
+__GET /contextat/tags/{device-id}__
 
-Update a device association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/lonely](http://myjson.info/story/lonely) include the following JSON:
+See [chickadee](https://www.npmjs.org/package/chickadee).
 
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/lonely"
-    }
+__GET/PUT/DELETE /associations/{device-id}/__
 
-__POST /at__
+__GET/PUT/DELETE /associations/{device-id}/url__
 
-Create a new place association via [chickadee](https://www.npmjs.org/package/chickadee).  For example, to associate a place named _test_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
+__GET/PUT/DELETE /associations/{device-id}/directory__
 
-    {
-      "place": "test",
-      "identifiers": [ "001bc50940800000", "001bc50940810000" ]
-    }
+__GET/PUT/DELETE /associations/{device-id}/tags__
 
-__GET /at/place__
+See [chickadee](https://www.npmjs.org/package/chickadee).
 
-Retrieve real-time location/context for a given place via [barterer](https://www.npmjs.org/package/barterer).  For example, the place named _test_ would return:
+__POST /events__
 
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3001/at/test"
-         }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000",
-            "flags": {
-              "transmissionCount": 0
-            }
-          },
-          "url": "http://reelyactive.com/metadata/test.json",
-          "href": "http://localhost:3001/id/001bc50940100000"
-        },
-        "fee150bada55": {
-          "identifier": {
-            "type": "ADVA-48",
-            "value": "fee150bada55",
-            "advHeader": {
-              "type": "ADV_NONCONNECT_IND",
-              "length": 22,
-              "txAdd": "random",
-              "rxAdd": "public"
-            },
-            "advData": {
-              "flags": [
-                "LE Limited Discoverable Mode",
-                "BR/EDR Not Supported"
-              ],
-              "completeLocalName": "reelyActive"
-            }
-          },
-          "url": "http://reelyactive.com/metadata/bluetoothsmart.json",
-          "href": "http://localhost:3001/id/fee150bada55"
-        }
-      }
-    }
+See [barnacles](https://www.npmjs.org/package/barnacles).
+
+__GET /statistics__
+
+See [barnacles](https://www.npmjs.org/package/barnacles).
+
+__GET /at/{directory}__
+
+Legacy route (deprecated).  Redirects to /contextat/directory/{directory}.
+
+__GET /id/{device-id}__
+
+Legacy route (deprecated).  Redirects to /contextat/receiver/{device-id} if the device id matches that of a receiver, otherwise to /contextnear/transmitter/{device-id}.
 
 
 Administrative Interface
@@ -208,11 +116,16 @@ You can create an instance of hlc-server with any or all of the following option
       password: 'admin',
       secret: "YoureProbablyGonnaWantToChangeIt",
       useCors: false,
-      maxDecoders: 3,
-      maxStaleMilliseconds: 10000
+      protectedRequests: [
+        { path: "/associations/", methods: [ "PUT", "DELETE" ] }
+      ],
+      barnowl: { n: 3, enableMixing: true }, // see barnowl
+      barnacles: {},                         // see barnacles
+      barterer: {},                          // see barterer
+      chickadee: {}                          // see chickadee
     }
 
-Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to set useCors to true.
+Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to set useCors to true.  To remove authentication from all routes, set protectedRequests to [].
 
 
 Implicit Associations
@@ -224,7 +137,10 @@ Consult the documentation for [chickadee](https://www.npmjs.org/package/chickade
 What's next?
 ------------
 
-This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!
+This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with hlc-server check out:
+* [diyActive](http://reelyactive.github.io/) our developer page
+* our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [angular-style-guide](https://github.com/reelyactive/angular-style-guide) for development
+* our [contact information](http://context.reelyactive.com/contact.html) to get in touch if you'd like to contribute
 
 
 License
