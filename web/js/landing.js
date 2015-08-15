@@ -1,6 +1,6 @@
 STATISTICS_REFRESH_MILLISECONDS = 2000;
 
-angular.module("landing", [])
+angular.module("landing", [ 'ui.bootstrap' ])
 
   // Query controller
   .controller("QueryCtrl", function($scope, $window, $location) {
