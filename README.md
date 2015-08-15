@@ -137,7 +137,10 @@ Consult the documentation for [chickadee](https://www.npmjs.org/package/chickade
 What's next?
 ------------
 
-This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!
+This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with hlc-server check out:
+* [diyActive](http://reelyactive.github.io/) our developer page
+* our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [angular-style-guide](https://github.com/reelyactive/angular-style-guide) for development
+* our [contact information](http://context.reelyactive.com/contact.html) to get in touch if you'd like to contribute
 
 
 License
