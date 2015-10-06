@@ -4,4 +4,21 @@ var path = require('path');
 var fs = require('fs');
 var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
 
-require(lib + '/server.js');
+var hlc = require(lib + '/server.js');
+var options = {
+  httpPort: 3001,
+  password: 'admin',
+  secret: "YoureProbablyGonnaWantToChangeIt",
+  useCors: false,
+  protectedRequests: [
+    { path: "/associations/", methods: [ "PUT", "DELETE" ] }
+  ],
+  barnowl: { n: 3, enableMixing: true }, // see barnowl
+  barnacles: {},                         // see barnacles
+  barterer: {},                          // see barterer
+  chickadee: {}                          // see chickadee
+}
+
+var app = new hlc(options)
+app.bind({ protocol: 'udp', path: '0.0.0.0:50000' } );
+

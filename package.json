@@ -16,6 +16,7 @@
   "bin": {
     "hlc-server": "./bin/hlc-server"
   },
+  "scripts": {"start": "node bin/hlc-server"},
   "repository": {
     "type": "git",
     "url": "https://github.com/reelyactive/hlc-server.git"
