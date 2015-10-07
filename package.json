@@ -8,7 +8,7 @@
     "Hyperlocal Context",
     "IoT"
   ],
-  "version": "0.4.5",
+  "version": "0.4.6",
   "engines": {
     "node": "^0.10.0"
   },
@@ -16,15 +16,16 @@
   "bin": {
     "hlc-server": "./bin/hlc-server"
   },
+  "scripts": {"start": "node bin/hlc-server"},
   "repository": {
     "type": "git",
     "url": "https://github.com/reelyactive/hlc-server.git"
   },
   "dependencies": {
-    "barnowl": ">=0.4.10",
-    "barnacles": ">=0.2.6",
+    "barnowl": ">=0.4.13",
+    "barnacles": ">=0.3.0",
     "barterer": ">=0.3.5",
-    "chickadee": ">=0.3.10",
+    "chickadee": ">=0.3.11",
     "nedb": ">=1.1.1",
     "express": ">=4.0.0",
     "body-parser": ">=1.8.0",
@@ -39,7 +40,8 @@
     "url": "https://github.com/reelyactive/hlc-server/issues"
   },
   "contributors": [
-    { "name": "Jeffrey Dungen" }
+    { "name": "Jeffrey Dungen" },
+    { "name": "Juan Pinazo" }
   ],
   "license": "MIT"
 }
