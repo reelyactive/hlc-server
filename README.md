@@ -11,6 +11,8 @@ __In the scheme of Things (pun intended)__
 
 hlc-server acts as a convenience wrapper around our other npmjs packages, [barnowl](https://www.npmjs.org/package/barnowl), [barnacles](https://www.npmjs.org/package/barnacles), [barterer](https://www.npmjs.org/package/barterer) and [chickadee](https://www.npmjs.org/package/chickadee).  You may consult the documentation for each individual package for a better understanding of the ensemble.
 
+![hlc-server elements](http://reelyactive.github.io/images/hlcServerElements.jpg)
+
 hlc-server is the middle piece in the [json-silo](https://www.npmjs.org/package/json-silo) - hlc-server - [smartspaces](https://www.npmjs.org/package/smartspaces) stack.  The easiest way to learn how these all fit together is our [Make a Smart Space tutorial](http://reelyactive.github.io/make-a-smartspace.html) on our [developer page](http://reelyactive.github.io/).
 
 
@@ -18,6 +20,8 @@ Installation
 ------------
 
     npm install hlc-server
+
+Alternatively, use the Docker repository: [reelyactive/hlc-server](https://hub.docker.com/r/reelyactive/hlc-server/)
 
 
 Hello Hyperlocal Context
