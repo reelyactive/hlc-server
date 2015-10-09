@@ -8,6 +8,7 @@ RUN apk update && apk add make gcc g++ python
 
 # If you need npm, use mhart/alpine-node or mhart/alpine-iojs
 RUN npm install
+RUN npm install -g forever
 
 # If you had native dependencies you can now remove build tools
 RUN apk del make gcc g++ python && \
@@ -15,4 +16,4 @@ RUN apk del make gcc g++ python && \
 
 EXPOSE 3001
 EXPOSE 50000/udp
-CMD npm start
+CMD forever bin/hlc-server
