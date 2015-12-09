@@ -10,7 +10,8 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
 
       $http.get('../associations/' + $scope.association.id)
         .success(function(data, status, headers, config) {
-          var association = data.devices[$scope.association.id];
+          var standardisedID = Object.keys(data.devices)[0];
+          var association = data.devices[standardisedID];
           $scope.association.url = association.url;
           $scope.association.tags = association.tags;
           $scope.association.directory = association.directory;
@@ -78,7 +79,8 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
 
       $http.get('../associations/' + $scope.association.id + '/url')
         .success(function(data, status, headers, config) {
-          var association = data.devices[$scope.association.id];
+          var standardisedID = Object.keys(data.devices)[0];
+          var association = data.devices[standardisedID];
           $scope.association.url = association.url;
           var message = 'Successfully retrieved URL of ' + $scope.association.id;
           $scope.alerts.push( { type: 'success', message: message } );
@@ -135,7 +137,8 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
 
       $http.get('../associations/' + $scope.association.id + '/tags')
         .success(function(data, status, headers, config) {
-          var association = data.devices[$scope.association.id];
+          var standardisedID = Object.keys(data.devices)[0];
+          var association = data.devices[standardisedID];
           $scope.association.tags = association.tags;
           var message = 'Successfully retrieved tags of ' + $scope.association.id;
           $scope.alerts.push( { type: 'success', message: message } );
@@ -192,7 +195,8 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
 
       $http.get('../associations/' + $scope.association.id + '/directory')
         .success(function(data, status, headers, config) {
-          var association = data.devices[$scope.association.id];
+          var standardisedID = Object.keys(data.devices)[0];
+          var association = data.devices[standardisedID];
           $scope.association.directory = association.directory;
           var message = 'Successfully retrieved directory of ' +
                         $scope.association.id;

@@ -33,15 +33,20 @@
         <div class="col-xs-10 col-md-8 col-lg-6">
 
           <h1 class="text-center"> Administrative Interface </h1>
-          <p class="text-center"> IDs are EUI-64 or AdvA-48 format <br>
-              <i>Example: 001bc50940100000 or 1a2b3c4d5e6f</i> </p>
+          <p class="text-center"> IDs are EUI-64, AdvA-48 or UUID-128 format.
+            Valid examples include: <br>
+            <i> 001bc50940100000, 10:05:EC:AB:00:5E or
+                7265656c-7941-6374-6976-652055554944 </i>
+          </p>
+          <br>
           <div ng-controller="AssociationCtrl">
             <form class="form-horizontal">
               <div class="form-group">
                 <label for="identifier" class="col-sm-2 control-label">ID:</label>
                 <div class="col-sm-5">
                   <input type="text" ng-model="association.id" size="16"
-                         class="form-control" id="identifier">
+                         maxlength="36" class="form-control" id="identifier"
+                         placeholder="Cannot be left blank">
                 </div>
                 <div class="col-sm-5">
                   <button ng-click="association.get()"
