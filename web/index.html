@@ -2,10 +2,11 @@
 <html>
   <head>
     <title> reelyActive Hyperlocal Context </title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.1/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="js/landing.js"></script>
   </head>
   <body ng-app="landing">
@@ -40,45 +41,49 @@
           </ul>
         </div>
       </nav>
-      <div class="row">
-        <div class="col-xs-1 col-sm-2 col-md-3"></div>
-        <div class="col-xs-10 col-sm-8 col-md-6">
-          <img src="images/logo.png" class="img-responsive center-block">
-          <br><br>
-          <div ng-controller="QueryCtrl" class="text-center">
-            <form class="form-inline">
-              <div class="form-group">
-                <label class="sr-only" for="route">API route</label>
-                <select ng-model="query.route" class="form-control" id="route"
-                        ng-options="route.name for route in routes">
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="sr-only" for="param">API parameter</label>
-                <select ng-model="query.parameter" class="form-control" id="param"
-                        ng-options="parameter.name for parameter in parameters">
-                </select>
-              <div class="form-group">
-                <label class="sr-only" for="query">
-                  Device identifier, tag or directory name to query 
-                </label>
-                <input ng-model="query.identifier" class="form-control" id="query"
-                       type="text" size="16" placeholder="id, tag or directory">
-              </div>
-              <button ng-click="query.search()" class="btn btn-primary">
-                Search
-              </button>
-            </form>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-1 col-sm-2 col-md-3"></div>
+          <div class="col-xs-10 col-sm-8 col-md-6">
+            <img src="images/logo.png" class="img-responsive center-block">
+            <br><br>
+            <div ng-controller="QueryCtrl" class="text-center">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label class="sr-only" for="route">API route</label>
+                  <select ng-model="query.route" class="form-control"
+                          id="route"
+                          ng-options="route.name for route in routes">
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="param">API parameter</label>
+                  <select ng-model="query.parameter" class="form-control"
+                          id="param" ng-options="parameter.name for parameter in parameters">
+                  </select>
+                <div class="form-group">
+                  <label class="sr-only" for="query">
+                    Device identifier, tag or directory name to query 
+                  </label>
+                  <input ng-model="query.identifier" class="form-control"
+                         id="query" type="text" size="16"
+                         placeholder="id, tag or directory">
+                </div>
+                <button ng-click="query.search()" class="btn btn-primary">
+                  Search
+                </button>
+              </form>
+            </div>
+            <br>
+            <div ng-controller="StatisticsCtrl" class="text-center">
+              <p>
+                Currently processing {{statistics.tiraids}} packets/s
+                from {{statistics.devices}} devices.
+              </p>
+            </div>
           </div>
-          <br>
-          <div ng-controller="StatisticsCtrl" class="text-center">
-            <p>
-              Currently processing {{statistics.tiraids}} packets/s
-              from {{statistics.devices}} devices.
-            </p>
-          </div>
+          <div class="col-xs-1 col-sm-2 col-md-3"></div>
         </div>
-        <div class="col-xs-1 col-sm-2 col-md-3"></div>
       </div>
       <footer class="footer">
         <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
