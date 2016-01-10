@@ -2,10 +2,11 @@
 <html>
   <head>
     <title> reelyActive Hyperlocal Context </title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.1/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="../js/admin.js"></script>
   </head>
   <body ng-app="adminpanel">
@@ -28,88 +29,95 @@
              ng-click="navCollapsed = true">
         </div>
       </nav>
-      <div class="row">
-        <div class="col-xs-1 col-md-2 col-lg-3"></div>
-        <div class="col-xs-10 col-md-8 col-lg-6">
-
-          <h1 class="text-center"> Administrative Interface </h1>
-          <p class="text-center"> IDs are EUI-64, AdvA-48 or UUID-128 format.
-            Valid examples include: <br>
-            <i> 001bc50940100000, 10:05:EC:AB:00:5E or
-                7265656c-7941-6374-6976-652055554944 </i>
-          </p>
-          <br>
-          <div ng-controller="AssociationCtrl">
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="identifier" class="col-sm-2 control-label">ID:</label>
-                <div class="col-sm-5">
-                  <input type="text" ng-model="association.id" size="16"
-                         maxlength="36" class="form-control" id="identifier"
-                         placeholder="Cannot be left blank">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-1 col-md-2 col-lg-3"></div>
+          <div class="col-xs-10 col-md-8 col-lg-6">
+            <h1 class="text-center"> Administrative Interface </h1>
+            <p class="text-center"> IDs are EUI-64, AdvA-48 or UUID-128 format.
+              Valid examples include: <br>
+              <i> 001bc50940100000, 10:05:EC:AB:00:5E or
+                  7265656c-7941-6374-6976-652055554944 </i>
+            </p>
+            <br>
+            <div ng-controller="AssociationCtrl">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label for="identifier" class="col-sm-2 control-label">
+                    ID:
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" ng-model="association.id" size="16"
+                           maxlength="36" class="form-control" id="identifier"
+                           placeholder="Cannot be left blank">
+                  </div>
+                  <div class="col-sm-5">
+                    <button ng-click="association.get()"
+                            class="btn btn-info"> Retrieve </button>
+                    <button ng-click="association.put()"
+                            class="btn btn-warning"> Replace </button>
+                    <button ng-click="association.delete()"
+                            class="btn btn-danger"> Delete </button>
+                  </div>
                 </div>
-                <div class="col-sm-5">
-                  <button ng-click="association.get()"
-                          class="btn btn-info"> Retrieve </button>
-                  <button ng-click="association.put()"
-                          class="btn btn-warning"> Replace </button>
-                  <button ng-click="association.delete()"
-                          class="btn btn-danger"> Delete </button>
+                <div class="form-group">
+                  <label for="url" class="col-sm-2 control-label">URL:</label>
+                  <div class="col-sm-5">
+                    <input type="text" ng-model="association.url" size="16"
+                           class="form-control" id="url">
+                  </div>
+                  <div class="col-sm-5">
+                    <button ng-click="association.getUrl()"
+                            class="btn btn-info"> Retrieve </button>
+                    <button ng-click="association.putUrl()"
+                            class="btn btn-warning"> Replace </button>
+                    <button ng-click="association.deleteUrl()"
+                            class="btn btn-danger"> Delete </button>
+                  </div>
                 </div>
+                <div class="form-group">
+                  <label for="tags" class="col-sm-2 control-label">
+                    Tags:
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" ng-model="association.tags" size="16"
+                           class="form-control" id="tags">
+                  </div>
+                  <div class="col-sm-5">
+                    <button ng-click="association.getTags()"
+                            class="btn btn-info"> Retrieve </button>
+                    <button ng-click="association.putTags()"
+                            class="btn btn-warning"> Replace </button>
+                    <button ng-click="association.deleteTags()"
+                            class="btn btn-danger"> Delete </button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="directory" class="col-sm-2 control-label">
+                    Directory:
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" ng-model="association.directory"
+                           size="16" class="form-control" id="directory">
+                  </div>
+                  <div class="col-sm-5">
+                    <button ng-click="association.getDirectory()"
+                            class="btn btn-info"> Retrieve </button>
+                    <button ng-click="association.putDirectory()"
+                            class="btn btn-warning"> Replace </button>
+                    <button ng-click="association.deleteDirectory()"
+                            class="btn btn-danger"> Delete </button>
+                  </div>
+                </div>
+              </form>
+              <div>
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}"
+                       close="closeAlert($index)"> {{alert.message}} </alert>
               </div>
-              <div class="form-group">
-                <label for="url" class="col-sm-2 control-label">URL:</label>
-                <div class="col-sm-5">
-                  <input type="text" ng-model="association.url" size="16"
-                         class="form-control" id="url">
-                </div>
-                <div class="col-sm-5">
-                  <button ng-click="association.getUrl()"
-                          class="btn btn-info"> Retrieve </button>
-                  <button ng-click="association.putUrl()"
-                          class="btn btn-warning"> Replace </button>
-                  <button ng-click="association.deleteUrl()"
-                          class="btn btn-danger"> Delete </button>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="tags" class="col-sm-2 control-label">Tags:</label>
-                <div class="col-sm-5">
-                  <input type="text" ng-model="association.tags" size="16"
-                         class="form-control" id="tags">
-                </div>
-                <div class="col-sm-5">
-                  <button ng-click="association.getTags()"
-                          class="btn btn-info"> Retrieve </button>
-                  <button ng-click="association.putTags()"
-                          class="btn btn-warning"> Replace </button>
-                  <button ng-click="association.deleteTags()"
-                          class="btn btn-danger"> Delete </button>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="directory" class="col-sm-2 control-label">Directory:</label>
-                <div class="col-sm-5">
-                  <input type="text" ng-model="association.directory" size="16"
-                         class="form-control" id="directory">
-                </div>
-                <div class="col-sm-5">
-                  <button ng-click="association.getDirectory()"
-                          class="btn btn-info"> Retrieve </button>
-                  <button ng-click="association.putDirectory()"
-                          class="btn btn-warning"> Replace </button>
-                  <button ng-click="association.deleteDirectory()"
-                          class="btn btn-danger"> Delete </button>
-                </div>
-              </div>
-            </form>
-            <div>
-              <alert ng-repeat="alert in alerts" type="{{alert.type}}"
-                     close="closeAlert($index)"> {{alert.message}} </alert>
             </div>
           </div>
+          <div class="col-xs-1 col-md-2 col-lg-3"></div>
         </div>
-        <div class="col-xs-1 col-md-2 col-lg-3"></div>
       </div>
       <footer class="footer">
         <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
@@ -117,13 +125,9 @@
         <a href="http://context.reelyactive.com"
            tooltip="We believe in an open Internet of Things"
            tooltip-placement="right">
-          &copy; reelyActive 2014-2015
+          &copy; reelyActive 2014-2016
         </a>
       </footer>
     </div>
   </body>
 </html>
-
-
-
-

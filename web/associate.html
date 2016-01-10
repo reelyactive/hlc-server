@@ -2,10 +2,11 @@
 <html>
   <head>
     <title> reelyActive Hyperlocal Context </title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.1/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="js/association.js"></script>
   </head>
   <body ng-app="association">
@@ -28,46 +29,48 @@
              ng-click="navCollapsed = true">
         </div>
       </nav>
-      <div class="row">
-        <div class="col-xs-1 col-md-2 col-lg-3"></div>
-        <div class="col-xs-10 col-md-8 col-lg-6">
-          <img src="images/logo.png" class="img-responsive center-block">
-          <br><br>
-          <p class="text-center"> IDs are EUI-64, AdvA-48 or UUID-128 format.
-            Valid examples include: <br>
-            <i> 001bc50940100000, 10:05:EC:AB:00:5E or
-                7265656c-7941-6374-6976-652055554944 </i>
-          </p>
-          <br><br>
-          <form class="form-inline" ng-hide="success">
-            <div class="form-group">
-              <label for="identifier"> Device ID: </label>
-              <input type="text" name="identifier" id="identifier"
-                     class="form-control" ng-model="device.identifier"
-                     size="16" maxlength="36">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-1 col-md-2 col-lg-3"></div>
+          <div class="col-xs-10 col-md-8 col-lg-6">
+            <img src="images/logo.png" class="img-responsive center-block">
+            <br><br>
+            <p class="text-center"> IDs are EUI-64, AdvA-48 or UUID-128 format.
+              Valid examples include: <br>
+              <i> 001bc50940100000, 10:05:EC:AB:00:5E or
+                  7265656c-7941-6374-6976-652055554944 </i>
+            </p>
+            <br><br>
+            <form class="form-inline" ng-hide="success">
+              <div class="form-group">
+                <label for="identifier"> Device ID: </label>
+                <input type="text" name="identifier" id="identifier"
+                       class="form-control" ng-model="device.identifier"
+                       size="16" maxlength="36">
 
-            </div>
-            <div class="form-group">
-              <label for="url"> JSON URL: </label>
-              <input type="text" name="url" id="url" class="form-control"
-                     ng-model="device.url" ng-readonly="device.hasUrl"
-                     size="32">
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary" ng-click="device.update()">
-                Make association
-              </button>
-            </div>
-          </form>
-          <alert ng-repeat="alert in alerts" type="{{alert.type}}"
-                 close="closeAlert($index)"> {{alert.message}} </alert>
-          <p class="text-center" ng-show="success">
-            <a ng-href="{{device.href}}" class="btn btn-primary">
-              {{device.query}}
-            </a>
-          </p>
+              </div>
+              <div class="form-group">
+                <label for="url"> JSON URL: </label>
+                <input type="text" name="url" id="url" class="form-control"
+                       ng-model="device.url" ng-readonly="device.hasUrl"
+                       size="32">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary" ng-click="device.update()">
+                  Make association
+                </button>
+              </div>
+            </form>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}"
+                   close="closeAlert($index)"> {{alert.message}} </alert>
+            <p class="text-center" ng-show="success">
+              <a ng-href="{{device.href}}" class="btn btn-primary">
+                {{device.query}}
+              </a>
+            </p>
+          </div>
+          <div class="col-xs-1 col-md-2 col-lg-6"></div>
         </div>
-        <div class="col-xs-1 col-md-2 col-lg-6"></div>
       </div>
       <footer class="footer">
         <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
@@ -75,7 +78,7 @@
         <a href="http://context.reelyactive.com"
            tooltip="We believe in an open Internet of Things"
            tooltip-placement="right">
-          &copy; reelyActive 2014-2015
+          &copy; reelyActive 2014-2016
         </a>
       </footer>
     </div>
