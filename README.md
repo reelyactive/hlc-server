@@ -85,14 +85,6 @@ __GET /statistics__
 
 See [barnacles](https://www.npmjs.org/package/barnacles).
 
-__GET /at/{directory}__
-
-Legacy route (deprecated).  Redirects to /contextat/directory/{directory}.
-
-__GET /id/{device-id}__
-
-Legacy route (deprecated).  Redirects to /contextat/receiver/{device-id} if the device id matches that of a receiver, otherwise to /contextnear/transmitter/{device-id}.
-
 
 Administrative Interface
 ------------------------
