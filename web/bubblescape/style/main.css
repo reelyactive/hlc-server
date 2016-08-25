@@ -1,0 +1,9 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background: #0770a2;
+  font-family: 'Source Sans Pro', sans-serif;
+}
