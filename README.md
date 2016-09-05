@@ -42,6 +42,18 @@ Then browse to [http://localhost:3001](http://localhost:3001) to see the landing
 Type _test_ in the search bar (or browse to [http://localhost:3001/contextnear/tags/test](http://localhost:3001/contextnear/tags/test)) to see a _contextual_ visualisation of what is near the test device(s).  Alternatively, browse to [http://localhost:3001/whatnear/transmitter/fee150bada55](http://localhost:3001/whatnear/transmitter/fee150bada55) for a _non-contextual_ visualisation of the same query.
 
 
+Additional Visualisations
+-------------------------
+
+### bubblescape
+
+Browse to [http://localhost:3001/bubblescape/](http://localhost:3001/bubblescape/) (see [bubblescape](https://github.com/reelyactive/bubblescape)).
+
+### sensorscape
+
+Browse to [http://localhost:3001/sensorscape/](http://localhost:3001/sensorscape/) (see [sensorscape](https://github.com/reelyactive/sensorscape)).
+
+
 RESTful interactions
 --------------------
 
@@ -127,7 +139,7 @@ Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to
 Implicit Associations
 ---------------------
 
-Consult the documentation for [chickadee](https://www.npmjs.org/package/chickadee) to learn more about which devices are implicitly associated (via their identifier) with static metadata or a third-party API (via a URL).
+The [chickadee](https://www.npmjs.org/package/chickadee) package uses [sniffypedia.org](http://sniffypedia.org/) to implicitly associate devices with metadata via their identifier(s).
 
 
 What's next?
