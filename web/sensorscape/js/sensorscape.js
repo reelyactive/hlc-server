@@ -5,7 +5,6 @@
 
 
 // Constant definitions
-DEFAULT_SOCKET_URL = 'http://localhost:3001';
 MAX_LINE_CHART_DATA_POINTS = 8;
 LINE_CHART_OPTIONS = {
   legend: {
@@ -37,9 +36,11 @@ angular.module('sensorscape', [ 'ui.bootstrap', 'btford.socket-io',
  * Socket Factory
  * Creates the websocket connection to the given URL using socket.io.
  */
-.factory('Socket', function(socketFactory) {
+.factory('Socket', function(socketFactory, $location) {
+  var url = $location.protocol() + '://' + $location.host() + ':' +
+            $location.port();
   return socketFactory({
-    ioSocket: io.connect(DEFAULT_SOCKET_URL)
+    ioSocket: io.connect(url)
   });
 })
 
