@@ -19,7 +19,7 @@ Bubble.generateID = function(jsonID) {
   }
 }
 
-Bubble.availableTypes = function(visible, all) {
+Bubble.visibleTypes = function(visible, all) {
   
   if (visible.length == 0) return all;
   
@@ -49,9 +49,11 @@ Bubble.prototype = {
     var self = this;
     if (self.scope.unsupported) return false;
     self.style();
-    self.addIcons();
-    self.setHoverEvent();
-    self.startFloating();
+    if (self.scope.mode != 'ambient') {
+      self.addIcons();
+      self.setHoverEvent();
+    }
+    if (self.scope.motion) self.startFloating();
   },
   
   setClasses: function() {
@@ -60,15 +62,25 @@ Bubble.prototype = {
     self.bubbleClass = self.containerClass+'--photo';
     self.labelClass = self.containerClass+'--label';
     self.iconClass = self.containerClass+'--icon';
-    self.toggleClass = self.containerClass+'--toggle';
+    self.flyoutClass = self.containerClass+'--flyout';
   },
   
   setDivs: function() {
     var self = this;
     self.container = $('#'+self.scope.itemID);
-    self.bubble = $(self.bubbleClass, self.container);
-    self.label = $(self.labelClass, self.container);
-    self.toggle = $(self.toggleClass, self.container);
+    self.bubbles = $(self.bubbleClass, self.container);
+    self.bubble = self.activeBubble();
+    self.labels = $(self.labelClass, self.container);
+    self.label = $(self.labelClass, self.bubble);
+    
+    $.each(self.scope.types, function(index, type) {
+      if (type != self.scope.current) {
+        var subBubble = self.selectByType(type);
+        subBubble.addClass(self.flyoutClass.substring(1));
+      }
+    });
+    
+    self.subBubbles = $(self.flyoutClass, self.container);
   },
   
   place: function() {
@@ -95,6 +107,7 @@ Bubble.prototype = {
         if (overlap) collision = true;
       });
       if (!collision) {
+        //console.log('place found!');
         placed = true;
         self.position = {x: randLeft, y: randTop};
       }
@@ -116,6 +129,7 @@ Bubble.prototype = {
     //self.place();
   
     var emptyBox = Placement.findAvailable(self.containerSize);
+    //console.log(emptyBox);
     self.box = emptyBox.box;
     self.position = emptyBox.pos;
     
@@ -129,7 +143,7 @@ Bubble.prototype = {
       display: 'inline-block'
     });
     
-    self.bubble.css({
+    self.bubbles.css({
       width: self.size,
       height: self.size,
       borderRadius: self.size,
@@ -137,12 +151,14 @@ Bubble.prototype = {
       top: self.borderSize*2
     });
     
-    self.label.css({
+    self.labels.css({
       fontSize: self.borderSize+'px',
       lineHeight: self.borderSize+'px',
       top: self.labelTop,
       borderRadius: self.borderSize/2
     });
+    
+    self.bubble.show();
   },
   
   parseServices: function() {
@@ -204,6 +220,7 @@ Bubble.prototype = {
               }, 200);
             });
             // add to bubble
+            //console.log('Adding icon to ' + type);
             icon.appendTo(self.selectByType(type));
           }
         });
@@ -288,10 +305,10 @@ Bubble.prototype = {
       
       Bubbles.active = true;
       self.stopFloating();
-      $(self.bubbleClass).not(self.bubble).fadeTo(150, 0.2);
+      self.animateFlyouts();
+      self.allOtherBubbles().fadeTo(150, 0.2);
       
       self.bubble.addClass('hover');
-      self.toggle.css({opacity: 0});
       self.label.css({backgroundColor: 'transparent'});
       self.label.animate({
         top: self.size + (self.borderSize/3) + 'px'
@@ -318,16 +335,53 @@ Bubble.prototype = {
         backgroundColor: 'black',
         top: self.labelTop
       });
-      self.toggle.css({opacity: 1});
       
-      
-      $(self.bubbleClass).not(self.bubble).finish();
-      $(self.bubbleClass).not(self.bubble).fadeTo(150, 1.0);
+      self.allOtherBubbles().finish();
+      self.allOtherBubbles().css({opacity: 1.0});
       self.resumeFloating();
       Bubbles.active = false;
       
+      self.subBubbles.finish();
+      self.subBubbles.hide();
+      
       //Connections.redraw();
       
+    });
+  },
+  
+  animateFlyouts: function() {
+    var self = this;
+    
+    var bubblePos = self.bubble.offset();
+    var subLeftStart = (self.container.width() - self.bubble.width()) / 2;
+    var subLeftEnd = bubblePos.left - (self.size / 2);
+    var subTopDirection = '+=';
+    if (bubblePos.top > $(window).height()/2) {
+      subTopDirection = '-=';
+    }
+    var subTopShift = self.size + self.borderSize*3;
+    var subLeftIncrement = self.size + self.borderSize*2;
+    if (self.subBubbles.length > 2) subLeftStart -= subLeftIncrement/2;
+    
+    $.each(self.subBubbles, function(index, subBubble) {
+      subBubble = $(subBubble).detach().appendTo('body');
+      subBubble.show();
+      subBubble.css({
+        position: 'absolute',
+        zIndex: -1,
+        top: bubblePos.top+self.borderSize,
+        left: bubblePos.left+self.borderSize,
+        borderWidth: 0,
+        opacity: 0.2
+      });
+      subBubble.animate({
+        top: subTopDirection+subTopShift+'px',
+        left: subLeftEnd,
+        opacity: 0.9
+      }, 300, function(){
+        $(this).css({zIndex: 100});
+      });
+      subLeftEnd += subLeftIncrement;
     });
   },
   
@@ -371,6 +425,11 @@ Bubble.prototype = {
     return self.selectByType(self.scope.current);
   },
   
+  allOtherBubbles: function() {
+    var self = this;
+    return $(self.bubbleClass+':not('+self.flyoutClass+')').not(self.bubble);
+  },
+  
   name: function(type) {
     var self = this;
     return self.selectByType(type).data('name');
@@ -383,6 +442,7 @@ Bubble.prototype = {
   
   removed: function() {
     var self = this;
+    //console.log('this bubble removed');
     if (self.position) Placement.boxNowEmpty(self.box);
   }
   
@@ -429,6 +489,7 @@ var Bubbles = {
   },
   
   remove: function(id) {
+    //console.log('removed ' + id);
   }
   
 }
@@ -566,6 +627,7 @@ var Loader = {
   },
   
   afterLoad: function(name) {
+    //console.log('initing after ' + name);
     switch(name) {
       case 'jQuery':
         (function($){

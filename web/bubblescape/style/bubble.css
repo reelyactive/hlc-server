@@ -6,20 +6,20 @@
   position: absolute;
 }
 
-bubble.ng-enter {
+bubble[fade=true].ng-enter {
   transition:0.3s linear all;
   opacity:0;
 }
 
-bubble.ng-enter.ng-enter-active {
+bubble[fade=true].ng-enter.ng-enter-active {
   opacity:1;
 }
 
-bubble.ng-leave {
+bubble[fade=true].ng-leave {
   transition:0.3s linear all;
   opacity:1;
 }
-bubble.ng-leave.ng-leave-active {
+bubble[fade=true].ng-leave.ng-leave-active {
   opacity:0;
 }
 
@@ -37,29 +37,29 @@ bubble.ng-leave.ng-leave-active {
 }
 
 @keyframes forward {
-	from {
-		transform: rotate(0deg)
-		           translate(-10px)
-		           rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg)
-		           translate(-10px) 
-		           rotate(-360deg);
-	}
+  from {
+    transform: rotate(0deg)
+               translate(-10px)
+               rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg)
+               translate(-10px) 
+               rotate(-360deg);
+  }
 }
 
 @keyframes backward {
-	from {
-		transform: rotate(360deg)
-		           translate(-10px)
-		           rotate(-360deg);
-	}
-	to {
-		transform: rotate(0deg)
-		           translate(-10px) 
-		           rotate(0deg);
-	}
+  from {
+    transform: rotate(360deg)
+               translate(-10px)
+               rotate(-360deg);
+  }
+  to {
+    transform: rotate(0deg)
+               translate(-10px) 
+               rotate(0deg);
+  }
 }
 
 .bubble--photo {
@@ -74,6 +74,7 @@ bubble.ng-leave.ng-leave-active {
   box-sizing: content-box;
   position: relative;
   margin: 0 auto;
+  display: none;
 }
 
 .bubble--label {
