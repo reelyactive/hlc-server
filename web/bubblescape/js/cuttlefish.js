@@ -21,7 +21,7 @@ UNSUPPORTED_STORY_JSON = {
 };
 
 
-angular.module('reelyactive.cuttlefish', ['ngAnimate','ui.bootstrap'])
+angular.module('reelyactive.cuttlefish', [ 'ngAnimate', 'ui.bootstrap' ])
 
   .directive('bubble', function() {
 
@@ -30,8 +30,10 @@ angular.module('reelyactive.cuttlefish', ['ngAnimate','ui.bootstrap'])
       function update() {
         scope.types = [];
         scope.size = scope.size || DEFAULT_BUBBLE_SIZE;
-        scope.toggle = scope.toggle || false;
+        scope.mode = scope.mode || 'desktop';
         scope.visible = scope.visible || [];
+        scope.motion = // defaults to true
+          (typeof scope.motion === 'undefined') ? true : scope.motion;
 
         if(scope.json && scope.json.hasOwnProperty("@graph")) {
           var graph = scope.json["@graph"];
@@ -63,10 +65,9 @@ angular.module('reelyactive.cuttlefish', ['ngAnimate','ui.bootstrap'])
           scope.types.push(TYPE_PRODUCT);
           scope.unsupported = true;
         }
-        scope.types =
-          Bubble.availableTypes(scope.visible, scope.types);
-        if (scope.types.length > 0) {
-          scope.current = scope.types[0];
+        scope.visibleTypes = Bubble.visibleTypes(scope.visible, scope.types);
+        if(scope.visibleTypes.length > 0) {
+          scope.current = scope.visibleTypes[0];
           scope.bubble = new Bubble(scope);
         }
       }
@@ -79,11 +80,12 @@ angular.module('reelyactive.cuttlefish', ['ngAnimate','ui.bootstrap'])
       }
       
       scope.$on('$destroy', function() {
-        scope.bubble.removed();
+        if(scope.bubble !== undefined) {
+          scope.bubble.removed();
+        }
       });
 
       scope.$watch(attrs.json, function(json) {
-        //scope.json = json;
         update();
       });
     }
@@ -93,8 +95,9 @@ angular.module('reelyactive.cuttlefish', ['ngAnimate','ui.bootstrap'])
       scope: {
         json: "=",
         size: "@",
-        toggle: "=",
-        visible: "@"
+        motion: "=",
+        visible: "@",
+        mode: "@"
       },
       link: link,
       templateUrl: BUBBLE_TEMPLATE_URL
