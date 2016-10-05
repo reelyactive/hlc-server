@@ -47,32 +47,32 @@ angular.module('bubblescape', ['btford.socket-io', 'reelyactive.beaver',
 
   // Handle events pre-processed by beaver.js
   beaver.on('appearance', function(event) {
-    handleEvent('appearance', event);
+    handleEvent(event);
   });
   beaver.on('displacement', function(event) {
-    handleEvent('displacement', event);
+    handleEvent(event);
   });
   beaver.on('keep-alive', function(event) {
-    handleEvent('keep-alive', event);
+    handleEvent(event);
   });
   beaver.on('disappearance', function(event) {
-    handleEvent('disappearance', event);
+    handleEvent(event);
   });
 
   // Handle an event
-  function handleEvent(type, event) {
-    cormorant.getStory(event.deviceUrl, function() {});
-    cormorant.getStory(event.receiverUrl, function() {});
+  function handleEvent(event) {
+    cormorant.getCombinedStory(event.deviceUrl, event.receiverUrl, function() {
+    });
   }
 
   // Verify if the device's story has been fetched
   $scope.hasFetchedStory = function(device) {
-    return $scope.stories.hasOwnProperty(device.deviceUrl);
+    return $scope.stories.hasOwnProperty(device.event.deviceUrl);
   };
 
   // Get the story corresponding to the given device
   $scope.getStory = function(device) {
-    return $scope.stories[device.deviceUrl];
+    return $scope.stories[device.event.deviceUrl];
   };
   
 });
