@@ -92,7 +92,6 @@ angular.module('reelyactive.cormorant', [])
             return callback(story1, url1);
           }
           var combinedStory = combine(story1, story2);
-          stories[url1] = combinedStory;
           callback(combinedStory, url1);
         });
       });
