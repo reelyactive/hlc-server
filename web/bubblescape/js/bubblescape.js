@@ -65,8 +65,9 @@ angular.module('bubblescape', ['btford.socket-io', 'reelyactive.beaver',
     var deviceUrl = event.deviceUrl;
     var receiverUrl = event.receiverUrl;
 
-    cormorant.getCombinedStory(deviceUrl, receiverUrl, function(story) {
-      beaver.addDeviceProperty(deviceId, 'story', story);
+    cormorant.getCombinedStory(deviceUrl, receiverUrl, deviceId,
+                               function(story, id) {
+      beaver.addDeviceProperty(id, 'story', story);
     });
   }
 
