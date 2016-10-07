@@ -47,15 +47,21 @@ angular.module('reelyactive.cormorant', [])
       var types2 = getStoryTypes(story2);
 
       if(types1.length > 0) {
+        var combined = Object.assign({}, story1);
         for(var cType = 0; cType < types2.length; cType++) {
-          if(types1.indexOf(types2[cType]) < 0) {
-            story1['@graph'].push(story2['@graph'][cType]);
+          var index = types1.indexOf(types2[cType]);
+          if(index < 0) {
+            combined['@graph'].push(story2['@graph'][cType]);
+          }
+          else {
+            combined['@graph'][index] = story2['@graph'][cType];
           }
         }
+        return combined;
       }
-
       return story1;
     }
+
 
     var get = function(url, callback) {
       if(!url || (typeof url !== 'string')) {
