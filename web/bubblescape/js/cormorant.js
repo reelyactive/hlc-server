@@ -82,17 +82,17 @@ angular.module('reelyactive.cormorant', [])
         });
     };
 
-    var getCombined = function(url1, url2, callback) {
+    var getCombined = function(url1, url2, id, callback) {
       get(url1, function(story1) {
         if(!story1) {
-          return callback(null, url1);
+          return callback(null, id);
         }
         get(url2, function(story2) {
           if(!story2) {
-            return callback(story1, url1);
+            return callback(story1, id);
           }
           var combinedStory = combine(story1, story2);
-          callback(combinedStory, url1);
+          callback(combinedStory, id);
         });
       });
     };
