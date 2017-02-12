@@ -5,15 +5,13 @@ hlc-server
 HLC: Hyperlocal Context for the IoT
 -----------------------------------
 
-How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  Learn more at: [context.reelyactive.com](http://context.reelyactive.com/context.html)
+How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  Learn more at: [www.reelyactive.com/context/](http://www.reelyactive.com/context/)
 
 __In the scheme of Things (pun intended)__
 
 hlc-server acts as a convenience wrapper around our other npmjs packages, [barnowl](https://www.npmjs.org/package/barnowl), [barnacles](https://www.npmjs.org/package/barnacles), [barterer](https://www.npmjs.org/package/barterer) and [chickadee](https://www.npmjs.org/package/chickadee).  You may consult the documentation for each individual package for a better understanding of the ensemble.
 
-![hlc-server elements](http://reelyactive.github.io/images/hlcServerElements.jpg)
-
-hlc-server is the middle piece in the [json-silo](https://www.npmjs.org/package/json-silo) - hlc-server - [smartspaces](https://www.npmjs.org/package/smartspaces) stack.  The easiest way to learn how these all fit together is our [Make a Smart Space tutorial](http://reelyactive.github.io/make-a-smartspace.html) on our [developer page](http://reelyactive.github.io/).
+![hlc-server elements](https://reelyactive.github.io/images/hlcServerElements.jpg)
 
 
 Installation
@@ -139,16 +137,16 @@ Note that if you see _Access-Control-Allow-Origin_ errors, you'll likely want to
 Implicit Associations
 ---------------------
 
-The [chickadee](https://www.npmjs.org/package/chickadee) package uses [sniffypedia.org](http://sniffypedia.org/) to implicitly associate devices with metadata via their identifier(s).
+The [chickadee](https://www.npmjs.org/package/chickadee) package uses [sniffypedia.org](https://sniffypedia.org/) to implicitly associate devices with metadata via their identifier(s).
 
 
 What's next?
 ------------
 
 This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with hlc-server check out:
-* [diyActive](http://reelyactive.github.io/) our developer page
+* [diyActive](https://reelyactive.github.io/) our developer page
 * our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [angular-style-guide](https://github.com/reelyactive/angular-style-guide) for development
-* our [contact information](http://context.reelyactive.com/contact.html) to get in touch if you'd like to contribute
+* our [contact information](http://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
 
 
 License
