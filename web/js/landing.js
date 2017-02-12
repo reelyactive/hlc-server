@@ -68,13 +68,12 @@ angular.module("landing", [ 'ui.bootstrap' ])
     updateStatistics();
 
     function updateStatistics() {
-      $http.get("statistics")
-        .success(function(data, status, headers, config) {
-          $scope.statistics = data.statistics;
-        })
-        .error(function(data, status, headers, config) {
+      $http({ method: 'GET', url: 'statistics' })
+        .then(function(response) { // Success
+          $scope.statistics = response.data.statistics;
+        }, function(response) {    // Error
           console.log("Couldn't retrieve real-time statistics");
-        });
+      });
     }
     $interval(updateStatistics, STATISTICS_REFRESH_MILLISECONDS);
 

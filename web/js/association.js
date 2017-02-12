@@ -18,9 +18,10 @@ angular.module("association", [ 'ui.bootstrap' ])
     // ----- PUT /id/identifier -----
     $scope.device.update = function(item, event) {
       var json = { url: $scope.device.url };
+      var putUrl = '../associations/' + $scope.device.identifier + '/url';
 
-      $http.put('../associations/' + $scope.device.identifier + '/url', json)
-        .success(function(data, status, headers, config) {
+      $http({ method: 'PUT', url: putUrl, data: json })
+        .then(function(response) { // Success
           $scope.success = true;
           var message = 'Successfully associated device identifier ' +
                         $scope.device.identifier + ' with URL ' +
@@ -29,11 +30,10 @@ angular.module("association", [ 'ui.bootstrap' ])
           $scope.device.href = 'contextnear/transmitter/' +
                                $scope.device.identifier;
           $scope.device.query = 'Query context near the device';
-        })
-        .error(function(data, status, headers, config) {
-          var message = "Association failed. Status code " + status;
+        }, function(response) {    // Error
+          var message = "Association failed. Status code " + response.status;
           $scope.alerts.push( { type: "danger", message: message } );
-        });
+      });
     };
 
     $scope.closeAlert = function(index) {

@@ -1,21 +1,23 @@
 /**
- * Copyright reelyActive 2016
+ * Copyright reelyActive 2016-2017
  * We believe in an open Internet of Things
  */
 
 
 DISAPPEARANCE_MILLISECONDS = 15000;
+DEFAULT_POLLING_MILLISECONDS = 5000;
 
 
 angular.module('reelyactive.beaver', [])
 
-  .factory('beaver', function beaverFactory() {
+  .factory('beaver', function beaverFactory($http) {
 
     var devices = {};
     var directories = {};
     var stats = { appearances: 0, displacements: 0, keepalives: 0,
                   disappearances: 0 };
     var eventCallbacks = {};
+    var pollingApiUrl;
 
 
     // Use the given event to update the status of the corresponding device
@@ -173,7 +175,7 @@ angular.module('reelyactive.beaver', [])
 
     // Purge any stale devices as disappearances
     function purgeDisappearances() {
-      var currentTime = new Date();
+      var currentTime = new Date().getTime();
       for(cDevice in devices) {
         if((currentTime - devices[cDevice].event.time) >
            DISAPPEARANCE_MILLISECONDS) {
@@ -215,8 +217,77 @@ angular.module('reelyactive.beaver', [])
     };
 
 
+    // Update the given device from the list of polled devices
+    function updatePolledDevice(deviceId, polledDevices) {
+      var device = polledDevices[deviceId];
+      if(!device.hasOwnProperty('nearest')) {
+        return;
+      }
+      var receiverId = device.nearest[0].device;
+      var receiver = polledDevices[receiverId];
+      var event = {
+        deviceId: deviceId,
+        deviceAssociationIds: device.deviceAssociationIds || [],
+        deviceUrl: device.url,
+        deviceTags: device.tags,
+        receiverId: device.nearest[0].device,
+        receiverUrl: receiver.url,
+        receiverTags: receiver.tags,
+        receiverDirectory: receiver.directory,
+        rssi: device.nearest[0].rssi,
+        time: new Date().getTime()
+      };
+      var type = 'appearance';
+
+      if(devices.hasOwnProperty(deviceId)) {
+        if(devices[deviceId].event.receiverId === event.receiverId) {
+          type = 'keep-alive';
+        }
+        else {
+          type = 'displacement';
+        }
+      }
+      event.event = type;
+
+      updateDevice(type, event);
+      updateDirectories(event);
+    }
+
+
+    // Query the polling API
+    function queryApi() {
+      $http({ method: 'GET', url: pollingApiUrl })
+        .then(function(response) { // Success
+          if(response.data.hasOwnProperty('devices')) {
+            for(deviceId in response.data.devices) {
+              updatePolledDevice(deviceId, response.data.devices);
+            }
+            purgeDisappearances();
+          }
+        }, function(response) {    // Error
+          console.log('beaver: GET ' + pollingApiUrl + ' returned status ' +
+                      response.status);
+      });
+    }
+
+
+    // Initialise polling of API
+    var initPolling = function(url, interval) {
+      if(!url || (typeof url !== 'string')) {
+        return;
+      }
+      $http.defaults.headers.common.Accept = 'application/json';
+      interval = interval || DEFAULT_POLLING_MILLISECONDS;
+      pollingApiUrl = url;
+
+      queryApi();
+      setInterval(queryApi, interval);
+    };
+
+
     return {
       listen: handleSocketEvents,
+      poll: initPolling,
       on: setEventCallback,
       addDeviceProperty: addDeviceProperty,
       addDirectoryProperty: addDirectoryProperty,
