@@ -43,6 +43,10 @@ Type _test_ in the search bar (or browse to [http://localhost:3001/contextnear/t
 Additional Visualisations
 -------------------------
 
+### dashboard
+
+Browse to [http://localhost:3001/dashboard/](http://localhost:3001/dashboard/) (see [dashboard-template-angular](https://github.com/reelyactive/dashboard-template-angular)).
+
 ### bubblescape
 
 Browse to [http://localhost:3001/bubblescape/](http://localhost:3001/bubblescape/) (see [bubblescape](https://github.com/reelyactive/bubblescape)).
