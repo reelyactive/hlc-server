@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> reelyActive Hyperlocal Context Dashboard </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Open source dashboard for IoT and RTLS applications.">
+    <link rel="stylesheet" href="../style/bootstrap.min.css">
+    <link rel="stylesheet" href="../style/reelyactive.css">
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="js/socket.io.min.js"></script>
+    <script type="text/javascript" src="js/Chart.min.js"></script>
+    <script type="text/javascript" src="js/angular-chart.min.js"></script>
+    <script type="text/javascript" src="js/socket.min.js"></script>
+    <script type="text/javascript" src="js/beaver.js"></script>
+    <script type="text/javascript" src="js/cormorant.js"></script>
+    <script type="text/javascript" src="js/dashboard.js"></script>
+  </head>
+  <body ng-app="dashboard">
+	  <div ng-controller="DashCtrl">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle"
+                  ng-init="navCollapsed = true"
+                  ng-click="navCollapsed = !navCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://www.reelyactive.com">
+            <strong>reely</strong>Active
+          </a>
+        </div>
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'"
+             ng-click="navCollapsed = true">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
+              <a href class="dropdown-toggle" uib-dropdown-toggle role="button"
+                 data-toggle="dropdown" aria-haspopup="true"
+                 aria-expanded="false">
+                {{updateMessage}} <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li role="menuitem"><a href ng-click="updatePeriod(null)">Pause updates</a></li>
+                <li role="menuitem"><a href ng-click="updatePeriod(1000)">Update every second</a></li>
+                <li role="menuitem"><a href ng-click="updatePeriod(5000)">Update every 5 seconds</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!----- BEGIN CONTENT SECTION ----------------------------------------->
+      <div class="container-fluid">
+        <div class="row">
+          <!----- Left column (Charts) -------------------------------------->
+          <div class="col-sm-12 col-md-7 col-lg-8">
+            <div class="row">
+              <div class="col-sm-12 col-md-6 well well-lg"
+                   style="background-color:#fcfcfc">
+                <canvas id="line" class="chart chart-line"
+                        height="50" width="100"
+                        chart-data="linechart.data"
+                        chart-labels="linechart.labels"
+                        chart-series="linechart.series"
+                        chart-colors="chartColors"
+                        chart-options="linechart.options">
+                </canvas>
+              </div>
+              <div class="col-sm-12 col-md-6 well well-lg"
+                   style="background-color:#fcfcfc">
+                <canvas id="bar" class="chart chart-horizontal-bar"
+                        height="50" width="100"
+                        chart-data="barchart.data"
+                        chart-labels="barchart.labels"
+                        chart-colors="chartColors"
+                        chart-options="barchart.options">
+                </canvas>
+              </div>
+            </div>
+            <div class="row well well-lg" style="background-color:#fcfcfc">
+              <div class="col-md-6">
+                <canvas id="doughnut" class="chart chart-doughnut"
+                        height="50" width="100"
+                        chart-data="doughnutchart.data"
+                        chart-labels="doughnutchart.labels"
+                        chart-colors="chartColors"
+                        chart-options="doughnutchart.options">
+                </canvas>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr ng-repeat="(id, story) in stories | limitTo: 8">
+                      <td>
+                        <span class="btn btn-xs btn-block"
+                              ng-style="{'background-color': chartColors[id],
+                                         'color': 'white'}">
+                          <b>{{story.count}}</b>
+                        </span> </td>
+                      <td>
+                        <a ng-if="story.url" ng-href="{{story.url}}"
+                           target="_blank"> {{story.type}} </a>
+                        <span ng-if="!story.url"> {{story.type}} </span>
+                      </td>
+                    </tr>
+                </table>
+              </div>
+            </div>
+            <p> &nbsp; </p>
+          </div>
+          <!----- Right column (Tables) ------------------------------------->
+          <div class="col-sm-12 col-md-5 col-lg-4">
+
+            <!----- DIRECTORIES --------------------------------------------->
+            <!-- You have access to a variable called directories which    -->
+            <!-- organises, in real-time, all devices by directory.  Here  -->
+            <!-- we use a periodically sampled snapshot of directories.    -->
+            <!--------------------------------------------------------------->
+            <table class="table table-hover">
+              <caption> POPULAR DIRECTORIES </caption>
+              <thead>
+                <tr>
+                  <th> Directory </th>
+                  <th> Device count </th>
+                  <th> Receiver count </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="directory in directories |
+                               orderBy: '-deviceCount' | limitTo: 3">
+                  <td>
+                    <a ng-if="directory.url" ng-href="{{directory.url}}"
+                       target="_blank"> {{directory.id}} </a>
+                    <span ng-if="!directory.url"> {{directory.id}} </span>
+                  </td>
+                  <td> {{directory.deviceCount}} </td>
+                  <td> {{directory.receiverCount}} </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!----- DEVICES ------------------------------------------------->
+            <!-- You have access to a variable called devices which lists  -->
+            <!-- all the devices currently detected by the system.  Here   -->
+            <!-- we use a periodically sampled snapshot of devices.        -->
+            <!--------------------------------------------------------------->
+            <table class="table table-hover">
+              <caption> STRONGEST TRANSMITTERS </caption>
+              <thead>
+                <tr>
+                  <th> Identifier </th>
+                  <th> RSSI </th>
+                  <th> Receiver </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="device in devices |
+                               orderBy: '-event.rssi' | limitTo: 3">
+                  <td> <a ng-href="{{device.url}}"
+                          target="_blank"> {{device.event.deviceId}} </a> </td>
+                  <td> {{device.event.rssi}} </td>
+                  <td> <a ng-href="{{device.receiverUrl}}"
+                          target="_blank"> {{device.event.receiverId}} </a> </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!----- STATISTICS ---------------------------------------------->
+            <!-- You have access to a variable called statis which         -->
+            <!-- cumulates all the events captured by the system.  Here we -->
+            <!-- use stats and a periodically sampled version thereof.     -->
+            <!--------------------------------------------------------------->
+            <table class="table table-hover">
+              <caption> REAL-TIME STATISTICS </caption>
+              <thead>
+                <tr>
+                  <th> Event </th>
+                  <th> Current </th>
+                  <th> Cumulative </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> appearances </td>
+                  <td> {{curStats.appearances}} </td>
+                  <td> {{cumStats.appearances}} </td>
+                </tr>
+                <tr>
+                  <td> displacements </td>
+                  <td> {{curStats.displacements}} </td>
+                  <td> {{cumStats.displacements}} </td>
+                </tr>
+                <tr>
+                  <td> keep-alives </td>
+                  <td> {{curStats.keepalives}} </td>
+                  <td> {{cumStats.keepalives}} </td>
+                </tr>
+                <tr>
+                  <td> disappearances </td>
+                  <td> {{curStats.disappearances}} </td>
+                  <td> {{cumStats.disappearances}} </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!----- END CONTENT SECTION ----------------------------------------->
+      <footer class="footer">
+        <a href="https://github.com/reelyactive/dashboard-template-angular">
+          dashboard-template-angular
+        </a>
+        &nbsp; | &nbsp;
+        <a href="http://www.reelyactive.com"
+           uib-tooltip="We believe in an open Internet of Things"
+           tooltip-placement="right">
+          &copy; reelyActive 2016-2017
+        </a>
+      </footer>
+    </div>
+  </body>
+</html>
