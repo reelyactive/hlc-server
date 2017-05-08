@@ -54,8 +54,8 @@ angular.module('sensorscape', [ 'ui.bootstrap', 'btford.socket-io',
   // Variables accessible in the HTML scope
   $scope.devices = beaver.getDevices();
   $scope.sensors = {};
-  $scope.nearableAccSeries = [ 'X (g)', 'Y (g)', 'Z (g)' ];
-  $scope.nearableAccColors = [ '#0770a2', '#aec844', '#ff6900' ];
+  $scope.sensorAccSeries = [ 'X (g)', 'Y (g)', 'Z (g)' ];
+  $scope.sensorAccColors = [ '#0770a2', '#aec844', '#ff6900' ];
   $scope.lineChartOptions = LINE_CHART_OPTIONS;
 
   // beaver.js listens on the websocket for events
@@ -84,12 +84,25 @@ angular.module('sensorscape', [ 'ui.bootstrap', 'btford.socket-io',
        (Object.keys(advData.manufacturerSpecificData).length > 3)) {
       handleManufacturerSpecificData(advData.manufacturerSpecificData, event);
     }
+
+    // Sensor data as service data
+    if(advData && advData.hasOwnProperty('serviceData') &&
+       (Object.keys(advData.serviceData).length > 2)) {
+      handleServiceData(advData.serviceData, event);
+    }
   }
 
   // Handle manufacturerSpecificData
   function handleManufacturerSpecificData(data, event) {
     if(data.hasOwnProperty('nearable')) {
       handleNearable(data.nearable, event);
+    }
+  }
+
+  // Handle serviceData
+  function handleServiceData(data, event) {
+    if(data.hasOwnProperty('minew')) {
+      handleMinew(data.minew, event);
     }
   }
 
@@ -124,6 +137,45 @@ angular.module('sensorscape', [ 'ui.bootstrap', 'btford.socket-io',
         sensor.accData[2].shift();
       }
       sensor.data = nearable;
+      sensor.time = event.time;
+    }
+  }
+
+  // Handle Minew i7 accelerometer beacon
+  function handleMinew(minew, event) {
+
+    if(minew.frameType !== 'a1') {
+      return;
+    }
+
+    // First decoding
+    if(!$scope.sensors.hasOwnProperty(minew.macAddress)) {
+      $scope.sensors[minew.macAddress] = {
+        type: "Minew",
+        data: minew,
+        time: event.time,
+        initialTime: event.time,
+        accData: [
+          [ { x: 0, y: minew.accelerationX } ],
+          [ { x: 0, y: minew.accelerationY } ],
+          [ { x: 0, y: minew.accelerationZ } ]
+        ]
+      }
+    }
+
+    // Subsequent decodings (with later event time!)
+    else if(event.time > $scope.sensors[minew.macAddress].time) {
+      var sensor = $scope.sensors[minew.macAddress];
+      var time = (event.time - sensor.initialTime) / 1000;
+      sensor.accData[0].push( { x: time, y: minew.accelerationX } );
+      sensor.accData[1].push( { x: time, y: minew.accelerationY } );
+      sensor.accData[2].push( { x: time, y: minew.accelerationZ } );
+      if(sensor.accData[0].length > MAX_LINE_CHART_DATA_POINTS) {
+        sensor.accData[0].shift();
+        sensor.accData[1].shift();
+        sensor.accData[2].shift();
+      }
+      sensor.data = minew;
       sensor.time = event.time;
     }
   }
