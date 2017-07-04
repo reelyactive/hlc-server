@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> reelyActive Position Dashboard </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Real-time position of hyperlocal context server based on GPS.">
+    <link rel="stylesheet" href="../style/bootstrap.min.css">
+    <link rel="stylesheet" href="../style/reelyactive.css">
+    <script type="text/javascript" src="../js/angular.min.js"></script>
+    <script type="text/javascript" src="../js/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../js/position.js"></script>
+  </head>
+  <body ng-app="position">
+	  <div ng-controller="PositionCtrl">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle"
+                  ng-init="navCollapsed = true"
+                  ng-click="navCollapsed = !navCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://www.reelyactive.com">
+            <strong>reely</strong>Active
+          </a>
+        </div>
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'"
+             ng-click="navCollapsed = true">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
+              <a href class="dropdown-toggle" uib-dropdown-toggle role="button"
+                 data-toggle="dropdown" aria-haspopup="true"
+                 aria-expanded="false">
+                {{updateMessage}} <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li role="menuitem"><a href ng-click="updatePeriod(null)">Pause updates</a></li>
+                <li role="menuitem"><a href ng-click="updatePeriod(15000)">Update every 15 seconds</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!----- BEGIN CONTENT SECTION ----------------------------------------->
+      <div class="container-fluid">
+        <div class="row">
+
+          <!----- Left column (Table) --------------------------------------->
+          <div class="col-sm-12 col-md-4 col-lg-3 col-md-offset-1 col-lg-offset-2">
+
+            <table class="table table-hover">
+              <caption> POSITION STATE </caption>
+              <tbody>
+                <tr>
+                  <th> Last fix </th>
+                  <td> {{position.lastFixLocal}} </td>
+                </tr>
+                <tr>
+                  <th> &nbsp; </th>
+                  <td> {{position.lastFix}} </td>
+                </tr>
+                <tr>
+                  <th> Latitude </th>
+                  <td> {{position.lat}}&deg; </td>
+                </tr>
+                <tr>
+                  <th> Longitude </th>
+                  <td> {{position.lon}}&deg; </td>
+                </tr>
+                <tr>
+                  <th> Altitude </th>
+                  <td> {{position.alt}}m </td>
+                </tr>
+                <tr>
+                  <th> HDOP </th>
+                  <td> {{position.hdop}} </td>
+                </tr>
+                <tr>
+                  <th> Active satellites </th>
+                  <td> {{position.satsActive.length}} </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="btn-group" uib-dropdown>
+              <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+                Select map zoom <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li role="menuitem">
+                  <a href ng-click="updateZoom(0.5)">1 degree</a>
+                </li>
+                <li role="menuitem">
+                  <a href ng-click="updateZoom(0.05)">1/10th degree</a>
+                </li>
+                <li role="menuitem">
+                  <a href ng-click="updateZoom(0.005)">1/100th degree</a>
+                </li>
+                <li role="menuitem">
+                  <a href ng-click="updateZoom(0.0005)">1/1000th degree</a>
+                </li>
+              </ul>
+            </div>
+            <hr>
+            <p> Map display requires the browser to have an Internet connection.  Zoom is applied as of the next update. </p>
+          </div>
+          <!----- Right column (Map) ---------------------------------------->
+          <div class="col-sm-12 col-md-6 col-lg-5">
+            <iframe width="480" height="480" frameborder="0" scrolling="no"
+                    marginheight="0" marginwidth="0" ng-src="{{mapUrl}}"
+                    style="border: 1px solid #0770a2"></iframe>
+          </div>
+        </div>
+      </div>
+      <!----- END CONTENT SECTION ----------------------------------------->
+      <footer class="footer">
+        <a href="https://github.com/reelyactive/hlc-server">
+          hlc-server
+        </a>
+        &nbsp; | &nbsp;
+        <a href="http://www.reelyactive.com"
+           uib-tooltip="We believe in an open Internet of Things"
+           tooltip-placement="right">
+          &copy; reelyActive 2017
+        </a>
+      </footer>
+    </div>
+  </body>
+</html>

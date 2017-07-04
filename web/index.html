@@ -83,24 +83,29 @@
                 from {{statistics.devices}} devices.
               </p>
             </div>
-            <div ng-controller="PositioningCtrl" class="text-center">
-              <p ng-if="position">
+            <div ng-controller="PositioningCtrl">
+              <p class="text-center" ng-if="position">
                 GPS has {{position.fix}} fix from {{position.satsActive.length}} active satellites and an HDOP of {{position.hdop}}.
               </p>
-            </div>
-            <br>
-            <div class="text-center">
-              <a href="dashboard" class="btn btn-info"
-                 uib-tooltip="Visualisation of key system parameters"
-                 tooltip-placement="bottom"> dashboard </a>
-              &nbsp;
-              <a href="bubblescape" class="btn btn-info"
-                 uib-tooltip="Visualisation of detected devices as bubbles"
-                 tooltip-placement="bottom"> bubblescape </a>
-              &nbsp;
-              <a href="sensorscape" class="btn btn-info"
-                 uib-tooltip="Visualisation of detected sensor data"
-                 tooltip-placement="bottom"> sensorscape </a>
+              <br>
+              <div class="text-center">
+                <a href="dashboard" class="btn btn-info"
+                   uib-tooltip="Visualisation of key system parameters"
+                   tooltip-placement="bottom"> dashboard </a>
+                &nbsp;
+                <a href="bubblescape" class="btn btn-info"
+                   uib-tooltip="Visualisation of detected devices as bubbles"
+                   tooltip-placement="bottom"> bubblescape </a>
+                &nbsp;
+                <a href="sensorscape" class="btn btn-info"
+                   uib-tooltip="Visualisation of detected sensor data"
+                   tooltip-placement="bottom"> sensorscape </a>
+                &nbsp;
+                <a href="position" class="btn btn-info" ng-if="position"
+                   uib-tooltip="Real-time position from GPS"
+                   tooltip-placement="bottom"> position </a>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-xs-1 col-sm-2 col-md-3"></div>
