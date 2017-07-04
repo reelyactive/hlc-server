@@ -99,6 +99,10 @@ __GET /statistics__
 
 See [barnacles](https://www.npmjs.org/package/barnacles).
 
+__GET /gps__
+
+Returns the [gps](https://www.npmjs.org/package/gps) state object if a GPS listener is implemented, 501 otherwise.
+
 
 Administrative Interface
 ------------------------
