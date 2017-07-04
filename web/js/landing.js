@@ -1,4 +1,5 @@
 STATISTICS_REFRESH_MILLISECONDS = 2000;
+POSITION_REFRESH_MILLISECONDS = 10000;
 
 angular.module("landing", [ 'ui.bootstrap' ])
 
@@ -76,5 +77,25 @@ angular.module("landing", [ 'ui.bootstrap' ])
       });
     }
     $interval(updateStatistics, STATISTICS_REFRESH_MILLISECONDS);
+  })
+
+
+  // Positioning (GPS) controller
+  .controller("PositioningCtrl", function($scope, $http, $interval) {
+    var pollingPromise;
+
+    updatePosition();
+
+    function updatePosition() {
+      $http({ method: 'GET', url: 'gps' })
+        .then(function(response) { // Success
+          $scope.position = response.data.gps;
+        }, function(response) {    // Error
+          $scope.position = null;
+          $interval.cancel(pollingPromise);
+          console.log("GPS not enabled, won't bother polling");
+      });
+    }
+    pollingPromise = $interval(updatePosition, POSITION_REFRESH_MILLISECONDS);
 
   });

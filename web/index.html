@@ -83,6 +83,11 @@
                 from {{statistics.devices}} devices.
               </p>
             </div>
+            <div ng-controller="PositioningCtrl" class="text-center">
+              <p ng-if="position">
+                GPS has {{position.fix}} fix from {{position.satsActive.length}} active satellites and an HDOP of {{position.hdop}}.
+              </p>
+            </div>
             <br>
             <div class="text-center">
               <a href="dashboard" class="btn btn-info"
