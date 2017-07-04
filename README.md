@@ -99,6 +99,10 @@ __GET /statistics__
 
 See [barnacles](https://www.npmjs.org/package/barnacles).
 
+__GET /gps__
+
+Returns the [gps](https://www.npmjs.org/package/gps) state object if a GPS listener is implemented, 501 otherwise.
+
 
 Administrative Interface
 ------------------------
@@ -114,6 +118,21 @@ You can connect the [barnacles](https://www.npmjs.org/package/barnacles) inside 
 ```javascript
 app.addNotificationService(options);
 ```
+
+
+Adding a GPS listener
+---------------------
+
+Add real-time global positioning by connecting a serial GPS receiver, specifying the path and baudrate as follows:
+
+```javascript
+app.addGPSListener( { path: "/dev/ttyUSB0", baudrate: 4800 } );
+```
+
+Be sure to install both the [gps](https://www.npmjs.org/package/gps) and [serialport](https://www.npmjs.org/package/serialport) packages using npm before running this command:
+
+    npm install gps
+    npm install serialport
 
 
 Options
