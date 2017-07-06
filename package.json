@@ -8,7 +8,7 @@
     "Hyperlocal Context",
     "IoT"
   ],
-  "version": "0.5.16",
+  "version": "0.5.17",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "barnowl": ">=0.4.21",
-    "barnacles": ">=0.4.8",
+    "barnacles": ">=0.4.10",
     "barterer": ">=0.3.12",
     "chickadee": ">=0.4.9",
     "nedb": ">=1.1.1",
