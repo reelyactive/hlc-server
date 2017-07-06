@@ -17,6 +17,8 @@ hlc-server acts as a convenience wrapper around our other npmjs packages, [barno
 Installation
 ------------
 
+Detailed installation instructions can be found on our [Install a Starter Kit](https://reelyactive.github.io/install-a-starter-kit.html) and [Install an Offline Demo](https://reelyactive.github.io/install-an-offline-demo.html) tutorials.  Install the package from the command line as follows:
+
     npm install hlc-server
 
 Alternatively, use the Docker repository: [reelyactive/hlc-server](https://hub.docker.com/r/reelyactive/hlc-server/)
