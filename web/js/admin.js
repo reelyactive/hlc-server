@@ -16,6 +16,7 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
           $scope.association.url = association.url;
           $scope.association.tags = association.tags;
           $scope.association.directory = association.directory;
+          $scope.association.position = association.position;
           var message = 'Successfully retrieved ' + $scope.association.id;
           $scope.alerts.push( { type: 'success', message: message } );
         }, function(response) {    // Error
@@ -34,10 +35,13 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
         json.url = $scope.association.url;
       }
       if($scope.association.tags !== '') {
-        json.tags = $scope.association.tags;
+        json.tags = toStringArray($scope.association.tags);
       }
       if($scope.association.directory !== '') {
         json.directory = $scope.association.directory;
+      }
+      if($scope.association.position !== '') {
+        json.position = toFloatArray($scope.association.position);
       }
       if(Object.keys(json).length === 0) {
         var message = 'Did not replace ' + $scope.association.id +
@@ -161,7 +165,7 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
         return;
       }
 
-      var json = { tags: $scope.association.tags };
+      var json = { tags: toStringArray($scope.association.tags) };
       var url = '../associations/' + $scope.association.id + '/tags';
 
       $http({ method: 'PUT', url: url, data: json })
@@ -254,6 +258,85 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
           $scope.alerts.push( { type: 'danger', message: message } );
       });
     };
+
+    // ----- GET /associations/{id}/position -----
+    $scope.association.getPosition = function(item, event) {
+      var url = '../associations/' + $scope.association.id + '/position';
+
+      $http({ method: 'GET', url: url })
+        .then(function(response) { // Success
+          var standardisedID = Object.keys(response.data.devices)[0];
+          var association = response.data.devices[standardisedID];
+          $scope.association.position = association.position;
+          var message = 'Successfully retrieved position of ' +
+                        $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
+        }, function(response) {    // Error
+          var message = 'Could not retrieve position of ' +
+                        $scope.association.id + ', Status code ' +
+                        response.status;
+          $scope.alerts.push( { type: 'danger', message: message } );
+      });
+    };
+
+    // ----- PUT /associations/{id}/position -----
+    $scope.association.putPosition = function(item, event) {
+      if((typeof($scope.association.position) === 'undefined') ||
+         ($scope.association.position === '')) {
+        var message = 'Cannot replace position of ' + $scope.association.id +
+                      ', position field is empty.';
+        $scope.alerts.push( { type: 'danger', message: message } );
+        return;
+      }
+
+      var json = { position: toFloatArray($scope.association.position) };
+      var url = '../associations/' + $scope.association.id + '/position';
+
+      $http({ method: 'PUT', url: url, data: json })
+        .then(function(response) { // Success
+          var message = 'Successfully replaced position of ' +
+                        $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
+        }, function(response) {    // Error
+          var message = 'Could not replace position of ' +
+                        $scope.association.id + ', Status code ' +
+                        response.status;
+          $scope.alerts.push( { type: 'danger', message: message } );
+      });
+    };
+
+    // ----- DELETE /associations/{id}/position -----
+    $scope.association.deletePosition = function(item, event) {
+      var url = '../associations/' + $scope.association.id + '/position';
+
+      $http({ method: 'DELETE', url: url })
+        .then(function(response) { // Success
+          $scope.association.position = '';
+          var message = 'Successfully deleted position of ' +
+                        $scope.association.id;
+          $scope.alerts.push( { type: 'success', message: message } );
+        }, function(response) {    // Error
+          var message = 'Could not delete position of ' + $scope.association.id
+                         + ', Status code ' + response.status;
+          $scope.alerts.push( { type: 'danger', message: message } );
+      });
+    };
+
+    function toStringArray(list) {
+      var array = list.toString().split(',');
+      for(var cIndex = 0; cIndex < array.length; cIndex++) {
+        array[cIndex] = array[cIndex].trim();
+      }
+      return array;
+    }
+
+    function toFloatArray(list) {
+      var array = list.toString().split(',');
+      for(var cIndex = 0; cIndex < array.length; cIndex++) {
+        array[cIndex] = parseFloat(array[cIndex]);
+      }
+      return array;
+    }
 
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);

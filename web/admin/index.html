@@ -64,7 +64,8 @@
                   <label for="url" class="col-sm-2 control-label">URL:</label>
                   <div class="col-sm-5">
                     <input type="text" ng-model="association.url" size="16"
-                           class="form-control" id="url">
+                           class="form-control" id="url"
+                           placeholder="https://myjson.info/s/test">
                   </div>
                   <div class="col-sm-5">
                     <button ng-click="association.getUrl()"
@@ -81,7 +82,8 @@
                   </label>
                   <div class="col-sm-5">
                     <input type="text" ng-model="association.tags" size="16"
-                           class="form-control" id="tags">
+                           class="form-control" id="tags"
+                           placeholder="just, like, this">
                   </div>
                   <div class="col-sm-5">
                     <button ng-click="association.getTags()"
@@ -98,7 +100,8 @@
                   </label>
                   <div class="col-sm-5">
                     <input type="text" ng-model="association.directory"
-                           size="16" class="form-control" id="directory">
+                           size="16" class="form-control" id="directory"
+                           placeholder="just:like:this">
                   </div>
                   <div class="col-sm-5">
                     <button ng-click="association.getDirectory()"
@@ -106,6 +109,24 @@
                     <button ng-click="association.putDirectory()"
                             class="btn btn-warning"> Replace </button>
                     <button ng-click="association.deleteDirectory()"
+                            class="btn btn-danger"> Delete </button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="position" class="col-sm-2 control-label">
+                    Position:
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" ng-model="association.position"
+                           size="16" class="form-control" id="position"
+                           placeholder="x/lat, y/lon [, z/alt]">
+                  </div>
+                  <div class="col-sm-5">
+                    <button ng-click="association.getPosition()"
+                            class="btn btn-success"> Retrieve </button>
+                    <button ng-click="association.putPosition()"
+                            class="btn btn-warning"> Replace </button>
+                    <button ng-click="association.deletePosition()"
                             class="btn btn-danger"> Delete </button>
                   </div>
                 </div>
