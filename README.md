@@ -91,6 +91,8 @@ __GET/PUT/DELETE /associations/{device-id}/directory__
 
 __GET/PUT/DELETE /associations/{device-id}/tags__
 
+__GET/PUT/DELETE /associations/{device-id}/position__
+
 See [chickadee](https://www.npmjs.org/package/chickadee).
 
 __POST /events__
