@@ -4,8 +4,11 @@
  */
 
 
-DISAPPEARANCE_MILLISECONDS = 15000;
+DEFAULT_DISAPPEARANCE_MILLISECONDS = 15000;
 DEFAULT_POLLING_MILLISECONDS = 5000;
+DEFAULT_MERGE_EVENTS = false;
+DEFAULT_MERGE_EVENT_PROPERTIES = [ 'event', 'time', 'receiverId', 'rssi' ];
+DEFAULT_MAINTAIN_DIRECTORIES = false;
 
 
 angular.module('reelyactive.beaver', [])
@@ -18,6 +21,10 @@ angular.module('reelyactive.beaver', [])
                   disappearances: 0 };
     var eventCallbacks = {};
     var pollingApiUrl;
+    var disappearanceMilliseconds = DEFAULT_DISAPPEARANCE_MILLISECONDS;
+    var mergeEvents = DEFAULT_MERGE_EVENTS;
+    var mergeEventProperties = DEFAULT_MERGE_EVENT_PROPERTIES;
+    var maintainDirectories = DEFAULT_MAINTAIN_DIRECTORIES;
 
 
     // Use the given event to update the status of the corresponding device
@@ -35,7 +42,19 @@ angular.module('reelyactive.beaver', [])
         type = 'appearance';
       }
 
-      if(type === 'appearance') { stats.appearances++; }
+      if(type === 'appearance') {
+        if(!devices.hasOwnProperty(deviceId)) {
+          stats.appearances++;
+        }
+        else if(devices[deviceId].event.receiverId === event.receiverId) {
+          type = 'keep-alive';   // appearance is actually keep-alive
+          event.type = type;     //   because beaver.js never made it disappear
+        }
+        else {
+          type = 'displacement'; // appearance is actually displacement
+          event.type = type;     //   because beaver.js never made it disappear
+        }
+      }
       if(type === 'displacement') { stats.displacements++; }
       if(type === 'keep-alive') { stats.keepalives++; }
       if(type === 'disappearance') {
@@ -47,11 +66,11 @@ angular.module('reelyactive.beaver', [])
         return;
       }
 
-      if(!devices.hasOwnProperty(deviceId)) {
-        devices[deviceId] = { event:  event };
+      if(mergeEvents && devices.hasOwnProperty(deviceId)) {
+        mergeDeviceEvents(devices[deviceId], event);
       }
       else {
-        mergeDeviceEvents(devices[deviceId], event);
+        devices[deviceId] = { event:  event };
       }
 
       handleEventCallback(type, event);
@@ -81,20 +100,16 @@ angular.module('reelyactive.beaver', [])
     }
 
 
-    // Merge any previous device event with the given one
+    // Merge the updated properties of the given event with the previous event
     function mergeDeviceEvents(device, event) {
-      device.event.event = event.event;
-      device.event.time = event.time;
-      device.event.deviceAssociationIds = event.deviceAssociationIds ||
-                                          device.event.deviceAssociationIds;
-      device.event.deviceUrl = event.deviceUrl || device.event.deviceUrl;
-      device.event.deviceTags = event.deviceTags || device.event.deviceTags;
-      device.event.receiverId = event.receiverId;
-      device.event.receiverUrl = event.receiverUrl;
-      device.event.receiverTags = event.receiverTags;
-      device.event.receiverDirectory = event.receiverDirectory;
-      device.event.rssi = event.rssi;
-      device.event.rssiType = event.rssiType;
+      for(var cProperty = 0; cProperty < mergeEventProperties.length;
+          cProperty++) {
+        var property = mergeEventProperties[cProperty];
+        if(event.hasOwnProperty(property) &&
+           (device.event[property] !== event[property])) {
+          device.event[property] = event[property];
+        }
+      }
     }
 
 
@@ -177,44 +192,60 @@ angular.module('reelyactive.beaver', [])
     function purgeDisappearances() {
       var currentTime = new Date().getTime();
       for(cDevice in devices) {
-        if((currentTime - devices[cDevice].event.time) >
-           DISAPPEARANCE_MILLISECONDS) {
+        var stalenessMilliseconds = currentTime - devices[cDevice].event.time;
+        if(stalenessMilliseconds > disappearanceMilliseconds) {
           handleEventCallback('disappearance', devices[cDevice].event);
           delete devices[cDevice];
           stats.disappearances++;
+
+          if(maintainDirectories) {
+            for(cDirectory in directories) {
+              var directory = directories[cDirectory];
+              if(directory.devices.hasOwnProperty(cDevice)) {
+                delete directory.devices[cDevice];
+              }
+            }
+          }
         }
       }
     }
 
 
     // Handle incoming socket events by type
-    var handleSocketEvents = function(Socket) {
+    var handleSocketEvents = function(Socket, options) {
+      handleOptions(options);
 
       Socket.on('appearance', function(event) {
-        updateDevice('appearance', event);
-        updateDirectories(event);
+        handleEvent('appearance', event);
       });
 
       Socket.on('displacement', function(event) {
-        updateDevice('displacement', event);
-        updateDirectories(event);
+        handleEvent('displacement', event);
       });
 
       Socket.on('keep-alive', function(event) {
-        updateDevice('keep-alive', event);
-        updateDirectories(event);
+        handleEvent('keep-alive', event);
       });
 
       Socket.on('disappearance', function(event) {
-        updateDevice('disappearance', event);
-        updateDirectories(event);
+        handleEvent('disappearance', event);
       });
 
       Socket.on('error', function(err, data) {
       });
 
-      setInterval(purgeDisappearances, DISAPPEARANCE_MILLISECONDS);
+      var intervalMilliseconds = Math.round(disappearanceMilliseconds / 2);
+      setInterval(purgeDisappearances, intervalMilliseconds);
     };
+
+
+    // Handle the given event
+    function handleEvent(type, event) {
+      updateDevice(type, event);
+      if(maintainDirectories) {
+        updateDirectories(event);
+      }
+    }
 
 
     // Update the given device from the list of polled devices
@@ -272,10 +303,12 @@ angular.module('reelyactive.beaver', [])
 
 
     // Initialise polling of API
-    var initPolling = function(url, interval) {
+    var initPolling = function(url, interval, options) {
       if(!url || (typeof url !== 'string')) {
         return;
       }
+      handleOptions(options);
+
       $http.defaults.headers.common.Accept = 'application/json';
       interval = interval || DEFAULT_POLLING_MILLISECONDS;
       pollingApiUrl = url;
@@ -283,6 +316,18 @@ angular.module('reelyactive.beaver', [])
       queryApi();
       setInterval(queryApi, interval);
     };
+
+
+    // Handle options provided when listening/polling, if any
+    function handleOptions(options) {
+      options = options || {};
+      disappearanceMilliseconds = options.disappearanceMilliseconds ||
+                                  disappearanceMilliseconds;
+      mergeEvents = options.mergeEvents || mergeEvents;
+      mergeEventProperties = options.mergeEventProperties ||
+                             mergeEventProperties;
+      maintainDirectories = options.maintainDirectories || maintainDirectories;
+    }
 
 
     return {
