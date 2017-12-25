@@ -8,7 +8,7 @@
     "Hyperlocal Context",
     "IoT"
   ],
-  "version": "0.5.18",
+  "version": "0.5.19",
   "engines": {
     "node": ">=0.10.0"
   },
