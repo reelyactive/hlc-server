@@ -8,15 +8,14 @@
     <link rel="stylesheet" href="style/sensorscape.css">
     <script type="text/javascript" src="../js/angular.min.js"></script>
     <script type="text/javascript" src="../js/ui-bootstrap-tpls.min.js"></script>
-    <script type="text/javascript" src="js/socket.io.min.js"></script>
+    <script type="text/javascript" src="js/socket.io.slim.js"></script>
     <script type="text/javascript" src="js/Chart.min.js"></script>
     <script type="text/javascript" src="js/angular-chart.min.js"></script>
-    <script type="text/javascript" src="js/socket.min.js"></script>
     <script type="text/javascript" src="js/beaver.js"></script>
     <script type="text/javascript" src="js/sensorscape.js"></script>
   </head>
   <body ng-app="sensorscape">
-	  <div ng-controller="InteractionCtrl">
+    <div ng-controller="InteractionCtrl">
       <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle"
@@ -45,7 +44,11 @@
               <span class="identifier"> {{sensor.type}} {{id}} <span class="caret"></span></span>
             </uib-accordion-heading>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-2">
+                <img ng-src="{{sensor.image}}"
+                     class="img-responsive center-block">
+              </div>
+              <div class="col-md-4">
                 <table class="table table-hover">
                   <tr ng-repeat="(key, value) in sensor.data">
                     <th> {{key}} </th>
