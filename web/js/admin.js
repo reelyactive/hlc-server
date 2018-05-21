@@ -31,16 +31,20 @@ angular.module("adminpanel", [ 'ui.bootstrap' ])
       var json = {};
       var url = '../associations/' + $scope.association.id;
 
-      if($scope.association.url !== '') {
+      if(!((typeof($scope.association.url) === 'undefined') ||
+           ($scope.association.url === ''))) {
         json.url = $scope.association.url;
       }
-      if($scope.association.tags !== '') {
+      if(!((typeof($scope.association.tags) === 'undefined') ||
+           ($scope.association.tags === ''))) {
         json.tags = toStringArray($scope.association.tags);
       }
-      if($scope.association.directory !== '') {
+      if(!((typeof($scope.association.directory) === 'undefined') ||
+           ($scope.association.directory === ''))) {
         json.directory = $scope.association.directory;
       }
-      if($scope.association.position !== '') {
+      if(!((typeof($scope.association.position) === 'undefined') ||
+           ($scope.association.position === ''))) {
         json.position = toFloatArray($scope.association.position);
       }
       if(Object.keys(json).length === 0) {
