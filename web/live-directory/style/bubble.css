@@ -1,0 +1,367 @@
+.bubble {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  overflow: hidden;
+  display: none;
+  z-index: 10;
+}
+
+bubble[fade=true].ng-enter {
+  transition:0.3s linear all;
+  opacity:0;
+}
+
+bubble[fade=true].ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+bubble[fade=true].ng-leave {
+  transition:0.3s linear all;
+  opacity:1;
+}
+bubble[fade=true].ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.paused {
+  -webkit-animation-play-state: paused; /* Chrome, Safari, Opera */
+  animation-play-state: paused;
+}
+
+.forward-motion {
+  animation: forward 10s infinite linear;
+}
+
+.backward-motion {
+  animation: backward 10s infinite linear;
+}
+
+@keyframes forward {
+  from {
+    transform: rotate(0deg)
+               translate(-10px)
+               rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg)
+               translate(-10px) 
+               rotate(-360deg);
+  }
+}
+
+@keyframes backward {
+  from {
+    transform: rotate(360deg)
+               translate(-10px)
+               rotate(-360deg);
+  }
+  to {
+    transform: rotate(0deg)
+               translate(-10px) 
+               rotate(0deg);
+  }
+}
+
+.bubble--photo {
+  z-index: 10;
+  text-align: center;
+  -moz-background-clip: padding;     /* Firefox 3.6 */
+  -webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
+  background-clip: padding-box;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: solid rgba(255, 255, 255, 0.2);
+  box-sizing: content-box;
+  position: relative;
+  margin: 0 auto;
+  display: none;
+}
+
+.bubble--label {
+  position: relative;
+  float: center;
+  font-weight: 600;
+  color: white;
+  z-index: 11;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  padding: 3px 10px;
+  margin: 0;
+}
+
+.bubble--icon {
+  display: none;
+  position: absolute;
+  font-weight: 800;
+  text-decoration: none !important;
+  color: black !important;
+  box-shadow: none;
+  background-size: 100%;
+  opacity: 0.9;
+}
+
+.bubble--icon:hover, .bubble--icon.active {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 1.0;
+}
+
+.bubble--icon-naked {
+  background-color: white;
+}
+
+.bubble--icon-naked:hover, .bubble--icon-naked:active, .bubble--icon-naked.active {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 1.0;
+}
+
+.tooltip {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.tooltip:hover {
+  cursor: default;
+}
+
+.bubble--toggle {
+  width: 100%;
+  text-align: center;
+}
+
+.bubble--toggle--button {
+  display: inline-block;
+  margin: 10px 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border-radius: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.bubble--toggle--button:hover {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.bubble--toggle--button.selected {
+  color: black;
+  background-color: white;
+}
+
+.overlay {
+  background-color: white;
+  border-radius: 10px;
+  opacity: 0.9;
+  position: absolute;
+  width: 350px;
+  display: inline-block;
+  z-index: 1000;
+  overflow-y: scroll;
+  min-height: 70px;
+}
+
+.overlay--loader {
+  font-size: 24px;
+  line-height: 30px;
+  font-style: italic;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.overlay--content {
+  opacity: 0;
+}
+
+.overlay--header {
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  padding: 10px;
+  padding-bottom: 0;
+  line-height: 18px;
+}
+
+.overlay--header--name {
+  font-weight: 600;
+  font-style: normal;
+  display: inline;
+}
+
+.tweets a {
+  text-decoration: none;
+}
+
+.twitter--bio {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 17px;
+  padding-bottom: 5px;
+}
+
+.twitter--bio a {
+  font-weight: 600;
+  color: black;
+}
+
+.tweet {
+  border-radius: 10px;
+  background-color: #e0e0e0;
+  margin: 10px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  line-height: 17px;
+  padding: 5px;
+  padding-bottom: 0;
+}
+
+.tweet a {
+  font-style: italic;
+  color: black;
+  font-weight: 700;
+}
+
+.tweet a.timestamp {
+  text-align: right;
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 3px;
+  font-weight: 400;
+  font-style: italic;
+  display: block;
+  color: black;
+  color: #4d4d4d;
+}
+
+.tweet a.timestamp:hover {
+  color: black;
+}
+
+.arrow {
+  width: 0; 
+	height: 0;
+	position: fixed;
+	top: 300px;
+	left: 500px;
+	z-index: 1000;
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent;
+	opacity: 0.8;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 12px;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  filter: alpha(opacity=0);
+  opacity: 0;
+
+  line-break: auto;
+}
+.tooltip.in {
+  filter: alpha(opacity=90);
+  opacity: .9;
+}
+.tooltip.top {
+  padding: 5px 0;
+  margin-top: -3px;
+}
+.tooltip.right {
+  padding: 0 5px;
+  margin-left: 3px;
+}
+.tooltip.bottom {
+  padding: 5px 0;
+  margin-top: 3px;
+}
+.tooltip.left {
+  padding: 0 5px;
+  margin-left: -3px;
+}
+.tooltip-inner {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #fff;
+  text-align: center;
+  background-color: #000;
+  border-radius: 4px;
+}
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.tooltip.top .tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+.tooltip.top-left .tooltip-arrow {
+  right: 5px;
+  bottom: 0;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+.tooltip.top-right .tooltip-arrow {
+  bottom: 0;
+  left: 5px;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+.tooltip.right .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-width: 5px 5px 5px 0;
+  border-right-color: #000;
+}
+.tooltip.left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #000;
+}
+.tooltip.bottom .tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
+.tooltip.bottom-left .tooltip-arrow {
+  top: 0;
+  right: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
+.tooltip.bottom-right .tooltip-arrow {
+  top: 0;
+  left: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}

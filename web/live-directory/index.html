@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> live-directory </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Pareto embedded app providing a live directory of occupancy.">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="style/bubble.css">
+    <link rel="stylesheet" href="style/live-directory.css">
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="../js/socket.io.slim.js"></script>
+    <script type="text/javascript" src="../js/beaver.js"></script>
+    <script type="text/javascript" src="../js/cormorant.js"></script>
+    <script type="text/javascript" src="../js/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="js/angular-animate.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/cuttlefish.js"></script>
+    <script type="text/javascript" src="js/bubble.js"></script>
+    <script type="text/javascript" src="js/examples.js"></script>
+    <script type="text/javascript" src="js/live-directory.js"></script>
+  </head>
+  <body ng-app="live-directory">
+    <div class="layout"></div>
+    <div ng-controller="EventsCtrl" class="directories hidden">
+      <div id="{{directory.id}}" class="area-content"
+           ng-repeat="directory in occupiedAreas">
+        <div class="label">{{directory.name}}</div>
+        <div class="occupants">
+          <bubble ng-repeat="occupant in directory.occupants"
+                  size="160px"
+                  json="occupant" motion="false"
+                  mode="ambient" placement="linear"
+                  visible="Person,Product,Organization" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
