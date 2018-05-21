@@ -5,7 +5,7 @@ hlc-server
 HLC: Hyperlocal Context for the IoT
 -----------------------------------
 
-How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  Learn more at: [www.reelyactive.com/context/](http://www.reelyactive.com/context/)
+How can computers understand the context of what's happening in a space? First and foremost, they need a digital representation of everything and everyone that is present.  Hyperlocal context is a digital snapshot of a physical space and its contents. It combines the concepts of identification, location and time.  Learn more at: [www.reelyactive.com/context/](https://www.reelyactive.com/context/)
 
 __In the scheme of Things (pun intended)__
 
@@ -37,7 +37,7 @@ app.bind( { protocol: 'test', path: 'default' } );
 
 Then browse to [http://localhost:3001](http://localhost:3001) to see the landing page.
 
-![HLC landing page](http://reelyactive.com/images/hlc-landing.png)
+![HLC landing page](https://reelyactive.com/images/hlc-landing.png)
 
 Type _test_ in the search bar (or browse to [http://localhost:3001/contextnear/tags/test](http://localhost:3001/contextnear/tags/test)) to see a _contextual_ visualisation of what is near the test device(s).  Alternatively, browse to [http://localhost:3001/whatnear/transmitter/fee150bada55](http://localhost:3001/whatnear/transmitter/fee150bada55) for a _non-contextual_ visualisation of the same query.
 
@@ -173,7 +173,7 @@ What's next?
 This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with hlc-server check out:
 * [diyActive](https://reelyactive.github.io/) our developer page
 * our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [angular-style-guide](https://github.com/reelyactive/angular-style-guide) for development
-* our [contact information](http://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
+* our [contact information](https://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
 
 
 License
@@ -181,7 +181,7 @@ License
 
 MIT License
 
-Copyright (c) 2014-2017 reelyActive
+Copyright (c) 2014-2017 [reelyActive](https://www.reelyactive.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
