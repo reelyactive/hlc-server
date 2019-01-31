@@ -8,7 +8,7 @@
     "Hyperlocal Context",
     "IoT"
   ],
-  "version": "0.5.20",
+  "version": "0.5.21",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -22,10 +22,10 @@
     "url": "https://github.com/reelyactive/hlc-server.git"
   },
   "dependencies": {
-    "barnowl": ">=0.4.21",
-    "barnacles": ">=0.4.12",
-    "barterer": ">=0.3.12",
-    "chickadee": ">=0.4.10",
+    "barnowl": "^0.4.28",
+    "barnacles": "^0.4.12",
+    "barterer": "^0.3.12",
+    "chickadee": "^0.4.10",
     "nedb": ">=1.1.1",
     "express": ">=4.0.0",
     "body-parser": ">=1.8.0",
