@@ -1,0 +1,41 @@
+{
+  "name": "hlc-server",
+  "homepage": "https://github.com/reelyactive/hlc-server/",
+  "author": {
+    "name": "reelyActive",
+    "email": "info@reelyactive.com"
+  },
+  "description": "Serves real-time real-world context at a human scale by combining RFID, RTLS and M2M with structured, linked data on the web.  We believe in an open Internet of Things.",
+  "keywords": [
+    "reelyActive",
+    "Hyperlocal Context",
+    "RFID",
+    "RTLS",
+    "M2M",
+    "IoT"
+  ],
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "main": "./lib/hlcserver.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reelyactive/hlc-server.git"
+  },
+  "dependencies": {
+    "barnowl": "^1.0.0",
+    "barnacles": "^1.0.0",
+    "barnacles-socketio": ">=0.1.0"
+  },
+  "devDependencies": {
+  },
+  "bugs": {
+    "url": "https://github.com/reelyactive/hlc-server/issues"
+  },
+  "contributors": [
+    { "name": "Jeffrey Dungen" },
+    { "name": "Juan Pinazo" }
+  ],
+  "license": "MIT"
+}
