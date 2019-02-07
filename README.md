@@ -1,7 +1,48 @@
 hlc-server
 ==========
 
-Hyperlocal context (HLC) server.
+Hyperlocal context (HLC) server combining [barnowl](https://github.com/reelyactive/barnowl/) and [barnacles](https://github.com/reelyactive/barnacles/).
+
+
+Installation and Quick Start
+----------------------------
+
+It is possible to install and run __hlc-server__ using either [npm](https://www.npmjs.com/) or [Docker](https://www.docker.com/).
+
+### Using npm
+
+```
+npm install hlc-server
+npm start
+```
+
+### Using Docker
+
+```
+docker run -p 3001:3001 -p 50000:50000/udp -p 50001:50001/udp reelyactive/hlc-server
+
+```
+
+
+Hello Hyperlocal Context
+------------------------
+
+Browse to [localhost:3001](http://localhost:3001) to see the landing page.
+
+__hlc-server__ will listen for data as follows:
+- reel packets over UDP on port 50000
+- encoded [raddecs](https://github.com/reelyactive/raddec) over UDP on port 50001
+
+__hlc-server__ will output data as follows:
+- [socket.io](https://socket.io/) stream on port 3001
+
+
+What's next?
+------------
+
+__hlc-server__ v1.0.0 was released in February 2019, superseding all earlier versions, the latest of which remains available in the [release-0.5 branch](https://github.com/reelyactive/hlc-server/tree/release-0.5) and as [hlc-server@0.5.21 on npm](https://www.npmjs.com/package/hlc-server/v/0.5.21).
+
+The v1.0 release of __hlc-server__ is a work in progress as the v1.0 releases of [barnowl](https://github.com/reelyactive/barnowl/), [barnacles](https://github.com/reelyactive/barnacles/), [chickadee](https://github.com/reelyactive/chickadee/), [barterer](https://github.com/reelyactive/barterer/), [beaver](https://github.com/reelyactive/beaver/), [cormorant](https://github.com/reelyactive/cormorant/) and [cuttlefish](https://github.com/reelyactive/cuttlefish/) evolve and/or become available.  The objective is to combine all these ingredients required for [hyperlocal context](https://www.reelyactive.com/context/) in a user-friendly deploy-anywhere package/container that promotes discovery and experimentation.
 
 
 License
