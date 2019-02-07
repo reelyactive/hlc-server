@@ -13,14 +13,25 @@ It is possible to install and run __hlc-server__ using either [npm](https://www.
 
 ```
 npm install hlc-server
-npm start
+```
+
+Add the following to a file called server.js:
+
+```javascript
+const HLCServer = require('hlc-server');
+let app = new HLCServer();
+```
+
+and then run with node:
+
+```
+node server
 ```
 
 ### Using Docker
 
 ```
 docker run -p 3001:3001 -p 50000:50000/udp -p 50001:50001/udp reelyactive/hlc-server
-
 ```
 
 
