@@ -1,129 +1,41 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title> reelyActive Hyperlocal Context </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Open source software serving real-time real-world context on a human scale.">
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="Real-time real-world context at a human scale achieved by combining RFID, RTLS and M2M with structured, linked data on the web.">
     <link rel="stylesheet" href="style/bootstrap.min.css">
     <link rel="stylesheet" href="style/reelyactive.css">
-    <script type="text/javascript" src="js/angular.min.js"></script>
-    <script type="text/javascript" src="js/ui-bootstrap-tpls.min.js"></script>
-    <script type="text/javascript" src="js/landing.js"></script>
+    <title> Hyperlocal Context by reelyActive </title>
   </head>
-  <body ng-app="landing">
-    <div>
-      <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle"
-                  ng-init="navCollapsed = true"
-                  ng-click="navCollapsed = !navCollapsed">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="https://www.reelyactive.com">
-            <strong>reely</strong>Active
-          </a>
-        </div>
-        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'"
-             ng-click="navCollapsed = true">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
-              <a href class="dropdown-toggle" uib-dropdown-toggle role="button"
-                 data-toggle="dropdown" aria-haspopup="true"
-                 aria-expanded="false">
-                More <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
-                <li role="menuitem"><a href="admin">Admin interface</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xs-1 col-sm-2 col-md-3"></div>
-          <div class="col-xs-10 col-sm-8 col-md-6">
-            <img src="images/logo.png" class="img-responsive center-block">
-            <br><br>
-            <div ng-controller="QueryCtrl" class="text-center">
-              <form class="form-inline">
-                <div class="form-group">
-                  <label class="sr-only" for="route">API route</label>
-                  <select ng-model="query.route" class="form-control"
-                          id="route"
-                          ng-options="route.name for route in routes">
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="sr-only" for="param">API parameter</label>
-                  <select ng-model="query.parameter" class="form-control"
-                          id="param" ng-options="parameter.name for parameter in parameters">
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="sr-only" for="query">
-                    Device identifier, tag or directory name to query 
-                  </label>
-                  <input ng-model="query.identifier" class="form-control"
-                         id="query" type="text" size="16"
-                         placeholder="id, tag or directory">
-                </div>
-                <button ng-click="query.search()" class="btn btn-primary">
-                  Search
-                </button>
-              </form>
-            </div>
-            <br>
-            <div ng-controller="StatisticsCtrl" class="text-center">
-              <p>
-                Currently processing {{statistics.tiraids}} packets/s
-                from {{statistics.devices}} devices.
-              </p>
-            </div>
-            <div ng-controller="PositioningCtrl">
-              <p class="text-center" ng-if="position">
-                GPS has {{position.fix}} fix from {{position.satsActive.length}} active satellites and an HDOP of {{position.hdop}}.
-              </p>
-              <br>
-              <div class="text-center">
-                <a href="dashboard" class="btn btn-info"
-                   uib-tooltip="Visualisation of key system parameters"
-                   tooltip-placement="bottom"> dashboard </a>
-                &nbsp;
-                <a href="bubblescape" class="btn btn-info"
-                   uib-tooltip="Visualisation of detected devices as bubbles"
-                   tooltip-placement="bottom"> bubblescape </a>
-                &nbsp;
-                <a href="sensorscape" class="btn btn-info"
-                   uib-tooltip="Visualisation of detected sensor data"
-                   tooltip-placement="bottom"> sensorscape </a>
-                &nbsp;
-                <a href="live-directory" class="btn btn-info"
-                   uib-tooltip="Visualisation of occupancy by directory"
-                   tooltip-placement="bottom"> live-directory </a>
-                &nbsp;
-                <a href="position" class="btn btn-info" ng-if="position"
-                   uib-tooltip="Real-time position from GPS"
-                   tooltip-placement="bottom"> position </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-1 col-sm-2 col-md-3"></div>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-reelyactive bg-reelyactive">
+      <a class="navbar-brand" href="https://www.reelyactive.com/">
+        <img src="images/reelyactive-logo-nav.png" width="165" height="30"
+             alt="reelyActive">
+      </a>
+    </nav>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+          <p> &nbsp; </p>
+          <h1 class="text-center"> Hyperlocal Context </h1>
+          <p class="lead text-center">
+            Processing <span id="raddecRate">0</span> raddecs per second from
+            <span id="numTransmitters">0</span> transmitters.
+          </p>
         </div>
       </div>
-      <footer class="footer">
-        <a href="https://github.com/reelyactive/hlc-server"
-           uib-tooltip="Get the code on GitHub"
-           tooltip-placement="left"> hlc-server </a>
-        &nbsp; | &nbsp;
-        <a href="https://www.reelyactive.com"
-           uib-tooltip="We believe in an open Internet of Things"
-           tooltip-placement="right"> &copy; reelyActive 2014-2018 </a>
-      </footer>
     </div>
+    <footer class="footer">
+      <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
+      &nbsp; | &nbsp;
+      <a href="https://www.reelyactive.com"> &copy; reelyActive 2014-2019 </a>
+    </footer>
+    <script src="js/socket.io.slim.js"></script>
+    <script src="js/beaver.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>
