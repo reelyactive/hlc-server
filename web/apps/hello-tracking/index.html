@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="Track all devices of interest, specifically where and how are all these devices?">
+    <link rel="stylesheet" href="../../style/bootstrap.min.css">
+    <link rel="stylesheet" href="../../style/reelyactive.css">
+    <title> Hello-Tracking! by reelyActive </title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-reelyactive bg-reelyactive">
+      <a class="navbar-brand" href="https://www.reelyactive.com/">
+        <img src="../../images/reelyactive-logo-nav.png" width="165"
+             height="30" alt="reelyActive">
+      </a>
+    </nav>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+          <p> &nbsp; </p>
+          <form class="form-inline" onsubmit="return false;">
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"> ID filter </div>
+              </div>
+              <input type="text" class="form-control" id="idFilter"
+                     placeholder="Start typing">
+            </div>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"> Sort by </div>
+              </div>
+              <select class="custom-select" id="sortBy"></select>
+            </div>
+          </form>
+          <table class="table table-hover" id="raddecs">
+            <thead class="thead-reelyactive">
+              <tr class="text-center">
+                <th> transmitterId </th>
+                <th> events </th>
+                <th> receiverId </th>
+                <th> rssi </th>
+                <th> decodings </th>
+                <th> receivers </th>
+                <th> packets </th>
+                <th> timestamp </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
+      &nbsp; | &nbsp;
+      <a href="https://www.reelyactive.com"> &copy; reelyActive 2014-2019 </a>
+    </footer>
+    <script src="../../js/socket.io.slim.js"></script>
+    <script src="../../js/beaver.js"></script>
+    <script src="js/hello-tracking.js"></script>
+  </body>
+</html>
