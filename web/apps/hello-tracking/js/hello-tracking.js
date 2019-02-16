@@ -24,6 +24,7 @@ const RDPS = ' / ';
 // DOM elements
 let idFilter = document.querySelector('#idFilter');
 let sortBy = document.querySelector('#sortBy');
+let displayCount = document.querySelector('#displayCount');
 let raddecs = document.querySelector('#raddecs');
 let tbody = raddecs.querySelector('tbody');
 
@@ -55,6 +56,7 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
     insertRaddec(raddec, true);
   }
   sortRaddecs();
+  updateDisplayCount();
 });
 
 // Disappearance events
@@ -62,6 +64,7 @@ beaver.on([ 4 ], function(raddec) {
   let tr = document.getElementById(raddec.transmitterId);
   if(tr) {
     tr.remove();
+    updateDisplayCount();
   }
 });
 
@@ -131,6 +134,20 @@ function updateVisibility(tr, ids) {
   tr.style.display = display;
 }
 
+// Update display count
+function updateDisplayCount() {
+  let visibleCount = 0;
+  let totalCount = Object.keys(beaver.transmitters).length;
+  let trs = Array.from(tbody.getElementsByTagName('tr'));
+
+  trs.forEach(function(tr) {
+    if(tr.style.display === '') {
+      visibleCount++;
+    }
+  });
+  displayCount.value = visibleCount + ' of ' + totalCount;
+}
+
 // Sort the raddecs in the table
 function sortRaddecs() {
   let trs = Array.from(tbody.getElementsByTagName('tr'));
@@ -145,6 +162,7 @@ function sortRaddecs() {
   tbody.appendChild(sortedFragment);
 }
 
+// Update the sort function based on the user selection
 function updateSortFunction() {
   switch(sortBy.value) {
     case '0': // transmitterId increasing

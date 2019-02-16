@@ -26,7 +26,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text"> ID filter </div>
               </div>
-              <input type="text" class="form-control" id="idFilter"
+              <input type="text" class="form-control" id="idFilter" size="16"
                      placeholder="Start typing">
             </div>
             <div class="input-group mb-2 mr-sm-2">
@@ -34,6 +34,13 @@
                 <div class="input-group-text"> Sort by </div>
               </div>
               <select class="custom-select" id="sortBy"></select>
+            </div>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"> Displaying </div>
+              </div>
+              <input type="text" class="form-control" id="displayCount"
+                     size="6" readonly>
             </div>
           </form>
           <table class="table table-hover" id="raddecs">
