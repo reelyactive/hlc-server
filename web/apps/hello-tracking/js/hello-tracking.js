@@ -8,9 +8,18 @@
 const SORT_BY_OPTIONS = [
     '\u21e1 transmitterId',
     '\u21e3 transmitterId',
+    '\u21e1 receiverId',
+    '\u21e3 receiverId',
     '\u21e1 rssi',
-    '\u21e3 rssi'
+    '\u21e3 rssi',
+    '\u21e1 numberOfReceivers',
+    '\u21e3 numberOfReceivers',
+    '\u21e1 numberOfDecodings',
+    '\u21e3 numberOfDecodings',
+    '\u21e1 numberOfPackets',
+    '\u21e3 numberOfPackets'
 ];
+const RDPS = ' / ';
 
 // DOM elements
 let idFilter = document.querySelector('#idFilter');
@@ -107,7 +116,7 @@ function prepareRecDecPac(raddec) {
     }
   });
 
-  return raddec.rssiSignature.length + ' / ' + maxNumberOfDecodings + ' / ' +
+  return raddec.rssiSignature.length + RDPS + maxNumberOfDecodings + RDPS +
          raddec.packets.length;
 }
 
@@ -156,7 +165,25 @@ function updateSortFunction() {
         return 1;
       }
       break;
-    case '2': // rssi increasing
+    case '2': // receiverId increasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[2].textContent <
+           tr2.getElementsByTagName('td')[2].textContent) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '3': // receiverId decreasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[2].textContent >
+           tr2.getElementsByTagName('td')[2].textContent) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '4': // rssi increasing
       sortFunction = function(tr1, tr2) {
         if(tr1.getElementsByTagName('td')[3].textContent <
            tr2.getElementsByTagName('td')[3].textContent) {
@@ -165,10 +192,64 @@ function updateSortFunction() {
         return 1;
       }
       break;
-    case '3': // rssi decreasing
+    case '5': // rssi decreasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[3].textContent <
+        if(tr1.getElementsByTagName('td')[3].textContent >
            tr2.getElementsByTagName('td')[3].textContent) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '6': // numberOfReceivers increasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[0] <
+           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[0]) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '7': // numberOfReceivers decreasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[0] >
+           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[0]) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '8': // numberOfDecodings increasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[1] <
+           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[1]) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '9': // numberOfDecodings decreasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[1] >
+           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[1]) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '10': // numberOfPackets increasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[2] <
+           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[2]) {
+          return -1;
+        };
+        return 1;
+      }
+      break;
+    case '11': // numberOfPackets decreasing
+      sortFunction = function(tr1, tr2) {
+        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[2] >
+           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[2]) {
           return -1;
         };
         return 1;
