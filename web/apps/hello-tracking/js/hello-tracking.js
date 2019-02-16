@@ -62,10 +62,8 @@ function updateRaddec(raddec, tr) {
   tds[1].textContent = raddec.events;
   tds[2].textContent = raddec.rssiSignature[0].receiverId;
   tds[3].textContent = raddec.rssiSignature[0].rssi;
-  tds[4].textContent = raddec.rssiSignature[0].numberOfDecodings;
-  tds[5].textContent = raddec.rssiSignature.length;
-  tds[6].textContent = raddec.packets.length;
-  tds[7].textContent = new Date(raddec.timestamp).toLocaleTimeString();
+  tds[4].textContent = prepareRecDecPac(raddec);
+  tds[5].textContent = new Date(raddec.timestamp).toLocaleTimeString();
 
   updateVisibility(tr, [ tds[0].textContent, tds[2].textContent ]);
 }
@@ -80,9 +78,7 @@ function insertRaddec(raddec, prepend) {
   appendTd(tr, raddec.events, 'text-center');
   appendTd(tr, raddec.rssiSignature[0].receiverId, 'text-right');
   appendTd(tr, raddec.rssiSignature[0].rssi, 'text-right');
-  appendTd(tr, raddec.rssiSignature[0].numberOfDecodings, 'text-center');
-  appendTd(tr, raddec.rssiSignature.length, 'text-center');
-  appendTd(tr, raddec.packets.length, 'text-center');
+  appendTd(tr, prepareRecDecPac(raddec), 'text-center');
   appendTd(tr, new Date(raddec.timestamp).toLocaleTimeString(), 'text-center');
 
   updateVisibility(tr, [ raddec.transmitterId,
@@ -99,6 +95,20 @@ function appendTd(tr, text, classNames) {
   if(classNames) {
     td.setAttribute('class', classNames);
   }
+}
+
+// Prepare the receivers-decodings-packets string
+function prepareRecDecPac(raddec) {
+  let maxNumberOfDecodings = 0;
+
+  raddec.rssiSignature.forEach(function(signature) {
+    if(signature.numberOfDecodings > maxNumberOfDecodings) {
+      maxNumberOfDecodings = signature.numberOfDecodings;
+    }
+  });
+
+  return raddec.rssiSignature.length + ' / ' + maxNumberOfDecodings + ' / ' +
+         raddec.packets.length;
 }
 
 // Display/hide row based on ID filter
