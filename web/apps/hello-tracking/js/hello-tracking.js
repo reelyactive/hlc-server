@@ -55,7 +55,7 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
   else {
     insertRaddec(raddec, true);
   }
-  sortRaddecs();
+  sortRaddecsAndHighlight(raddec.transmitterId);
   updateDisplayCount();
 });
 
@@ -148,14 +148,20 @@ function updateDisplayCount() {
   displayCount.value = visibleCount + ' of ' + totalCount;
 }
 
-// Sort the raddecs in the table
-function sortRaddecs() {
+// Sort the raddecs in the table, highlighting the given transmitterId
+function sortRaddecsAndHighlight(transmitterId) {
   let trs = Array.from(tbody.getElementsByTagName('tr'));
   let sortedFragment = document.createDocumentFragment();
 
   trs.sort(sortFunction);
 
   trs.forEach(function(tr) {
+    if(tr.id === transmitterId) {
+      tr.setAttribute('class', 'monospace animated-highlight-reelyactive');
+    }
+    else {
+      tr.setAttribute('class', 'monospace');
+    }
     sortedFragment.appendChild(tr);
   });
 
@@ -274,7 +280,7 @@ function updateSortFunction() {
       }
       break;
   }
-  sortRaddecs();
+  sortRaddecsAndHighlight();
 }
 
 // Handle ID filter changes

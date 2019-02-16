@@ -177,11 +177,34 @@ button.bg-reelyactive:focus {
   box-shadow: 0 0 0 0.2rem rgba(90, 90, 90, 0.5);
 }
 
-
 .table .thead-reelyactive th {
   color: #fff;
   background-color: #0770a2;
   border-color: #065f8a;
+}
+
+@-webkit-keyframes highlight-color-change {
+  from { background-color: #e9ecef; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes highlight-color-change {
+  from { background-color: #e9ecef; }
+  to { background-color: inherit; }
+}
+@-o-keyframes highlight-color-change {
+  from { background-color: #e9ecef; }
+  to { background-color: inherit; }
+}
+@keyframes highlight-color-change {
+  from { background-color: #e9ecef; }
+  to { background-color: inherit; }
+}
+
+.animated-highlight-reelyactive {
+  -webkit-animation: highlight-color-change 1s;
+  -moz-animation:    highlight-color-change 1s;
+  -o-animation:      highlight-color-change 1s;
+  animation:         highlight-color-change 1s;
 }
 
 .footer {
