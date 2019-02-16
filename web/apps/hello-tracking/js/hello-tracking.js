@@ -27,7 +27,7 @@ SORT_BY_OPTIONS.forEach(function(element, index) {
 });
 
 // Other variables
-let sortByFunction;
+let sortFunction;
 updateSortFunction();
 
 // Connect to the socket.io stream and feed to beaver
@@ -125,18 +125,21 @@ function updateVisibility(tr, ids) {
 // Sort the raddecs in the table
 function sortRaddecs() {
   let trs = Array.from(tbody.getElementsByTagName('tr'));
+  let sortedFragment = document.createDocumentFragment();
 
-  trs.sort(sortByFunction);
+  trs.sort(sortFunction);
 
   trs.forEach(function(tr) {
-    tbody.appendChild(tr);
+    sortedFragment.appendChild(tr);
   });
+
+  tbody.appendChild(sortedFragment);
 }
 
 function updateSortFunction() {
   switch(sortBy.value) {
     case '0': // transmitterId increasing
-      sortByFunction = function(tr1, tr2) {
+      sortFunction = function(tr1, tr2) {
         if(tr1.getElementsByTagName('td')[0].textContent <
            tr2.getElementsByTagName('td')[0].textContent) {
           return -1;
@@ -145,7 +148,7 @@ function updateSortFunction() {
       }
       break;
     case '1': // transmitterId decreasing
-      sortByFunction = function(tr1, tr2) {
+      sortFunction = function(tr1, tr2) {
         if(tr1.getElementsByTagName('td')[0].textContent >
            tr2.getElementsByTagName('td')[0].textContent) {
           return -1;
@@ -154,7 +157,7 @@ function updateSortFunction() {
       }
       break;
     case '2': // rssi increasing
-      sortByFunction = function(tr1, tr2) {
+      sortFunction = function(tr1, tr2) {
         if(tr1.getElementsByTagName('td')[3].textContent <
            tr2.getElementsByTagName('td')[3].textContent) {
           return -1;
@@ -163,7 +166,7 @@ function updateSortFunction() {
       }
       break;
     case '3': // rssi decreasing
-      sortByFunction = function(tr1, tr2) {
+      sortFunction = function(tr1, tr2) {
         if(tr1.getElementsByTagName('td')[3].textContent <
            tr2.getElementsByTagName('td')[3].textContent) {
           return -1;
