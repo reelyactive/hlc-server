@@ -9,23 +9,18 @@ Installation and Quick Start
 
 It is possible to install and run __hlc-server__ using either [npm](https://www.npmjs.com/) or [Docker](https://www.docker.com/).
 
-### Using npm
+### Using git and npm
 
 ```
+git clone https://github.com/reelyactive/hlc-server.git
+cd hlc-server
 npm install hlc-server
 ```
 
-Add the following to a file called server.js:
-
-```javascript
-const HLCServer = require('hlc-server');
-let app = new HLCServer();
-```
-
-and then run with node:
+Add then to run:
 
 ```
-node server
+npm start
 ```
 
 ### Using Docker
@@ -46,6 +41,40 @@ __hlc-server__ will listen for data as follows:
 
 __hlc-server__ will output data as follows:
 - [socket.io](https://socket.io/) stream on port 3001
+
+
+Add listeners and interfaces
+----------------------------
+
+__hlc-server__ wraps the [barnowl](https://github.com/reelyactive/barnowl/) addListener() function and the [barnacles](https://github.com/reelyactive/barnacles/) addInterface() function to facilitate adding listeners and interfaces.
+
+### addListener()
+
+Add any [barnowl-x listener](https://github.com/reelyactive/barnowl#where-to-listen) to connect with a hardware interface in just two lines of code.  For example, to listen for reel data over a serial connection:
+
+```javascript
+const HLCServer = require('hlc-server');
+const BarnowlReel = require('barnowl-reel'); // 1: Include the interface package
+
+let app = new HLCServer();
+
+// 2: Add the specific listener with relevant options
+app.addListener(BarnowlReel, {}, BarnowlReel.SerialListener, { path: "auto" });
+```
+
+### addInterface()
+
+Add any [barnacles-x interface](https://github.com/reelyactive/barnacles#how-to-distribute-data) to distribute the data stream in just two lines of code.  For example, to forward data via a webhook:
+
+```javascript
+const HLCServer = require('hlc-server');
+const BarnaclesWebhook = require('barnacles-webhook'); // 1: Include the package
+
+let app = new HLCServer();
+
+// 2: Add the interface with relevant options
+app.addInterface(BarnaclesWebhook, { hostname: "127.0.0.1", port: 3000 });
+```
 
 
 What's next?
