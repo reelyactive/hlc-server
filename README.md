@@ -73,7 +73,7 @@ const BarnaclesWebhook = require('barnacles-webhook'); // 1: Include the package
 let app = new HLCServer();
 
 // 2: Add the interface with relevant options
-barnacles.addInterface(BarnaclesWebhook, { hostname: "127.0.0.1", port: 3000 });
+app.addInterface(BarnaclesWebhook, { hostname: "127.0.0.1", port: 3000 });
 ```
 
 
