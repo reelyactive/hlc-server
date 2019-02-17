@@ -9,23 +9,18 @@ Installation and Quick Start
 
 It is possible to install and run __hlc-server__ using either [npm](https://www.npmjs.com/) or [Docker](https://www.docker.com/).
 
-### Using npm
+### Using git and npm
 
 ```
+git clone https://github.com/reelyactive/hlc-server.git
+cd hlc-server
 npm install hlc-server
 ```
 
-Add the following to a file called server.js:
-
-```javascript
-const HLCServer = require('hlc-server');
-let app = new HLCServer();
-```
-
-and then run with node:
+Add then to run:
 
 ```
-node server
+npm start
 ```
 
 ### Using Docker
