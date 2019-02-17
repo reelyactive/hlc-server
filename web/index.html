@@ -26,6 +26,15 @@
             Processing <span id="raddecRate">0</span> raddecs per second from
             <span id="numTransmitters">0</span> transmitters.
           </p>
+          <div class="dropdown text-center">
+            <a class="btn btn-secondary dropdown-toggle" href="" role="button"
+               id="appsDropdown" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false"> Run a web app </a>
+            <div class="dropdown-menu" aria-labelledby="appsDropdown">
+              <a href="apps/hello-tracking/" target="_blank"
+                 class="dropdown-item"> Hello Tracking! </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +43,9 @@
       &nbsp; | &nbsp;
       <a href="https://www.reelyactive.com"> &copy; reelyActive 2014-2019 </a>
     </footer>
+    <script src="js/jquery.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/socket.io.slim.js"></script>
     <script src="js/beaver.js"></script>
     <script src="js/index.js"></script>
