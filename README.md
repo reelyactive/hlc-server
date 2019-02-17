@@ -54,7 +54,7 @@ Add any [barnowl-x listener](https://github.com/reelyactive/barnowl#where-to-lis
 
 ```javascript
 const HLCServer = require('hlc-server');
-const BarnowlReel = require('barnowl-reel); // 1: Include the interface package
+const BarnowlReel = require('barnowl-reel'); // 1: Include the interface package
 
 let app = new HLCServer();
 
