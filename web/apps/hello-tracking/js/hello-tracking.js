@@ -209,8 +209,8 @@ function updateSortFunction() {
       break;
     case '4': // rssi increasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[3].textContent <
-           tr2.getElementsByTagName('td')[3].textContent) {
+        if(parseInt(tr1.getElementsByTagName('td')[3].textContent) <
+           parseInt(tr2.getElementsByTagName('td')[3].textContent)) {
           return -1;
         };
         return 1;
@@ -218,8 +218,8 @@ function updateSortFunction() {
       break;
     case '5': // rssi decreasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[3].textContent >
-           tr2.getElementsByTagName('td')[3].textContent) {
+        if(parseInt(tr1.getElementsByTagName('td')[3].textContent) >
+           parseInt(tr2.getElementsByTagName('td')[3].textContent)) {
           return -1;
         };
         return 1;
@@ -227,8 +227,8 @@ function updateSortFunction() {
       break;
     case '6': // numberOfReceivers increasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[0] <
-           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[0]) {
+        if(parseInt(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[0]) <
+           parseInt(tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[0])) {
           return -1;
         };
         return 1;
@@ -236,8 +236,8 @@ function updateSortFunction() {
       break;
     case '7': // numberOfReceivers decreasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[0] >
-           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[0]) {
+        if(parseInt(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[0]) >
+           parseInt(tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[0])) {
           return -1;
         };
         return 1;
@@ -245,8 +245,8 @@ function updateSortFunction() {
       break;
     case '8': // numberOfDecodings increasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[1] <
-           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[1]) {
+        if(parseInt(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[1]) <
+           parseInt(tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[1])) {
           return -1;
         };
         return 1;
@@ -254,8 +254,8 @@ function updateSortFunction() {
       break;
     case '9': // numberOfDecodings decreasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[1] >
-           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[1]) {
+        if(parseInt(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[1]) >
+           parseInt(tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[1])) {
           return -1;
         };
         return 1;
@@ -263,8 +263,8 @@ function updateSortFunction() {
       break;
     case '10': // numberOfPackets increasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[2] <
-           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[2]) {
+        if(parseInt(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[2]) <
+           parseInt(tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[2])) {
           return -1;
         };
         return 1;
@@ -272,8 +272,8 @@ function updateSortFunction() {
       break;
     case '11': // numberOfPackets decreasing
       sortFunction = function(tr1, tr2) {
-        if(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[2] >
-           tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[2]) {
+        if(parseInt(tr1.getElementsByTagName('td')[4].textContent.split(RDPS)[2]) >
+           parseInt(tr2.getElementsByTagName('td')[4].textContent.split(RDPS)[2])) {
           return -1;
         };
         return 1;
