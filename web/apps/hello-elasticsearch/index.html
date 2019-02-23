@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="Query Elasticsearch.">
+    <link rel="stylesheet" href="../../style/bootstrap.min.css">
+    <link rel="stylesheet" href="../../style/reelyactive.css">
+    <title> Hello-Elasticsearch! by reelyActive </title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-reelyactive bg-reelyactive">
+      <a class="navbar-brand" href="https://www.reelyactive.com/">
+        <img src="../../images/reelyactive-logo-nav.png" width="165"
+             height="30" alt="reelyActive">
+      </a>
+    </nav>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
+          <p> &nbsp; </p>
+          <form class="form-inline" onsubmit="return false;">
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"> Query Template </div>
+              </div>
+              <select class="custom-select" id="queryTemplates"></select>
+            </div>
+          </form>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title monospace"> GET /raddec/_search </span>
+            </div>
+            <div class="card-body">
+              <form onsubmit="return false;">
+                <div class="form-group">
+                  <textarea type="text" class="form-control monospace"
+                            id="queryBox" rows="8"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary text-center"
+                        id="queryButton"> Query </button>
+                <div class="alert alert-dark" id="queryError" role="alert">
+                  Enter a JSON query above or select from the Query Templates
+                </div>
+              </form>
+            </div>
+          </div>
+          <p> &nbsp; </p>
+          <div id="queryResults">
+            <h2>
+              Results
+              <small class="text-muted">
+                based on <span id="responseHits"></span> hits,
+                taking <span id="responseTime"></span> ms
+              </small>
+            </h2>
+            <div class="card" id="hitsCard">
+              <div class="card-header">
+                <span class="card-title monospace"> hits </span>
+              </div>
+              <div class="card-body">
+                <pre id="hitsBox"></pre>
+              </div>
+            </div>
+            <div class="card" id="aggregationsCard">
+              <div class="card-header">
+                <span class="card-title monospace"> aggregations </span>
+              </div>
+              <div class="card-body">
+                <pre id="aggregationsBox"></pre>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
+      &nbsp; | &nbsp;
+      <a href="https://www.reelyactive.com"> &copy; reelyActive 2014-2019 </a>
+    </footer>
+    <script src="js/hello-elasticsearch.js"></script>
+  </body>
+</html>
