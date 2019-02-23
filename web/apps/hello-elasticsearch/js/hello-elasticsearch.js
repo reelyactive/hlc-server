@@ -161,7 +161,6 @@ function handleQuery() {
   let query = parseQuery();
   let url = window.location.protocol + '//' + window.location.hostname + ':' +
             window.location.port + ELASTICSEARCH_INTERFACE_ROUTE;
-  url = 'http://localhost:3001/interfaces/elasticsearch';
   let httpRequest = new XMLHttpRequest();
 
   httpRequest.onreadystatechange = function() {
