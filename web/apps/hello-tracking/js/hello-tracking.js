@@ -20,6 +20,13 @@ const SORT_BY_OPTIONS = [
     '\u21e3 numberOfPackets'
 ];
 const RDPS = ' / ';
+const EVENT_ICONS = [
+    'fas fa-sign-in-alt',
+    'fas fa-route',
+    'fas fa-info',
+    'fas fa-heartbeat',
+    'fas fa-sign-out-alt'
+];
 
 // DOM elements
 let idFilter = document.querySelector('#idFilter');
@@ -71,12 +78,11 @@ beaver.on([ 4 ], function(raddec) {
 // Update an existing raddec in the DOM
 function updateRaddec(raddec, tr) {
   let tds = tr.getElementsByTagName('td');
-  tds[1].textContent = raddec.events;
-  tds[2].textContent = raddec.rssiSignature[0].receiverId;
-  tds[3].textContent = raddec.rssiSignature[0].rssi;
-  tds[4].textContent = prepareRecDecPac(raddec);
-  tds[5].textContent = new Date(raddec.timestamp).toLocaleTimeString();
-
+  updateNode(tds[1], prepareEvents(raddec));
+  updateNode(tds[2], raddec.rssiSignature[0].receiverId);
+  updateNode(tds[3], raddec.rssiSignature[0].rssi);
+  updateNode(tds[4], prepareRecDecPac(raddec));
+  updateNode(tds[5], new Date(raddec.timestamp).toLocaleTimeString());
   updateVisibility(tr, [ tds[0].textContent, tds[2].textContent ]);
 }
 
@@ -87,7 +93,7 @@ function insertRaddec(raddec, prepend) {
   tr.setAttribute('class', 'monospace');
 
   appendTd(tr, raddec.transmitterId, 'text-right');
-  appendTd(tr, raddec.events, 'text-center');
+  appendTd(tr, prepareEvents(raddec), 'text-center');
   appendTd(tr, raddec.rssiSignature[0].receiverId, 'text-right');
   appendTd(tr, raddec.rssiSignature[0].rssi, 'text-right');
   appendTd(tr, prepareRecDecPac(raddec), 'text-center');
@@ -99,14 +105,49 @@ function insertRaddec(raddec, prepend) {
 }
 
 // Append a <td> with the given content to the given <tr>
-function appendTd(tr, text, classNames) {
+function appendTd(tr, content, classNames) {
   let td = document.createElement('td');
-  let cell = document.createTextNode(text);
-  td.appendChild(cell);
+  updateNode(td, content);
   tr.appendChild(td);
   if(classNames) {
     td.setAttribute('class', classNames);
   }
+}
+
+// Update the given node with the given content
+function updateNode(node, content, append) {
+  append = append || false;
+
+  while(!append && node.firstChild) {
+    node.removeChild(node.firstChild);
+  }
+
+  if(content instanceof Element) {
+    node.appendChild(content);
+  }
+  else if(content instanceof Array) {
+    content.forEach(function(element) {
+      node.appendChild(element);
+    });
+  }
+  else {
+    node.textContent = content;
+  }
+}
+
+// Prepare the event icons
+function prepareEvents(raddec) {
+  let elements = [];
+
+  raddec.events.forEach(function(event) {
+    let i = document.createElement('i');
+    let space = document.createTextNode(' ');
+    i.setAttribute('class', EVENT_ICONS[event]);
+    elements.push(i);
+    elements.push(space);
+  });
+
+  return elements;
 }
 
 // Prepare the receivers-decodings-packets string
