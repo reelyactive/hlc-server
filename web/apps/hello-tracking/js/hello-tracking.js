@@ -37,7 +37,7 @@ let tbody = raddecs.querySelector('tbody');
 
 // Create sortBy options
 SORT_BY_OPTIONS.forEach(function(element, index) {
-  let option = document.createElement("option");
+  let option = document.createElement('option');
   option.value = index;
   option.text = element;
   sortBy.add(option, null);
@@ -331,6 +331,7 @@ idFilter.addEventListener('keyup', function() {
     let tds = tr.getElementsByTagName('td');
     updateVisibility(tr, [ tds[0].textContent, tds[2].textContent ]);
   }
+  updateDisplayCount();
 });
 
 // Handle sortBy changes
