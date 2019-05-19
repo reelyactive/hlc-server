@@ -117,6 +117,9 @@ function updateRaddec(raddec, tr, isActive) {
     updateNode(tds[5], telemetry.batteryMillivolts + 'mV');
     updateNode(tds[6], telemetry.temperature + '\u00b0C');
   }
+  else {
+    updateNode(tds[1], prepareElapsed(-1, isActive));
+  }
   updateVisibility(tr, [ tds[0].textContent, tds[3].textContent ]);
 }
 
@@ -178,7 +181,11 @@ function prepareElapsed(uptimeSeconds, isActive) {
   let i = document.createElement('i');
 
   if(isActive) {
-    let elapsed = document.createTextNode(' ' + uptimeSeconds + 's');
+    let uptimeString = uptimeSeconds + 's';
+    if(uptimeSeconds < 0) {
+      uptimeString = '';
+    }
+    let elapsed = document.createTextNode(' ' + uptimeString);
     badge.setAttribute('class', 'badge badge-success');
     i.setAttribute('class', 'fas fa-check-circle');
     badge.appendChild(i);
