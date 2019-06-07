@@ -213,6 +213,10 @@ a.badge-info:hover {
   background-color: #333333;
 }
 
+.progress-bar {
+  background-color: #0770a2;
+}
+
 .table .thead-reelyactive th {
   color: #fff;
   background-color: #0770a2;
