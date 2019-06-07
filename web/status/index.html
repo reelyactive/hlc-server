@@ -5,17 +5,17 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
-          content="Real-time real-world context at a human scale achieved by combining RFID, RTLS and M2M with structured, linked data on the web.">
-    <link rel="stylesheet" href="style/bootstrap.min.css">
-    <link rel="stylesheet" href="style/reelyactive.css">
-    <title> Hyperlocal Context by reelyActive </title>
+          content="hlc-server current status.">
+    <link rel="stylesheet" href="/style/bootstrap.min.css">
+    <link rel="stylesheet" href="/style/reelyactive.css">
+    <title> hlc-server status </title>
   </head>
   <body>
     <!----- Navigation ----->
     <nav class="navbar navbar-expand-lg navbar-reelyactive bg-reelyactive">
       <a class="navbar-brand" href="https://www.reelyactive.com/">
-        <img src="images/reelyactive-logo-nav.png" width="165" height="30"
-             alt="reelyActive">
+        <img src="/images/reelyactive-logo-nav.png"
+             width="165" height="30" alt="reelyActive">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
               data-target="#navbarItems" aria-controls="navbarItems"
@@ -26,7 +26,7 @@
         <ul class="navbar-nav mr-auto"></ul>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="./"> <i class="fas fa-home"></i> </a>
+            <a class="nav-link" href="/"> <i class="fas fa-home"></i> </a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown"
@@ -93,56 +93,49 @@
     <!----- Content ----->
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-          <h1 class="text-center mt-4"> Hyperlocal Context </h1>
-            <div class="row">
-              <!-- Left column -->
-              <div class="col-md-12 col-lg-6">
-                <p class="lead text-center">
-                  Processing <span id="raddecRate">0</span> raddecs per second from
-                  <span id="numTransmitters">0</span> transmitters.
-                </p>
-                <div class="dropdown text-center mb-4">
-                  <a class="btn btn-secondary dropdown-toggle" href="" role="button"
-                     id="appsDropdown" data-toggle="dropdown" aria-haspopup="true"
-                     aria-expanded="false"> Run a web app </a>
-                  <div class="dropdown-menu" aria-labelledby="appsDropdown">
-                    <a href="apps/hello-tracking/" target="_blank"
-                       class="dropdown-item"> Hello Tracking! </a>
-                    <a href="apps/hello-infrastructure/" target="_blank"
-                       class="dropdown-item"> Hello Infrastructure! </a>
-                    <a href="apps/hello-elasticsearch/" target="_blank"
-                       class="dropdown-item"> Hello Elasticsearch! </a>
-                    <a href="apps/hello-tlm-activity/" target="_blank"
-                       class="dropdown-item"> Hello TLM Activity! </a>
-                  </div>
-                </div>
-              </div>
-              <!-- Right column -->
-              <div class="col-md-12 col-lg-6">
-                <div class="card">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                      <i class="fas fa-memory"></i> &nbsp; Memory use
-                      <div class="progress">
-                        <div class="progress-bar" id="mem" role="progressbar"
-                             aria-valuemin="0" aria-valuemax="100"
-                             style="width: 0%;" aria-valuenow="0">0%</div>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <i class="fas fa-microchip"></i> &nbsp; Processor load
-                      <div class="progress">
-                        <div class="progress-bar" id="cpu" role="progressbar"
-                             aria-valuemin="0" aria-valuemax="100"
-                             style="width: 0%;" aria-valuenow="0">0%</div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="humantab" data-toggle="tab"
+                 href="#humancontent" role="tab" aria-controls="humancontent"
+                 aria-selected="true">
+                <i class="fas fa-user-alt"></i> &nbsp; Human-readable
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="machinetab" data-toggle="tab"
+                 href="#machinecontent" role="tab" aria-controls="machinecontent"
+                 aria-selected="false">
+                <i class="fas fa-code"></i> &nbsp; Machine-readable
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content tab-content-reelyactive">
+            <!-- Human-readable content -->
+            <div class="tab-pane fade show active" id="humancontent"
+                 role="tabpanel" aria-labelledby="humantab">
+              <h3 class="text-center" id="identifier"></h3>
+              <table class="table table-hover" id="associations">
+                <tbody>
+                  <tr>
+                    <th> <i class="fas fa-memory"></i> memUseRatio </th>
+                    <td id="mem"></td>
+                  </tr>
+                  <tr>
+                    <th> <i class="fas fa-microchip"></i> cpuUseRatio </th>
+                    <td id="cpu"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Machine-readable content -->
+            <div class="tab-pane fade" id="machinecontent"
+                 role="tabpanel" aria-labelledby="machinetab">
+              <pre id="jsonResponse"></pre>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -151,13 +144,11 @@
       &nbsp; | &nbsp;
       <a href="https://www.reelyactive.com"> &copy; reelyActive 2014-2019 </a>
     </footer>
-    <script defer src="js/solid.min.js"></script>
-    <script defer src="js/brands.min.js"></script>
-    <script defer src="js/fontawesome.min.js"></script>
-    <script src="js/jquery-3.4.0.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/socket.io.slim.js"></script>
-    <script src="js/beaver.js"></script>
-    <script src="js/index.js"></script>
+    <script defer src="/js/solid.min.js"></script>
+    <script defer src="/js/brands.min.js"></script>
+    <script defer src="/js/fontawesome.min.js"></script>
+    <script src="/js/jquery-3.4.0.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/status/js/status.js"></script>
   </body>
 </html>
