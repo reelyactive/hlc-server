@@ -95,27 +95,52 @@
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
           <h1 class="text-center mt-4"> Hyperlocal Context </h1>
-          <p class="lead text-center">
-            Processing <span id="raddecRate">0</span> raddecs per second from
-            <span id="numTransmitters">0</span> transmitters.
-          </p>
-          <p class="lead text-center">
-            Memory at <span id="mem">0</span>% &nbsp;
-            CPU at <span id="cpu">0</span>%.
-          </p>
-          <div class="dropdown text-center">
-            <a class="btn btn-secondary dropdown-toggle" href="" role="button"
-               id="appsDropdown" data-toggle="dropdown" aria-haspopup="true"
-               aria-expanded="false"> Run a web app </a>
-            <div class="dropdown-menu" aria-labelledby="appsDropdown">
-              <a href="apps/hello-tracking/" target="_blank"
-                 class="dropdown-item"> Hello Tracking! </a>
-              <a href="apps/hello-infrastructure/" target="_blank"
-                 class="dropdown-item"> Hello Infrastructure! </a>
-              <a href="apps/hello-elasticsearch/" target="_blank"
-                 class="dropdown-item"> Hello Elasticsearch! </a>
-              <a href="apps/hello-tlm-activity/" target="_blank"
-                 class="dropdown-item"> Hello TLM Activity! </a>
+            <div class="row">
+              <!-- Left column -->
+              <div class="col-md-12 col-lg-6">
+                <p class="lead text-center">
+                  Processing <span id="raddecRate">0</span> raddecs per second from
+                  <span id="numTransmitters">0</span> transmitters.
+                </p>
+                <div class="dropdown text-center">
+                  <a class="btn btn-secondary dropdown-toggle" href="" role="button"
+                     id="appsDropdown" data-toggle="dropdown" aria-haspopup="true"
+                     aria-expanded="false"> Run a web app </a>
+                  <div class="dropdown-menu" aria-labelledby="appsDropdown">
+                    <a href="apps/hello-tracking/" target="_blank"
+                       class="dropdown-item"> Hello Tracking! </a>
+                    <a href="apps/hello-infrastructure/" target="_blank"
+                       class="dropdown-item"> Hello Infrastructure! </a>
+                    <a href="apps/hello-elasticsearch/" target="_blank"
+                       class="dropdown-item"> Hello Elasticsearch! </a>
+                    <a href="apps/hello-tlm-activity/" target="_blank"
+                       class="dropdown-item"> Hello TLM Activity! </a>
+                  </div>
+                </div>
+              </div>
+              <!-- Right column -->
+              <div class="col-md-12 col-lg-6">
+                <div class="card">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <i class="fas fa-memory"></i> &nbsp; Memory use
+                      <div class="progress">
+                        <div class="progress-bar" id="mem" role="progressbar"
+                             aria-valuemin="0" aria-valuemax="100"
+                             style="width: 0%;" aria-valuenow="0">0%</div>
+                      </div>
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fas fa-microchip"></i> &nbsp; Processor load
+                      <div class="progress">
+                        <div class="progress-bar" id="cpu" role="progressbar"
+                             aria-valuemin="0" aria-valuemax="100"
+                             style="width: 0%;" aria-valuenow="0">0%</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>

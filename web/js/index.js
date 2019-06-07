@@ -42,8 +42,15 @@ function updateStatus() {
   let statusUrl = baseUrl + STATUS_ROUTE;
 
   getUrl(statusUrl, function(status, response) {
-    mem.textContent = Math.round(100 * response.status.memUseRatio);
-    cpu.textContent = Math.round(100 * response.status.cpuLoadRatio);
+    let memPercent = Math.round(100 * response.status.memUseRatio);
+    mem.textContent = memPercent + '%';
+    mem.setAttribute('aria-valuenow', memPercent);
+    mem.setAttribute('style', 'width: ' + memPercent + '%;');
+
+    let cpuPercent = Math.round(100 * response.status.cpuLoadRatio);
+    cpu.textContent = cpuPercent + '%';
+    cpu.setAttribute('aria-valuenow', cpuPercent);
+    cpu.setAttribute('style', 'width: ' + cpuPercent + '%;');
   });
 }
 
