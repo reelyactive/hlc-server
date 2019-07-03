@@ -1,7 +1,14 @@
 hlc-server
 ==========
 
-Hyperlocal context (HLC) server combining [barnowl](https://github.com/reelyactive/barnowl/) and [barnacles](https://github.com/reelyactive/barnacles/).
+Hyperlocal context (HLC) server combining all the core open source software packages of the reelyActive stack for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space._ Just add radio infrastructure (ex: RFID readers, Raspberry Pi, ...) for source data.
+
+
+Getting Started Tutorials
+-------------------------
+
+The easiest way to get started with __hlc-server__:
+- [Install our open source software suite on a Pi](https://reelyactive.github.io/diy/pi-suite/)
 
 
 Installation and Quick Start
@@ -41,6 +48,17 @@ __hlc-server__ will listen for data as follows:
 
 __hlc-server__ will output data as follows:
 - [socket.io](https://socket.io/) stream on port 3001
+
+![Default I/O](https://reelyactive.github.io/hlc-server/images/default-io.png)
+
+
+Architecture Overview
+---------------------
+
+Note that the integration of some open source software packages with hlc-server is still a work in progress.
+
+![Architecture Overview](https://reelyactive.github.io/hlc-server/images/architecture-overview.png)
+
 
 
 Add listeners and interfaces
