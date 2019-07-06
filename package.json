@@ -31,19 +31,23 @@
     "barnowl-reel": "^0.1.10",
     "barnacles": "^1.0.5",
     "barnacles-socketio": "^0.1.0",
+    "chickadee": "^1.0.0",
     "body-parser": "^1.18.0",
     "express": "^4.0.0",
     "raddec": "^0.2.3",
     "request": "^2.88.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "bugs": {
     "url": "https://github.com/reelyactive/hlc-server/issues"
   },
   "contributors": [
-    { "name": "Jeffrey Dungen" },
-    { "name": "Juan Pinazo" }
+    {
+      "name": "Jeffrey Dungen"
+    },
+    {
+      "name": "Juan Pinazo"
+    }
   ],
   "license": "MIT"
 }
