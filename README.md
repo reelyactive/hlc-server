@@ -8,6 +8,7 @@ Getting Started Tutorials
 -------------------------
 
 The easiest way to get started with __hlc-server__:
+- [Install our open source software suite on a Laptop](https://reelyactive.github.io/diy/laptop-suite/)
 - [Install our open source software suite on a Pi](https://reelyactive.github.io/diy/pi-suite/)
 
 
@@ -21,7 +22,7 @@ It is possible to install and run __hlc-server__ using either [npm](https://www.
 ```
 git clone https://github.com/reelyactive/hlc-server.git
 cd hlc-server
-npm install hlc-server
+npm install
 ```
 
 Add then to run:
@@ -43,13 +44,20 @@ Hello Hyperlocal Context
 Browse to [localhost:3001](http://localhost:3001) to see the landing page.
 
 __hlc-server__ will listen for data as follows:
-- reel packets over UDP on port 50000
+- reel packets over UDP on port 50000 (via [barnowl-reel](https://github.com/reelyactive/barnowl-reel) UdpListener)
 - encoded [raddecs](https://github.com/reelyactive/raddec) over UDP on port 50001
 
 __hlc-server__ will output data as follows:
-- [socket.io](https://socket.io/) stream on port 3001
+- [socket.io](https://socket.io/) stream on port 3001 (via [barnacles-socketio](https://github.com/reelyactive/barnacles-socketio))
+- decoded [raddecs](https://github.com/reelyactive/raddec) to Elasticsearch, if an instance is running (by default on port 9200)
 
 ![Default I/O](https://reelyactive.github.io/hlc-server/images/default-io.png)
+
+
+Web Apps
+--------
+
+A variety of web apps designed to make it easy to familiarise oneself with the many platform features and capabilities can be accessed via the landing page at [localhost:3001](http://localhost:3001).  These web apps are built with the open source _beacorcut_ stack of [beaver.js](https://github.com/reelyactive/beaver), [cormorant.js](https://github.com/reelyactive/cormorant) and [cuttlefish.js](https://github.com/reelyactive/cuttlefish).
 
 
 Architecture Overview
@@ -59,6 +67,18 @@ Note that the integration of some open source software packages with hlc-server 
 
 ![Architecture Overview](https://reelyactive.github.io/hlc-server/images/architecture-overview.png)
 
+
+Environment Variables
+---------------------
+
+__hlc-server__ observes the following environment variables:
+
+| Environment Variable | Default               | Description                 | 
+|:---------------------|:----------------------|:----------------------------|
+| PORT                 | 3001                  | The hlc-server port         |
+| REEL_PORT            | 50000                 | The port on which to listen for reel packets over UDP |
+| RADDEC_PORT          | 50001                 | The port on which to listen for raddecs over UDP |
+| ELASTICSEARCH_NODE   | http://localhost:9200 | The Elasticsearch node      |
 
 
 Add listeners and interfaces
