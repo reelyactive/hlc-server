@@ -37,8 +37,7 @@
     "@elastic/elasticsearch": "^7.0.0",
     "express": "^4.0.0",
     "json-silo": "^1.0.0",
-    "raddec": "^0.2.3",
-    "request": "^2.88.0"
+    "raddec": "^0.2.3"
   },
   "devDependencies": {},
   "bugs": {
