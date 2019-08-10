@@ -14,8 +14,8 @@ let jsonResponse = document.querySelector('#jsonResponse');
 getStatus(window.location.href, function(status, response) {
   jsonResponse.textContent = JSON.stringify(response, null, 2);
   // TODO: handle the case of Not Found and Bad Request
-  mem.textContent = response.status.memUseRatio;
-  cpu.textContent = response.status.cpuLoadRatio;
+  mem.textContent = Math.round(100 * response.status.memUseRatio) + '%';
+  cpu.textContent = Math.round(100 * response.status.cpuLoadRatio) + '%';
 });
 
 
