@@ -68,6 +68,18 @@ Note that the integration of some open source software packages with hlc-server 
 ![Architecture Overview](https://reelyactive.github.io/hlc-server/images/architecture-overview.png)
 
 
+Environment Variables
+---------------------
+
+__hlc-server__ observes the following environment variables:
+
+| Environment Variable | Default               | Description                 | 
+|:---------------------|:----------------------|:----------------------------|
+| PORT                 | 3001                  | The hlc-server port         |
+| REEL_PORT            | 50000                 | The port on which to listen for reel packets over UDP |
+| RADDEC_PORT          | 50001                 | The port on which to listen for raddecs over UDP |
+| ELASTICSEARCH_NODE   | http://localhost:9200 | The Elasticsearch node      |
+
 
 Add listeners and interfaces
 ----------------------------
