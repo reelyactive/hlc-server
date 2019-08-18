@@ -9,6 +9,7 @@ const SIGNATURE_SEPARATOR = '/';
 const STORIES_ROUTE = '/stories';
 const IMAGES_ROUTE = '/images';
 const ASSOCIATIONS_ROUTE = '/associations';
+const URL_ROUTE = '/url';
 const DEFAULT_IMAGE_PROPERTY_NAME = 'image';
 const DEFAULT_STORY = {
     "@context": { "schema": "https://schema.org/" },
@@ -143,6 +144,9 @@ function resetId() {
 
 // Fetch the device associations and story, update entry fields
 function fetchAndUpdateStoryEntry() {
+  storyPreview.textContent = JSON.stringify(personStory, null, 2);
+  cuttlefish.render(personStory, visualPreview);
+
   cormorant.retrieveAssociations(baseUrl, selectedIdSignature, false,
                                  function(associations) {
     storeButton.removeAttribute('disabled');
@@ -297,7 +301,7 @@ function addAssociation(url, callback) {
   let httpRequest = new XMLHttpRequest();
   let associationsString = JSON.stringify({ url: url });
   let associationsUrl = baseUrl + ASSOCIATIONS_ROUTE + '/' +
-                        selectedIdSignature;
+                        selectedIdSignature + URL_ROUTE;
   httpRequest.onreadystatechange = function(){
     if(httpRequest.readyState === XMLHttpRequest.DONE) {
       if((httpRequest.status === 200) || (httpRequest.status === 201)) {
@@ -306,7 +310,8 @@ function addAssociation(url, callback) {
       else {
         // TODO: handle error
       }
-      associationsButton.href = associationsUrl;
+      associationsButton.href = baseUrl + ASSOCIATIONS_ROUTE + '/' +
+                                selectedIdSignature;
       return callback(associationsUrl);
     }
   };
