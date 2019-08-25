@@ -48,6 +48,8 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
 // Disappearance events
 beaver.on([ 4 ], function(raddec) {
   if(isDirAct(raddec)) {
+    let card = document.getElementById(raddec.transmitterId);
+    diractCards.removeChild(card);
     delete devices[raddec.transmitterId];
     updateDisplayCount();
   }
