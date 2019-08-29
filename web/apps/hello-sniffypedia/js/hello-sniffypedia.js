@@ -5,6 +5,7 @@
 
 
 // Constants
+const UPDATE_INTERVAL_MILLISECONDS = 2000;
 const SNIFFYPEDIA_BASE_URL = 'https://sniffypedia.org/';
 
 
@@ -15,6 +16,7 @@ let cards = document.querySelector('#cards');
 // Other variables
 let devices = {};
 let urls = {};
+let isUpdateRequired = false;
 
 
 // Connect to the socket.io stream and feed to beaver
@@ -42,12 +44,12 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
       if(isNewUrl) {
         urls[url] = { count: 0 };
         cormorant.retrieveStory(url, function(story) {
-          let card = document.createElement('div');
-          card.setAttribute('class', 'card');
-          card.setAttribute('id', url);
-          cuttlefish.render(story, card);
+          let card = createCard(story, '1 device');
           cards.appendChild(card);
         });
+      }
+      else {
+        isUpdateRequired = true;
       }
 
       urls[url].count++;
@@ -66,6 +68,7 @@ beaver.on([ 4 ], function(raddec) {
 
     if(isValidUrl) {
       urls[url].count--;
+      isUpdateRequired = true;
     }
 
     delete devices[raddec.transmitterId];
@@ -177,3 +180,83 @@ function lookupIdentifiers(identifiers) {
 
   return null;
 }
+
+
+// Create the card from the given story
+function createCard(story, text) {
+  let card = document.createElement('div');
+  let listGroupItems = [ {
+      text: text,
+      itemClass: "text-white bg-dark",
+      iconClass: "fas fa-info-circle"
+  } ];
+  card.setAttribute('class', 'card');
+  cuttlefish.render(story, card, { listGroupItems: listGroupItems });
+  
+  return card;
+}
+
+
+// Update all the cards
+function updateCards() {
+  if(!isUpdateRequired) {
+    return;
+  }
+
+  let updatedCards = document.createDocumentFragment();
+  let orderedUrls = [];
+  let orderedCounts = [];
+
+  // Order the urls by device counts
+  for(let url in urls) {
+    let count = urls[url].count;
+
+    if(orderedUrls.length === 0) {
+      orderedUrls.push(url);
+      orderedCounts.push(count);
+    }
+    else {
+      for(let cUrl = 0; cUrl < orderedUrls.length; cUrl++) {
+        if(count > orderedCounts[cUrl]) {
+          orderedUrls.splice(cUrl, 0, url);
+          orderedCounts.splice(cUrl, 0, count);
+          cUrl = orderedUrls.length;
+        }
+        else if(cUrl === (orderedUrls.length - 1)) {
+          orderedUrls.push(url);
+          orderedCounts.push(count);
+          cUrl = orderedUrls.length;
+        }
+      }
+    }
+  }
+
+  // Create the updated cards in order of device counts
+  for(let cUrl = 0; cUrl < orderedUrls.length; cUrl++) {
+    let url = orderedUrls[cUrl];
+    let count = orderedCounts[cUrl];
+
+    if(count > 0) {
+      let text = count;
+
+      if(count === 1) {
+        text += ' device';
+      }
+      else {
+        text += ' devices';
+      }
+
+      let story = cormorant.stories[url];
+      let card = createCard(story, text);
+      updatedCards.appendChild(card);
+    }
+  }
+
+  cards.innerHTML = '';
+  cards.appendChild(updatedCards);
+
+  isUpdateRequired = false;
+}
+
+
+setInterval(updateCards, UPDATE_INTERVAL_MILLISECONDS);
