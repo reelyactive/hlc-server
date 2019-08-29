@@ -9,17 +9,29 @@ let cuttlefish = (function() {
   // Internal constants
   const IMG_CLASS = 'card-img-top';
   const BODY_CLASS = 'card-body';
+  const FOOTER_CLASS = 'card-footer';
   const TITLE_CLASS = 'card-title text-truncate';
+  const SUBTITLE_CLASS = 'card-subtitle text-muted text-truncate';
   const SAME_AS_CLASS = 'btn-group dropup';
+  const DEFAULT_TITLE = 'Unknown';
+  const DEFAULT_SUBTITLE = '\u2665 structured data';
+  const LIST_GROUP_CLASS = 'list-group list-group-flush';
+  const LIST_GROUP_ITEM_CLASS = 'list-group-item text-truncate';
 
   // Render the given story in the given node
-  function render(story, node) {
+  function render(story, node, options) {
     let graph = story["@graph"];
     let element = graph[0];
 
     removeAllChildren(node);
     renderImage(element, node);
-    renderTitle(element, node);
+    renderBody(element, node);
+    renderFooter(element, node);
+
+    if(options.hasOwnProperty('listGroupItems') &&
+       Array.isArray(options.listGroupItems)) {
+      renderListGroup(options.listGroupItems, node);
+    }
   }
 
   // Remove all children of the given node
@@ -29,23 +41,47 @@ let cuttlefish = (function() {
     }
   }
 
-  // Render the image
+  // Render the card image
   function renderImage(element, node) {
+    let imageUrl;
+
     if(element.hasOwnProperty("schema:image")) {
-      let img = document.createElement('img');
-      img.src = element["schema:image"];
-      img.setAttribute('class', IMG_CLASS);
-      node.appendChild(img);
+      imageUrl = element["schema:image"];
     }
-    else { /* TODO */ }
+    else if(element.hasOwnProperty("schema:logo")) {
+      imageUrl = element["schema:logo"];
+    }
+    else {
+      return; // TODO: default image based on type?
+    }
+
+    let img = document.createElement('img');
+    img.src = imageUrl;
+    img.setAttribute('class', IMG_CLASS);
+    node.appendChild(img);
   }
 
-  // Render the title (name)
-  function renderTitle(element, node) {
+  // Render the card body
+  function renderBody(element, node) {
     let body = document.createElement('div');
     body.setAttribute('class', BODY_CLASS);
     node.appendChild(body);
 
+    renderTitle(element, body);
+    renderSubtitle(element, body);
+  }
+
+  // Render the card footer
+  function renderFooter(element, node) {
+    let footer = document.createElement('div');
+    footer.setAttribute('class', FOOTER_CLASS);
+    node.appendChild(footer);
+
+    renderSameAs(element, footer);
+  }
+
+  // Render the title (name)
+  function renderTitle(element, node) {
     let title = document.createElement('h5'); 
     title.setAttribute('class', TITLE_CLASS);
 
@@ -58,10 +94,42 @@ let cuttlefish = (function() {
                           (element["schema:familyName"] || '');
     }
     else {
-      title.textContent = 'Unknown';
+      title.textContent = DEFAULT_TITLE;
     }
-    body.appendChild(title);
-    renderSameAs(element, body);
+    node.appendChild(title);
+  }
+
+  // Render the subtitle
+  function renderSubtitle(element, node) {
+    let subtitle = document.createElement('h6'); 
+    subtitle.setAttribute('class', SUBTITLE_CLASS);
+
+    if(element.hasOwnProperty("schema:jobTitle") &&
+       element.hasOwnProperty("schema:worksFor")) {
+      subtitle.textContent = toString(element["schema:jobTitle"]) + ' @ ' +
+                             toString(element["schema:worksFor"]);
+    }
+    else if(element.hasOwnProperty("schema:jobTitle")) {
+      subtitle.textContent = toString(element["schema:jobTitle"]);
+    }
+    else if(element.hasOwnProperty("schema:worksFor")) {
+      subtitle.textContent = toString(element["schema:worksFor"]);
+    }
+    else if(element.hasOwnProperty("schema:brand")) {
+      subtitle.textContent = toString(element["schema:brand"]);
+    }
+    else if(element.hasOwnProperty("schema:manufacturer")) {
+      subtitle.textContent = toString(element["schema:manufacturer"]);
+    }
+    else if(element.hasOwnProperty("schema:maximumAttendeeCapacity")) {
+      subtitle.textContent = 'Capacity: ' +
+                             element["schema:maximumAttendeeCapacity"];
+    }
+    else {
+      subtitle.textContent = DEFAULT_SUBTITLE;
+    }
+
+    node.appendChild(subtitle);
   }
 
   // Render the sameAs (links)
@@ -154,6 +222,48 @@ let cuttlefish = (function() {
     let i = document.createElement('i');
     i.setAttribute('class', iClass);
     node.appendChild(i);
+  }
+
+  // Render the list group items
+  function renderListGroup(listGroupItems, node) {
+    let listGroup = document.createElement('ul');
+    listGroup.setAttribute('class', LIST_GROUP_CLASS);
+
+    listGroupItems.forEach(function(item) {
+      let listGroupItem = document.createElement('li');
+      let itemClass = LIST_GROUP_ITEM_CLASS;
+      if(item.hasOwnProperty('itemClass')) {
+        itemClass += ' ' + item.itemClass;
+      }
+      listGroupItem.setAttribute('class', itemClass);
+
+      if(item.hasOwnProperty('iconClass')) {
+        let space = document.createTextNode('\u00a0\u00a0');
+        let i = document.createElement('i');
+        i.setAttribute('class', item.iconClass);
+        listGroupItem.appendChild(i);
+        listGroupItem.appendChild(space);
+      }
+      let text = document.createTextNode(item.text);
+      listGroupItem.appendChild(text);
+      listGroup.appendChild(listGroupItem);
+    });
+
+    node.appendChild(listGroup);
+  }
+
+  // Return the given schema.org property as a string, if not already so
+  function toString(property) {
+    if(typeof property === 'string') {
+      return property;
+    }
+    if(property.hasOwnProperty("name")) {
+      return property["name"];
+    }
+    else if(property.hasOwnProperty("schema:name")) {
+      return property["schema:name"];
+    }
+    return '';
   }
 
   // Expose the following functions and variables
