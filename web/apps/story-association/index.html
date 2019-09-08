@@ -163,14 +163,14 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" id="producttab" data-toggle="tab"
+              <a class="nav-link" id="producttab" data-toggle="tab"
                  href="#productcontent" role="tab" aria-controls="productcontent"
                  aria-selected="false">
                 <i class="fas fa-box"></i> &nbsp; Product
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" id="placetab" data-toggle="tab"
+              <a class="nav-link" id="placetab" data-toggle="tab"
                  href="#placecontent" role="tab" aria-controls="placecontent"
                  aria-selected="false">
                 <i class="fas fa-map-pin"></i> &nbsp; Place
@@ -202,10 +202,42 @@
             <!-- Product -->
             <div class="tab-pane fade" id="productcontent"
                  role="tabpanel" aria-labelledby="producttab">
+              <form id="productForm" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="productName"> Name </label>
+                  <input type="text" class="form-control" id="productName"
+                         placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="productManufacturer"> Manufacturer </label>
+                  <input type="text" class="form-control" id="productManufacturer"
+                         placeholder="Manufacturer">
+                </div>
+                <div class="form-group">
+                  <label for="productImageInput"> Image </label>
+                  <input type="file" class="form-control-file" id="productImageInput">
+                </div>
+              </form>
             </div>
             <!-- Place -->
             <div class="tab-pane fade" id="placecontent"
                  role="tabpanel" aria-labelledby="placetab">
+              <form id="placeForm" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="placeName"> Name </label>
+                  <input type="text" class="form-control" id="placeName"
+                         placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="placeCapacity"> Maximum attendee capacity </label>
+                  <input type="number" class="form-control" id="placeCapacity"
+                         placeholder="25">
+                </div>
+                <div class="form-group">
+                  <label for="placeImageInput"> Image </label>
+                  <input type="file" class="form-control-file" id="placeImageInput">
+                </div>
+              </form>
             </div>
           </div>
           <!-- Actions to store the story -->
