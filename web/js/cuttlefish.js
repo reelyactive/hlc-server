@@ -28,7 +28,7 @@ let cuttlefish = (function() {
     renderBody(element, node);
     renderFooter(element, node);
 
-    if(options.hasOwnProperty('listGroupItems') &&
+    if(options && options.hasOwnProperty('listGroupItems') &&
        Array.isArray(options.listGroupItems)) {
       renderListGroup(options.listGroupItems, node);
     }

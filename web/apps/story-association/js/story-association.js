@@ -16,6 +16,8 @@ const DEFAULT_STORY = {
     "@graph": []
 };
 const DEFAULT_PERSON_ELEMENT = { "@id": "person", "@type": "schema:Person" };
+const DEFAULT_PRODUCT_ELEMENT = { "@id": "product", "@type": "schema:Product" };
+const DEFAULT_PLACE_ELEMENT = { "@id": "place", "@type": "schema:Place" };
 
 
 // DOM elements
@@ -24,10 +26,21 @@ let idDropdown = document.querySelector('#idDropdown');
 let resetButton = document.querySelector('#resetButton');
 let selectButton = document.querySelector('#selectButton');
 let storyActionTitle = document.querySelector('#storyActionTitle');
+let personTab = document.querySelector('#persontab');
 let personForm = document.querySelector('#personForm');
 let personGivenName = document.querySelector('#personGivenName');
 let personFamilyName = document.querySelector('#personFamilyName');
 let personImageInput = document.querySelector('#personImageInput');
+let productTab = document.querySelector('#producttab');
+let productForm = document.querySelector('#productForm');
+let productName = document.querySelector('#productName');
+let productManufacturer = document.querySelector('#productManufacturer');
+let productImageInput = document.querySelector('#productImageInput');
+let placeTab = document.querySelector('#placetab');
+let placeForm = document.querySelector('#placeForm');
+let placeName = document.querySelector('#placeName');
+let placeCapacity = document.querySelector('#placeCapacity');
+let placeImageInput = document.querySelector('#placeImageInput');
 let storeStory = document.querySelector('#storeStory');
 let storeButton = document.querySelector('#storeButton');
 let accessStory = document.querySelector('#accessStory');
@@ -41,12 +54,23 @@ let storyPreview = document.querySelector('#storyPreview');
 // Other variables
 let idSignatures = [];
 let selectedIdSignature;
+let isSelected = false;
 let baseUrl = window.location.protocol + '//' + window.location.hostname +
               ':' + window.location.port;
-let personStory = Object.assign({}, DEFAULT_STORY);
+let personStory = JSON.parse(JSON.stringify(DEFAULT_STORY));
+let productStory = JSON.parse(JSON.stringify(DEFAULT_STORY));
+let placeStory = JSON.parse(JSON.stringify(DEFAULT_STORY));
 let personElement = Object.assign({}, DEFAULT_PERSON_ELEMENT);
+let productElement = Object.assign({}, DEFAULT_PRODUCT_ELEMENT);
+let placeElement = Object.assign({}, DEFAULT_PLACE_ELEMENT);
 personStory['@graph'].push(personElement);
+productStory['@graph'].push(productElement);
+placeStory['@graph'].push(placeElement);
 let personImgSrc;
+let productImgSrc;
+let placeImgSrc;
+let selectedStory;
+let selectedImgSrc;
 
 
 // Connect to the socket.io stream and feed to beaver
@@ -104,6 +128,10 @@ function selectIdentifierSignature() {
 
 // Update the ID dropdown options based on the input ID fragment
 function updateIdDropdown() {
+  if(isSelected) {
+    return;
+  }
+
   let updatedDropdownItems = document.createDocumentFragment();
   let numberOfMatches = 0;
   let idFragment = idFilter.value;
@@ -135,15 +163,22 @@ function updateIdDropdown() {
 
 // Reset the identifier
 function resetId() {
+  isSelected = false;
   idFilter.value = '';
+  idFilter.removeAttribute('readonly');
   selectButton.textContent = 'Select';
   selectButton.setAttribute('disabled', 'disabled');
   storeButton.setAttribute('disabled', 'disabled');
+  storeStory.hidden = false;
+  accessStory.hidden = true;
 }
 
 
 // Fetch the device associations and story, update entry fields
 function fetchAndUpdateStoryEntry() {
+  isSelected = true;
+  idFilter.setAttribute('readonly', 'readonly');
+  idDropdown.innerHTML = '';
   storyPreview.textContent = JSON.stringify(personStory, null, 2);
   cuttlefish.render(personStory, visualPreview);
 
@@ -169,6 +204,9 @@ function fetchAndUpdateStoryEntry() {
 
 // Update the person element
 function updatePersonElement() {
+  selectedStory = personStory;
+  selectedImgSrc = personImgSrc;
+
   if(personGivenName.value === '') {
     delete personElement['schema:givenName'];
   }
@@ -188,6 +226,54 @@ function updatePersonElement() {
 }
 
 
+// Update the product element
+function updateProductElement() {
+  selectedStory = productStory;
+  selectedImgSrc = productImgSrc;
+
+  if(productName.value === '') {
+    delete productElement['schema:name'];
+  }
+  else {
+    productElement['schema:name'] = productName.value;
+  }
+
+  if(productManufacturer.value === '') {
+    delete productElement['schema:manufacturer'];
+  }
+  else {
+    productElement['schema:manufacturer'] = productManufacturer.value;
+  }
+
+  storyPreview.textContent = JSON.stringify(productStory, null, 2);
+  cuttlefish.render(productStory, visualPreview);
+}
+
+
+// Update the place element
+function updatePlaceElement() {
+  selectedStory = placeStory;
+  selectedImgSrc = placeImgSrc;
+
+  if(placeName.value === '') {
+    delete placeElement['schema:name'];
+  }
+  else {
+    placeElement['schema:name'] = placeName.value;
+  }
+
+  if(placeCapacity.value === '') {
+    delete placeElement['schema:maximumAttendeeCapacity'];
+  }
+  else {
+    placeElement['schema:maximumAttendeeCapacity'] = placeCapacity.value;
+  }
+
+  storyPreview.textContent = JSON.stringify(placeStory, null, 2);
+  cuttlefish.render(placeStory, visualPreview);
+}
+
+
 // Update the person's image source based on the uploaded image
 function updatePersonImageSrc() {
   let input = this;
@@ -204,11 +290,43 @@ function updatePersonImageSrc() {
 }
 
 
+// Update the product's image source based on the uploaded image
+function updateProductImageSrc() {
+  let input = this;
+  if(input.files && input.files[0]) {
+    let reader = new FileReader();
+    
+    reader.onload = function(e) {
+      productImgSrc = e.target.result;
+      productElement['schema:image'] = productImgSrc;
+      cuttlefish.render(productStory, visualPreview);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+
+// Update the place's image source based on the uploaded image
+function updatePlaceImageSrc() {
+  let input = this;
+  if(input.files && input.files[0]) {
+    let reader = new FileReader();
+    
+    reader.onload = function(e) {
+      placeImgSrc = e.target.result;
+      placeElement['schema:image'] = placeImgSrc;
+      cuttlefish.render(placeStory, visualPreview);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+
 // Handle user request to publish and associate story
 function publishAndAssociateStory() {
   storeStory.hidden = true;
 
-  if(personImgSrc) {
+  if(selectedImgSrc) {
     addImage(function(imageUrl) {
       if(imageUrl) {
         personElement['schema:image'] = imageUrl;
@@ -237,7 +355,18 @@ function publishAndAssociateStory() {
  */
 function addImage(callback) {
   let formData = new FormData();
-  formData.append(DEFAULT_IMAGE_PROPERTY_NAME, personImageInput.files[0]);
+  let file;
+
+  if(selectedImgSrc === personImgSrc) {
+    file = personImageInput.files[0];
+  }
+  else if(selectedImgSrc === productImgSrc) {
+    file = productImageInput.files[0];
+  }
+  else if(selectedImgSrc === placeImgSrc) {
+    file = placeImageInput.files[0];
+  }
+  formData.append(DEFAULT_IMAGE_PROPERTY_NAME, file);
 
   let httpRequest = new XMLHttpRequest();
   httpRequest.onload = function(oevent){
@@ -271,7 +400,7 @@ function addImage(callback) {
  */
 function addStory(callback) { 
   let httpRequest = new XMLHttpRequest();
-  let personStoryString = JSON.stringify(personStory);
+  let storyString = JSON.stringify(selectedStory);
   httpRequest.onreadystatechange = function(){
     if(httpRequest.readyState === XMLHttpRequest.DONE) {
       if(httpRequest.status === 200) {
@@ -289,7 +418,7 @@ function addStory(callback) {
   httpRequest.open('POST', STORIES_ROUTE);
   httpRequest.setRequestHeader('Content-Type', 'application/json');
   httpRequest.setRequestHeader('Accept', 'application/json');
-  httpRequest.send(personStoryString);
+  httpRequest.send(storyString);
 }
 
 
@@ -333,7 +462,14 @@ function copyStoryUrl() {
 idFilter.addEventListener('keyup', updateIdDropdown);
 resetButton.addEventListener('click', resetId);
 selectButton.addEventListener('click', fetchAndUpdateStoryEntry);
+personTab.addEventListener('click', updatePersonElement);
 personForm.addEventListener('keyup', updatePersonElement);
+productTab.addEventListener('click', updateProductElement);
+productForm.addEventListener('keyup', updateProductElement);
+placeTab.addEventListener('click', updatePlaceElement);
+placeForm.addEventListener('keyup', updatePlaceElement);
 personImageInput.addEventListener('change', updatePersonImageSrc);
+productImageInput.addEventListener('change', updateProductImageSrc);
+placeImageInput.addEventListener('change', updatePlaceImageSrc);
 storeButton.addEventListener('click', publishAndAssociateStory);
 copyButton.addEventListener('click', copyStoryUrl);
