@@ -9,6 +9,7 @@ const SORT_BY_OPTIONS = [
     '\u21e1 transmitterId',
     '\u21e3 transmitterId'
 ];
+const AXIS_NAMES = [ 'x', 'y', 'z' ];
 
 // DOM elements
 let idFilter = document.querySelector('#idFilter');
@@ -250,7 +251,7 @@ function createSensorElement(sensor, reading, widthClass) {
   let body = document.createElement('div');
   let sensorIconClass;
   let sensorName;
-  let sensorReading;
+  let sensorContent;
 
   element.setAttribute('class', widthClass);
   card.setAttribute('class', 'card');
@@ -261,27 +262,27 @@ function createSensorElement(sensor, reading, widthClass) {
     case('temperature'):
       sensorIconClass = 'fas fa-thermometer-half';
       sensorName = 'Temperature';
-      sensorReading = reading + '\u00b0C';
+      sensorContent = document.createTextNode(reading + '\u00b0C');
       break;
     case('humidity'):
       sensorIconClass = 'fas fa-water';
       sensorName = 'Humidity';
-      sensorReading = reading + '%';
+      sensorContent = document.createTextNode(reading + '%');
       break;
     case('visibleLight'):
       sensorIconClass = 'fas fa-lightbulb';
       sensorName = 'Visible Light?';
-      sensorReading = reading;
+      sensorContent = document.createTextNode(reading);
       break;
     case('acceleration'):
       sensorIconClass = 'fas fa-rocket';
       sensorName = 'Acceleration';
-      sensorReading = reading;
+      sensorContent = createMagnitudeDisplay(reading, 2);
       break;
     case('accelerationMagnitude'):
       sensorIconClass = 'fas fa-rocket';
       sensorName = 'Acceleration Magnitude';
-      sensorReading = reading + 'g';
+      sensorContent = document.createTextNode(reading + 'g');
       break;
   }
 
@@ -290,13 +291,63 @@ function createSensorElement(sensor, reading, widthClass) {
   header.appendChild(headerIcon);
   let headerText = document.createTextNode(' \u00a0 ' + sensorName);
   header.appendChild(headerText);
-
-  let bodyText = document.createTextNode(sensorReading);
-  body.appendChild(bodyText);
+  body.appendChild(sensorContent);
 
   card.appendChild(header);
   card.appendChild(body);
   element.appendChild(card);
+  return element;
+}
+
+
+// Create a magnitude display element based on the given readings
+function createMagnitudeDisplay(readings, maxMagnitude) {
+  let element = document.createElement('div');
+
+  readings.forEach(function(reading, index) {
+    let posWidth = 0;
+    let negWidth = 0;
+    let axisName = AXIS_NAMES[index];
+
+    if(reading >= 0) {
+      posWidth = Math.min(100, (reading / maxMagnitude) * 100);
+    }
+    else {
+      negWidth = Math.min(100, (Math.abs(reading) / maxMagnitude) * 100);
+    }
+
+
+    let row = document.createElement('div');
+    let colNeg = document.createElement('div');
+    let colPos = document.createElement('div');
+    let progressNeg = document.createElement('div');
+    let progressPos = document.createElement('div');
+    let progressBarNeg = document.createElement('div');
+    let progressBarPos = document.createElement('div');
+    let progressBarNegMessage = document.createTextNode(axisName);
+    let progressBarPosMessage = document.createTextNode(axisName);
+
+    row.setAttribute('class', 'row');
+    colNeg.setAttribute('class', 'col-6');
+    colPos.setAttribute('class', 'col-6');
+    progressNeg.setAttribute('class', 'progress flex-row-reverse my-1');
+    progressPos.setAttribute('class', 'progress my-1');
+    progressBarNeg.setAttribute('class', 'progress-bar');
+    progressBarNeg.setAttribute('style', 'width:' + negWidth + '%');
+    progressBarPos.setAttribute('class', 'progress-bar');
+    progressBarPos.setAttribute('style', 'width:' + posWidth + '%');
+
+    progressBarNeg.appendChild(progressBarNegMessage);
+    progressBarPos.appendChild(progressBarPosMessage);
+    progressNeg.appendChild(progressBarNeg);
+    progressPos.appendChild(progressBarPos);
+    colNeg.appendChild(progressNeg);
+    colPos.appendChild(progressPos);
+    row.appendChild(colNeg);
+    row.appendChild(colPos);
+    element.appendChild(row);
+  });
+
   return element;
 }
 
