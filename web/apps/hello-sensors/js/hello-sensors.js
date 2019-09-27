@@ -76,10 +76,13 @@ function isSensorPacket(packet) {
   let isMinew = (packet.substr(26,4) === 'e1ff');
   if(isMinew) {
     let isTemperatureHumidity = (packet.substr(38,4) === 'a101');
-    if(isTemperatureHumidity) {
+    let isVisibleLight = (packet.substr(38,4) === 'a102');
+    let isAcceleration = (packet.substr(38,4) === 'a103');
+    if(isTemperatureHumidity || isVisibleLight || isAcceleration) {
       return true;
     }
   }
+
   return false;
 }
 
@@ -196,15 +199,46 @@ function parseSensorPacket(packet) {
   let isMinew = (packet.substr(26,4) === 'e1ff');
   if(isMinew) {
     let isTemperatureHumidity = (packet.substr(38,4) === 'a101');
+    let isVisibleLight = (packet.substr(38,4) === 'a102');
+    let isAcceleration = (packet.substr(38,4) === 'a103');
+
     if(isTemperatureHumidity) {
       sensor.temperature = (parseInt(packet.substr(44, 2), 16) +
                             parseInt(packet.substr(46, 2), 16) / 256).toFixed(1);
       sensor.humidity = (parseInt(packet.substr(48, 2), 16) +
                          parseInt(packet.substr(50, 2), 16) / 256).toFixed(1);
     }
+    else if(isVisibleLight) {
+      sensor.visibleLight = (packet.substr(44, 2) === '01');
+    }
+    else if(isAcceleration) {
+      sensor.acceleration = [];
+      sensor.accelerationMagnitude = 0;
+      sensor.acceleration.push(fixedPointToDecimal(packet.substr(44, 4)));
+      sensor.acceleration.push(fixedPointToDecimal(packet.substr(48, 4)));
+      sensor.acceleration.push(fixedPointToDecimal(packet.substr(52, 4)));
+      sensor.acceleration.forEach(function(magnitude, index) {
+        sensor.accelerationMagnitude += (magnitude * magnitude);
+        sensor.acceleration[index] = magnitude.toFixed(2);
+      });
+      sensor.accelerationMagnitude = Math.sqrt(sensor.accelerationMagnitude)
+                                         .toFixed(2);
+    }
   }
 
   return sensor;
+}
+
+
+// Convert the given signed 8.8 fixed-point hexadecimal string to decimal
+function fixedPointToDecimal(word) {
+  let integer = parseInt(word.substr(0,2),16);
+  let decimal = parseInt(word.substr(2,2),16) / 256;
+
+  if(integer > 127) {
+    return ((integer - 256) + decimal);
+  }
+  return (integer + decimal);
 }
 
 
@@ -233,6 +267,21 @@ function createSensorElement(sensor, reading, widthClass) {
       sensorIconClass = 'fas fa-water';
       sensorName = 'Humidity';
       sensorReading = reading + '%';
+      break;
+    case('visibleLight'):
+      sensorIconClass = 'fas fa-lightbulb';
+      sensorName = 'Visible Light?';
+      sensorReading = reading;
+      break;
+    case('acceleration'):
+      sensorIconClass = 'fas fa-rocket';
+      sensorName = 'Acceleration';
+      sensorReading = reading;
+      break;
+    case('accelerationMagnitude'):
+      sensorIconClass = 'fas fa-rocket';
+      sensorName = 'Acceleration Magnitude';
+      sensorReading = reading + 'g';
       break;
   }
 
