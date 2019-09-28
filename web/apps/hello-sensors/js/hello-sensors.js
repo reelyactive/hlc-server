@@ -75,6 +75,7 @@ function isSensor(raddec) {
 // Determine if the given packet is from a sensor device
 function isSensorPacket(packet) {
   let isMinew = (packet.substr(26,4) === 'e1ff');
+  let isCodeBlue = (packet.substr(24,6) === 'ff8305');
   if(isMinew) {
     let isTemperatureHumidity = (packet.substr(38,4) === 'a101');
     let isVisibleLight = (packet.substr(38,4) === 'a102');
@@ -82,6 +83,10 @@ function isSensorPacket(packet) {
     if(isTemperatureHumidity || isVisibleLight || isAcceleration) {
       return true;
     }
+  }
+  if(isCodeBlue) {
+    let isPuckyActive = (packet.substr(30,2) === '02');
+    return isPuckyActive;
   }
 
   return false;
@@ -198,6 +203,8 @@ function parseSensorPacket(packet) {
   let sensor = {};
 
   let isMinew = (packet.substr(26,4) === 'e1ff');
+  let isCodeBlue = (packet.substr(24,6) === 'ff8305');
+
   if(isMinew) {
     let isTemperatureHumidity = (packet.substr(38,4) === 'a101');
     let isVisibleLight = (packet.substr(38,4) === 'a102');
@@ -226,6 +233,22 @@ function parseSensorPacket(packet) {
                                          .toFixed(2);
     }
   }
+  else if(isCodeBlue) {
+    let isPuckyActive = (packet.substr(30,2) === '02');
+
+    if(isPuckyActive) {
+      sensor.temperature = ((parseInt(packet.substr(38,2), 16) / 2) - 40)
+                           .toFixed(1);
+      sensor.lightPercentage = Math.round((100 / 0xff) * 
+                                          parseInt(packet.substr(40,2), 16));
+      sensor.capSensePercentage = Math.round((100 / 0xff) * 
+                                             parseInt(packet.substr(42,2), 16));
+      sensor.magneticField = [];
+      sensor.magneticField.push(toMagneticField(packet.substr(44,4)));
+      sensor.magneticField.push(toMagneticField(packet.substr(48,4)));
+      sensor.magneticField.push(toMagneticField(packet.substr(52,4)));
+    }
+  }
 
   return sensor;
 }
@@ -243,6 +266,19 @@ function fixedPointToDecimal(word) {
 }
 
 
+// Convert the 16-bit word to signed magnetic field
+function toMagneticField(bytes) {
+  let upper = parseInt(bytes.substr(0,2), 16);
+  let lower = parseInt(bytes.substr(2,2), 16);
+
+  if(upper > 127) {
+    upper = upper - 256;
+  }
+
+  return (upper * 256) + lower;
+}
+
+
 // Create a sensor element based on the given sensor type and reading
 function createSensorElement(sensor, reading, widthClass) {
   let element = document.createElement('div');
@@ -255,7 +291,7 @@ function createSensorElement(sensor, reading, widthClass) {
 
   element.setAttribute('class', widthClass);
   card.setAttribute('class', 'card');
-  header.setAttribute('class', 'card-header text-white bg-dark');
+  header.setAttribute('class', 'card-header text-truncate text-white bg-dark');
   body.setAttribute('class', 'card-body text-center text-truncate display-4');
 
   switch(sensor) {
@@ -274,6 +310,11 @@ function createSensorElement(sensor, reading, widthClass) {
       sensorName = 'Visible Light?';
       sensorContent = document.createTextNode(reading);
       break;
+    case('lightPercentage'):
+      sensorIconClass = 'fas fa-lightbulb';
+      sensorName = 'Light Percentage';
+      sensorContent = document.createTextNode(reading + '%');
+      break;
     case('acceleration'):
       sensorIconClass = 'fas fa-rocket';
       sensorName = 'Acceleration';
@@ -283,6 +324,16 @@ function createSensorElement(sensor, reading, widthClass) {
       sensorIconClass = 'fas fa-rocket';
       sensorName = 'Acceleration Magnitude';
       sensorContent = document.createTextNode(reading + 'g');
+      break;
+    case('capSensePercentage'):
+      sensorIconClass = 'fas fa-hand-pointer';
+      sensorName = 'Capacitive Sense';
+      sensorContent = document.createTextNode(reading + '%');
+      break;
+    case('magneticField'):
+      sensorIconClass = 'fas fa-magnet';
+      sensorName = 'Magnetic Field';
+      sensorContent = createMagnitudeDisplay(reading, 32768);
       break;
   }
 
