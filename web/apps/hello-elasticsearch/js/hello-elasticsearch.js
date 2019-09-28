@@ -7,7 +7,7 @@
 // Constants
 const ELASTICSEARCH_INTERFACE_ROUTE = '/interfaces/elasticsearch';
 const QUERY_TEMPLATE_NAMES = [
-    'All raddecs',
+    'Most recent raddecs',
     'Specific transmitterId',
     'Prefix transmitterId',
     'Aggregate receiverId',
@@ -45,14 +45,15 @@ function updateQuery() {
   let query = {};
 
   switch(queryTemplates.value) {
-    case '0': // All raddecs
+    case '0': // Most recent raddecs
       query = {
           "size": 10,
           "query": { "match_all": {} },
           "_source": [ "transmitterId", "transmitterIdType", "receiverId",
                        "receiverIdType", "rssi", "timestamp",
                        "numberOfDecodings", "numberOfReceivers",
-                       "numberOfPackets" ]
+                       "numberOfDistinctPackets" ],
+          "sort": [ { "timestamp": { "order": "desc" } } ]
       };
       queryBox.value = JSON.stringify(query, null, 2);
       break;
@@ -62,7 +63,7 @@ function updateQuery() {
           "query": { "term": { "transmitterId": "" } },
           "_source": [ "receiverId", "receiverIdType", "rssi", "timestamp",
                        "numberOfDecodings", "numberOfReceivers",
-                       "numberOfPackets", "packets" ]
+                       "numberOfDistinctPackets", "packets" ]
       };
       queryBox.value = JSON.stringify(query, null, 2);
       break;
@@ -73,7 +74,7 @@ function updateQuery() {
           "_source": [ "transmitterId", "transmitterIdType", "receiverId",
                        "receiverIdType", "rssi", "timestamp",
                        "numberOfDecodings", "numberOfReceivers",
-                       "numberOfPackets" ]
+                       "numberOfDistinctPackets" ]
       };
       queryBox.value = JSON.stringify(query, null, 2);
       break;
