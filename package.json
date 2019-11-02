@@ -38,7 +38,8 @@
     "cors": "^2.8.5",
     "express": "^4.0.0",
     "json-silo": "^1.0.0",
-    "raddec": "^0.2.5"
+    "raddec": "^0.2.5",
+    "starling": "^1.0.0"
   },
   "devDependencies": {},
   "bugs": {
