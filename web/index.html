@@ -94,14 +94,32 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-          <h1 class="text-center mt-4"> Hyperlocal Context </h1>
+          <h1 class="text-center my-4"> Hyperlocal Context </h1>
             <div class="row">
               <!-- Left column -->
               <div class="col-md-12 col-lg-6">
-                <p class="lead text-center">
-                  Processing <span id="raddecRate">0</span> raddecs per second from
-                  <span id="numTransmitters">0</span> transmitters.
-                </p>
+                <div class="row mb-4">
+                  <div class="col-sm-6">
+                    <div class="card">
+                      <div class="card-header text-truncate text-white bg-dark">
+                        <i class="fas fa-tachometer-alt"></i> &nbsp; raddecs/s
+                      </div>
+                      <div class="card-body text-center text-truncate display-4">
+                        <span id="raddecRate">0</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="card">
+                      <div class="card-header text-truncate text-white bg-dark">
+                        <i class="fas fa-wifi"></i> &nbsp; transmitters
+                      </div>
+                      <div class="card-body text-center text-truncate display-4">
+                        <span id="numTransmitters">0</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dropdown text-center mb-4">
                   <a class="btn btn-secondary dropdown-toggle" href="" role="button"
                      id="appsDropdown" data-toggle="dropdown" aria-haspopup="true"
