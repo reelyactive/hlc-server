@@ -14,7 +14,7 @@
     "M2M",
     "IoT"
   ],
-  "version": "1.0.16",
+  "version": "1.0.17",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.0.0",
-    "barnacles": "^1.0.5",
+    "barnacles": "^1.0.6",
     "barnacles-elasticsearch": "^0.2.0",
     "barnacles-socketio": "^0.1.0",
     "barnowl": "^1.0.0",
@@ -37,8 +37,9 @@
     "chickadee": "^1.0.1",
     "cors": "^2.8.5",
     "express": "^4.0.0",
-    "json-silo": "^1.0.0",
-    "raddec": "^0.2.5"
+    "json-silo": "^1.0.2",
+    "raddec": "^0.2.5",
+    "starling": "^1.0.1"
   },
   "devDependencies": {},
   "bugs": {

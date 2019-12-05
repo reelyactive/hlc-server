@@ -5,15 +5,20 @@
 
 
 // Constants
+const STATUS_OK = 200;
+const STATUS_CREATED = 201;
 const STATISTICS_INTERVAL_MILLISECONDS = 1000;
 const STATUS_INTERVAL_MILLISECONDS = 2000;
 const STATUS_ROUTE = '/status';
+const EMULATIONS_ROUTE = '/emulations';
 
 // DOM elements
 let raddecRate = document.querySelector('#raddecRate');
 let numTransmitters = document.querySelector('#numTransmitters');
 let mem = document.querySelector('#mem');
 let cpu = document.querySelector('#cpu');
+let emulateShowcaseKitButton =
+                          document.querySelector('#emulateShowcaseKitButton');
 
 // Other variables
 let raddecCount = 0;
@@ -69,6 +74,35 @@ function getUrl(url, callback) {
   httpRequest.send();
 }
 
+// POST emulation
+function createEmulation(emulation, callback) {
+  let emulationsUrl = baseUrl + EMULATIONS_ROUTE;
+  let jsonString = JSON.stringify(emulation);
+  let httpRequest = new XMLHttpRequest();
+
+  httpRequest.onreadystatechange = function() {
+    if(httpRequest.readyState === XMLHttpRequest.DONE) {
+      if((httpRequest.status === STATUS_OK) ||
+         (httpRequest.status === STATUS_CREATED)) {
+        return callback(httpRequest.status,
+                        JSON.parse(httpRequest.responseText));
+      }
+      else {
+        return callback(httpRequest.status);
+      }
+    }
+  };
+  httpRequest.open('POST', emulationsUrl);
+  httpRequest.setRequestHeader('Content-Type', 'application/json');
+  httpRequest.setRequestHeader('Accept', 'application/json');
+  httpRequest.send(jsonString);
+}
+
+// Emulate Showcase Kit
+function emulateShowcaseKit() {
+  createEmulation({}, function(status, emulations) {});
+}
+
 // Startup functions
 updateStatus();
 
@@ -76,5 +110,5 @@ updateStatus();
 setInterval(updateStatistics, STATISTICS_INTERVAL_MILLISECONDS);
 setInterval(updateStatus, STATUS_INTERVAL_MILLISECONDS);
 
-
-
+// Event listeners
+emulateShowcaseKitButton.addEventListener('click', emulateShowcaseKit);
