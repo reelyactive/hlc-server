@@ -40,6 +40,16 @@ let baseUrl = window.location.protocol + '//' + window.location.hostname +
 let raddecs = [];
 
 
+// Handle optional search parameters
+let params = new URLSearchParams(document.location.search.substring(1));
+let searchTransmitterIdSignature = params.get('transmitterIdSignature');
+if(searchTransmitterIdSignature) {
+  selectedIdSignature = searchTransmitterIdSignature;
+  idFilter.value = searchTransmitterIdSignature;
+  fetchAndUpdateStoryEntry();
+}
+
+
 // Connect to the socket.io stream and feed to beaver
 let socket = io.connect(baseUrl);
 beaver.listen(socket, true);
