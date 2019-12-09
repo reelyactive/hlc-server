@@ -19,6 +19,7 @@ const SORT_BY_OPTIONS = [
     '\u21e1 numberOfPackets',
     '\u21e3 numberOfPackets'
 ];
+const SIGNATURE_SEPARATOR = '/';
 const RDPS = ' / ';
 const EVENT_ICONS = [
     'fas fa-sign-in-alt',
@@ -92,7 +93,15 @@ function insertRaddec(raddec, prepend) {
   tr.setAttribute('id', raddec.transmitterId);
   tr.setAttribute('class', 'monospace');
 
-  appendTd(tr, raddec.transmitterId, 'text-right');
+  let transmitterIdSignature = raddec.transmitterId + SIGNATURE_SEPARATOR +
+                               raddec.transmitterIdType;
+  let helloTransmitterLink = '../hello-transmitter/?transmitterIdSignature=' +
+                             transmitterIdSignature;
+  let a = document.createElement('a');
+  a.setAttribute('href', helloTransmitterLink);
+  a.textContent = raddec.transmitterId;
+
+  appendTd(tr, a, 'text-right');
   appendTd(tr, prepareEvents(raddec), 'text-center');
   appendTd(tr, raddec.rssiSignature[0].receiverId, 'text-right');
   appendTd(tr, raddec.rssiSignature[0].rssi, 'text-right');
