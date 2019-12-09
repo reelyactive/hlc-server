@@ -73,6 +73,16 @@ let selectedStory;
 let selectedImgSrc;
 
 
+// Handle optional search parameters
+let params = new URLSearchParams(document.location.search.substring(1));
+let searchIdSignature = params.get('idSignature');
+if(searchIdSignature) {
+  selectedIdSignature = searchIdSignature;
+  idFilter.value = searchIdSignature;
+  fetchAndUpdateStoryEntry();
+}
+
+
 // Connect to the socket.io stream and feed to beaver
 let socket = io.connect(baseUrl);
 beaver.listen(socket, true);
