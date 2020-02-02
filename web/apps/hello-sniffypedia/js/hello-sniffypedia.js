@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2019
+ * Copyright reelyActive 2019-2020
  * We believe in an open Internet of Things
  */
 
@@ -10,6 +10,8 @@ const SNIFFYPEDIA_BASE_URL = 'https://sniffypedia.org/';
 
 
 // DOM elements
+let numTransmitters = document.querySelector('#numTransmitters');
+let digitalTwinsRatio = document.querySelector('#digitalTwinsRatio');
 let cards = document.querySelector('#cards');
 
 
@@ -259,4 +261,25 @@ function updateCards() {
 }
 
 
+// Update the stats
+function updateStats() {
+  let twinnedCount = 0;
+  let deviceCount = Object.keys(devices).length;
+  let twinPercentage = 0;
+
+  for(let url in urls) {
+    let count = urls[url].count;
+    twinnedCount += count;
+  }
+
+  if(deviceCount > 0) {
+    twinPercentage = (100 * (twinnedCount / deviceCount)).toFixed(0);
+  }
+
+  numTransmitters.textContent = deviceCount;
+  digitalTwinsRatio.textContent = twinPercentage + '%';
+}
+
+
 setInterval(updateCards, UPDATE_INTERVAL_MILLISECONDS);
+setInterval(updateStats, UPDATE_INTERVAL_MILLISECONDS);
