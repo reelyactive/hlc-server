@@ -5,10 +5,10 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
-          content="Query Elasticsearch.">
+          content="Display the digital twin of each radio-identifiable device.">
     <link rel="stylesheet" href="../../style/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/reelyactive.css">
-    <title> Hello-Elasticsearch! by reelyActive </title>
+    <title> Hello-Digital-Twins! by reelyActive </title>
   </head>
   <body>
     <!----- Navigation ----->
@@ -92,63 +92,35 @@
     </nav>
     <!----- Content ----->
     <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-          <form class="form-inline mt-4" onsubmit="return false;">
-            <div class="input-group mb-2 mr-sm-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <i class="fas fa-scroll"></i> &nbsp; Query Template
+      <div class="row justify-content-center my-4">
+        <div class="col-md-12 col-lg-3 col-xl-2 order-lg-last">
+          <div class="row mb-4">
+            <div class="col-sm-6 col-md-6 col-lg-12">
+              <div class="card mb-2">
+                <div class="card-header text-truncate text-white bg-dark">
+                  <i class="fas fa-wifi"></i> &nbsp; transmitters
+                </div>
+                <div class="card-body text-center text-truncate display-4">
+                  <span id="numTransmitters">0</span>
                 </div>
               </div>
-              <select class="custom-select" id="queryTemplates"></select>
             </div>
-          </form>
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title monospace"> GET /raddec/_search </span>
-            </div>
-            <div class="card-body">
-              <form onsubmit="return false;">
-                <div class="form-group">
-                  <textarea type="text" class="form-control monospace"
-                            id="queryBox" rows="8"></textarea>
+            <div class="col-sm-6 col-md-6 col-lg-12">
+              <div class="card mb-2">
+                <div class="card-header text-truncate text-white bg-dark">
+                  <i class="fas fa-user-friends"></i> &nbsp; digital twins
+                  <em class="small">(incl. Sniffypedia)</em>
                 </div>
-                <button type="submit" class="btn btn-primary text-center"
-                        id="queryButton"> Query </button>
-                <div class="alert alert-dark" id="queryError" role="alert">
-                  Enter a JSON query above or select from the Query Templates
+                <div class="card-body text-center text-truncate display-4">
+                  <span id="digitalTwinsRatio">0%</span>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
-          <div id="queryResults" class="my-4">
-            <h2>
-              Results
-              <small class="text-muted">
-                based on <span id="responseHits"></span> hits,
-                taking <span id="responseTime"></span> ms
-              </small>
-            </h2>
-            <div class="card" id="hitsCard">
-              <div class="card-header">
-                <span class="card-title monospace">
-                  <i class="fas fa-crosshairs"></i> hits
-                </span>
-              </div>
-              <div class="card-body">
-                <pre id="hitsBox"></pre>
-              </div>
-            </div>
-            <div class="card" id="aggregationsCard">
-              <div class="card-header">
-                <span class="card-title monospace"> aggregations </span>
-              </div>
-              <div class="card-body">
-                <pre id="aggregationsBox"></pre>
-              </div>
-            </div>
-          </div>  
+        </div>
+        <div class="col-sm-12 col-lg-9 col-xl-10">
+          <div id="cards" class="card-columns">
+          </div>
         </div>
       </div>
     </div>
@@ -162,6 +134,11 @@
     <script defer src="../../js/fontawesome.min.js"></script>
     <script src="../../js/jquery-3.4.0.min.js"></script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
-    <script src="js/hello-elasticsearch.js"></script>
+    <script src="../../js/socket.io.slim.js"></script>
+    <script src="../../js/beaver.js"></script>
+    <script src="../../js/cormorant.js"></script>
+    <script src="../../js/cuttlefish.js"></script>
+    <script src="../../js/sniffypedia.js"></script>
+    <script src="js/hello-digital-twins.js"></script>
   </body>
 </html>
