@@ -93,7 +93,32 @@
     <!----- Content ----->
     <div class="container-fluid">
       <div class="row justify-content-center my-4">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
+        <div class="col-md-12 col-lg-3 col-xl-2 order-lg-last">
+          <div class="row mb-4">
+            <div class="col-sm-6 col-md-6 col-lg-12">
+              <div class="card mb-2">
+                <div class="card-header text-truncate text-white bg-dark">
+                  <i class="fas fa-wifi"></i> &nbsp; transmitters
+                </div>
+                <div class="card-body text-center text-truncate display-4">
+                  <span id="numTransmitters">0</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-12">
+              <div class="card mb-2">
+                <div class="card-header text-truncate text-white bg-dark">
+                  <i class="fas fa-user-friends"></i> &nbsp; digital twins
+                  <em class="small">(from Sniffypedia)</em>
+                </div>
+                <div class="card-body text-center text-truncate display-4">
+                  <span id="digitalTwinsRatio">0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-9 col-xl-10">
           <div id="cards" class="card-columns">
           </div>
         </div>
@@ -102,7 +127,7 @@
     <footer class="footer">
       <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
       &nbsp; | &nbsp;
-      <a href="https://www.reelyactive.com"> &copy; reelyActive 2014-2019 </a>
+      <a href="https://www.reelyactive.com"> &copy; reelyActive 2014-2020 </a>
     </footer>
     <script defer src="../../js/solid.min.js"></script>
     <script defer src="../../js/brands.min.js"></script>

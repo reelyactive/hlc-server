@@ -1,11 +1,12 @@
 /**
- * Copyright reelyActive 2019-2020
+ * Copyright reelyActive 2020
  * We believe in an open Internet of Things
  */
 
 
 // Constants
 const UPDATE_INTERVAL_MILLISECONDS = 2000;
+const SIGNATURE_SEPARATOR = '/';
 const SNIFFYPEDIA_BASE_URL = 'https://sniffypedia.org/';
 
 
@@ -19,53 +20,63 @@ let cards = document.querySelector('#cards');
 let devices = {};
 let urls = {};
 let isUpdateRequired = false;
+let baseUrl = window.location.protocol + '//' + window.location.hostname +
+              ':' + window.location.port;
 
 
 // Connect to the socket.io stream and feed to beaver
-let baseUrl = window.location.protocol + '//' + window.location.hostname +
-              ':' + window.location.port;
 let socket = io.connect(baseUrl);
 beaver.listen(socket, true);
 
 // Non-disappearance events
 beaver.on([ 0, 1, 2, 3 ], function(raddec) {
-  let isNewDevice = !devices.hasOwnProperty(raddec.transmitterId);
+  let transmitterSignature = raddec.transmitterId +
+                             SIGNATURE_SEPARATOR +
+                             raddec.transmitterIdType;
+  let isNewDevice = !devices.hasOwnProperty(transmitterSignature);
   let isValidUrl = !isNewDevice &&
-                   (devices[raddec.transmitterId].url !== null);
+                   (devices[transmitterSignature].url !== null);
 
   if(isNewDevice) {
-    devices[raddec.transmitterId] = { url: null };
+    devices[transmitterSignature] = { url: null };
   }
 
   if(!isValidUrl) {
-    let url = determineUrl(raddec.packets);
+    determineUrl(transmitterSignature, raddec.packets,
+                 function(url, isSniffypedia) {
+      if(url) {
+        let isNewUrl = !urls.hasOwnProperty(url);
 
-    if(url) {
-      let isNewUrl = !urls.hasOwnProperty(url);
+        if(isNewUrl) {
+          urls[url] = { count: 0, isSniffypedia: isSniffypedia };
 
-      if(isNewUrl) {
-        urls[url] = { count: 0 };
-        cormorant.retrieveStory(url, function(story) {
-          let card = createCard(story, '1 device');
-          cards.appendChild(card);
-        });
+          if(!isSniffypedia) { // TODO: optionally display Sniffypedia twins?
+            cormorant.retrieveStory(url, function(story) {
+              let card = createCard(story, '1 device');
+              cards.appendChild(card);
+            });
+          }
+        }
+        else {
+          isUpdateRequired = true;
+        }
+
+        urls[url].count++;
+        devices[transmitterSignature].url = url;
       }
-      else {
-        isUpdateRequired = true;
-      }
-
-      urls[url].count++;
-      devices[raddec.transmitterId].url = url;
-    }
+    });
   }
 });
 
 // Disappearance events
 beaver.on([ 4 ], function(raddec) {
-  let isExistingDevice = devices.hasOwnProperty(raddec.transmitterId);
+  let transmitterSignature = raddec.transmitterId +
+                             SIGNATURE_SEPARATOR +
+                             raddec.transmitterIdType;
+  let isExistingDevice = devices.hasOwnProperty(transmitterSignature);
 
   if(isExistingDevice) {
-    let url = devices[raddec.transmitterId].url;
+    let url = devices[transmitterSignature].url;
     let isValidUrl = url && urls.hasOwnProperty(url);
 
     if(isValidUrl) {
@@ -73,25 +84,34 @@ beaver.on([ 4 ], function(raddec) {
       isUpdateRequired = true;
     }
 
-    delete devices[raddec.transmitterId];
+    delete devices[transmitterSignature];
   }
 });
 
 
 // Determine the URL associated with the given device
-function determineUrl(packets) {
-  let identifiers = {
-      uuid16: [],
-      uuid128: [],
-      companyIdentifiers: []
-  };
+function determineUrl(transmitterSignature, packets, callback) {
+  cormorant.retrieveAssociations(baseUrl, transmitterSignature, false,
+                                 function(associations) {
+    if(associations && associations.hasOwnProperty('url')) {
+      callback(associations.url, false);
+    }
+    else {
+      let identifiers = {
+          uuid16: [],
+          uuid128: [],
+          companyIdentifiers: []
+      };
 
-  packets.forEach(function(packet) {
-    parsePacketIdentifiers(packet, identifiers);
+      packets.forEach(function(packet) {
+        parsePacketIdentifiers(packet, identifiers);
+      });
+
+      callback(lookupIdentifiers(identifiers), true);
+    }
   });
-
-  return lookupIdentifiers(identifiers);
 }
+
 
 // Parse the given packets, extracting all identifiers
 // TODO: in future this will be handled server-side, just a stopgap for now
@@ -211,23 +231,25 @@ function updateCards() {
 
   // Order the urls by device counts
   for(let url in urls) {
-    let count = urls[url].count;
+    if(!urls[url].isSniffypedia) { // TODO: display Sniffypedia twins?
+      let count = urls[url].count;
 
-    if(orderedUrls.length === 0) {
-      orderedUrls.push(url);
-      orderedCounts.push(count);
-    }
-    else {
-      for(let cUrl = 0; cUrl < orderedUrls.length; cUrl++) {
-        if(count > orderedCounts[cUrl]) {
-          orderedUrls.splice(cUrl, 0, url);
-          orderedCounts.splice(cUrl, 0, count);
-          cUrl = orderedUrls.length;
-        }
-        else if(cUrl === (orderedUrls.length - 1)) {
-          orderedUrls.push(url);
-          orderedCounts.push(count);
-          cUrl = orderedUrls.length;
+      if(orderedUrls.length === 0) {
+        orderedUrls.push(url);
+        orderedCounts.push(count);
+      }
+      else {
+        for(let cUrl = 0; cUrl < orderedUrls.length; cUrl++) {
+          if(count > orderedCounts[cUrl]) {
+            orderedUrls.splice(cUrl, 0, url);
+            orderedCounts.splice(cUrl, 0, count);
+            cUrl = orderedUrls.length;
+          }
+          else if(cUrl === (orderedUrls.length - 1)) {
+            orderedUrls.push(url);
+            orderedCounts.push(count);
+            cUrl = orderedUrls.length;
+          }
         }
       }
     }
