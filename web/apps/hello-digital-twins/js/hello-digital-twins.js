@@ -34,21 +34,18 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
                              SIGNATURE_SEPARATOR +
                              raddec.transmitterIdType;
   let isNewDevice = !devices.hasOwnProperty(transmitterSignature);
-  let isValidUrl = !isNewDevice &&
-                   (devices[transmitterSignature].url !== null);
 
   if(isNewDevice) {
     devices[transmitterSignature] = { url: null };
-  }
 
-  if(!isValidUrl) {
     determineUrl(transmitterSignature, raddec.packets,
                  function(url, isSniffypedia) {
       if(url) {
+        devices[transmitterSignature].url = url;
         let isNewUrl = !urls.hasOwnProperty(url);
 
         if(isNewUrl) {
-          urls[url] = { count: 0, isSniffypedia: isSniffypedia };
+          urls[url] = { count: 1, isSniffypedia: isSniffypedia };
 
           if(!isSniffypedia) { // TODO: optionally display Sniffypedia twins?
             cormorant.retrieveStory(url, function(story) {
@@ -58,11 +55,9 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
           }
         }
         else {
+          urls[url].count++;
           isUpdateRequired = true;
         }
-
-        urls[url].count++;
-        devices[transmitterSignature].url = url;
       }
     });
   }
