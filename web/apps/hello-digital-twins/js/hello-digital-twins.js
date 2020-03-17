@@ -8,6 +8,8 @@
 const UPDATE_INTERVAL_MILLISECONDS = 2000;
 const SIGNATURE_SEPARATOR = '/';
 const SNIFFYPEDIA_BASE_URL = 'https://sniffypedia.org/';
+const ICON_DEVICES = 'fas fa-wifi';
+const ICON_APPEARANCE = 'fas fa-sign-in-alt';
 
 
 // DOM elements
@@ -34,35 +36,33 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
                              SIGNATURE_SEPARATOR +
                              raddec.transmitterIdType;
   let isNewDevice = !devices.hasOwnProperty(transmitterSignature);
-  let isValidUrl = !isNewDevice &&
-                   (devices[transmitterSignature].url !== null);
 
   if(isNewDevice) {
-    devices[transmitterSignature] = { url: null };
-  }
+    let appearanceTime = new Date().toLocaleTimeString();
+    devices[transmitterSignature] = { url: null,
+                                      appearanceTime: appearanceTime };
 
-  if(!isValidUrl) {
     determineUrl(transmitterSignature, raddec.packets,
                  function(url, isSniffypedia) {
       if(url) {
+        devices[transmitterSignature].url = url;
         let isNewUrl = !urls.hasOwnProperty(url);
 
         if(isNewUrl) {
-          urls[url] = { count: 0, isSniffypedia: isSniffypedia };
+
+          urls[url] = { count: 1, isSniffypedia: isSniffypedia };
 
           if(!isSniffypedia) { // TODO: optionally display Sniffypedia twins?
             cormorant.retrieveStory(url, function(story) {
-              let card = createCard(story, '1 device');
+              let card = createCard(story, appearanceTime, ICON_APPEARANCE);
               cards.appendChild(card);
             });
           }
         }
         else {
+          urls[url].count++;
           isUpdateRequired = true;
         }
-
-        urls[url].count++;
-        devices[transmitterSignature].url = url;
       }
     });
   }
@@ -205,12 +205,12 @@ function lookupIdentifiers(identifiers) {
 
 
 // Create the card from the given story
-function createCard(story, text) {
+function createCard(story, text, iconClass) {
   let card = document.createElement('div');
   let listGroupItems = [ {
       text: text,
-      itemClass: "text-white bg-dark",
-      iconClass: "fas fa-info-circle"
+      itemClass: "text-white bg-dark lead",
+      iconClass: iconClass || "fas fa-info-circle"
   } ];
   card.setAttribute('class', 'card');
   cuttlefish.render(story, card, { listGroupItems: listGroupItems });
@@ -261,17 +261,25 @@ function updateCards() {
     let count = orderedCounts[cUrl];
 
     if(count > 0) {
-      let text = count;
+      let text;
+      let iconClass = ICON_DEVICES;
 
       if(count === 1) {
-        text += ' device';
+        text = '1 device';
+        for(deviceSignature in devices) {
+          let deviceUrl = devices[deviceSignature].url;
+          if(deviceUrl === url) {
+            text = devices[deviceSignature].appearanceTime;
+            iconClass = ICON_APPEARANCE;
+          }
+        }
       }
       else {
-        text += ' devices';
+        text = count + ' devices';
       }
 
       let story = cormorant.stories[url];
-      let card = createCard(story, text);
+      let card = createCard(story, text, iconClass);
       updatedCards.appendChild(card);
     }
   }
