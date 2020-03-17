@@ -1,7 +1,7 @@
 hlc-server
 ==========
 
-Hyperlocal context (HLC) server combining all the core open source software packages of the reelyActive stack for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space._ Just add radio infrastructure (ex: RFID readers, Raspberry Pi, ...) for source data.
+Hyperlocal context (HLC) server combining all the core open source software packages of the reelyActive stack for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add radio infrastructure (ex: RFID readers, Raspberry Pi, ...) for source data.
 
 
 Getting Started Tutorials

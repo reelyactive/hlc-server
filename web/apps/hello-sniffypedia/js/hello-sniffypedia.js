@@ -46,7 +46,7 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
       if(isNewUrl) {
         urls[url] = { count: 0 };
         cormorant.retrieveStory(url, function(story) {
-          let card = createCard(story, '1 device');
+          let card = createCard(story, '1');
           cards.appendChild(card);
         });
       }
@@ -189,8 +189,7 @@ function createCard(story, text) {
   let card = document.createElement('div');
   let listGroupItems = [ {
       text: text,
-      itemClass: "text-white bg-dark",
-      iconClass: "fas fa-info-circle"
+      itemClass: "text-white bg-dark display-4 text-right"
   } ];
   card.setAttribute('class', 'card');
   cuttlefish.render(story, card, { listGroupItems: listGroupItems });
@@ -240,14 +239,6 @@ function updateCards() {
 
     if(count > 0) {
       let text = count;
-
-      if(count === 1) {
-        text += ' device';
-      }
-      else {
-        text += ' devices';
-      }
-
       let story = cormorant.stories[url];
       let card = createCard(story, text);
       updatedCards.appendChild(card);
