@@ -14,7 +14,7 @@
     "M2M",
     "IoT"
   ],
-  "version": "1.0.20",
+  "version": "1.0.21",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -36,6 +36,7 @@
     "body-parser": "^1.18.0",
     "chickadee": "^1.0.1",
     "cors": "^2.8.5",
+    "diract-digester": "^0.1.1",
     "express": "^4.0.0",
     "json-silo": "^1.0.2",
     "raddec": "^0.2.5",
