@@ -91,19 +91,69 @@
       </div>
     </nav>
     <!----- Content ----->
-    <div class="container-fluid vertical-center">
-      <h1 class="mt-5">
-        Whac-a-Beaver
-      </h1>
-      <div class="row justify-content-center mt-5">
-        <div class="col mt-5">
-          <img id="image1" src="images/hole3.png" style="width:100%">
+    <div class="container-fluid">
+      <div class="row justify-content-center my-4">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-7">
+          <img src="images/intro-beaver.png" class="img-fluid mb-4"
+               id="beaverImage">
         </div>
-        <div class="col mt-5">
-          <img id="image2" src="images/hole3.png" style="width:100%">
-        </div>
-        <div class="col mt-5">
-          <img id="image3" src="images/hole3.png" style="width:100%">
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+          <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+              <i class="fas fa-info-circle"></i> &nbsp; Beaver data
+            </div>
+            <div class="card-body">
+              <h5 class="card-title monospace">
+                <i class="fas fa-barcode"></i> &nbsp;
+                <span id="beaverTransmitterId">
+                  Waiting for DirAct beacon
+                </span>
+              </h5>
+              <h6 class="card-subtitle mb-4 text-muted monospace">
+                <i class="fas fa-map-pin"></i> &nbsp;
+                <span id="beaverReceiverId"> &hellip; </span> &nbsp;
+                <i class="fas fa-signal"></i> &nbsp;
+                <span id="beaverRssi">&mdash; dBm</span>
+              </h6>
+              <div class="card">
+                <div class="card-header text-truncate bg-light">
+                  <i class="fas fa-user-friends"></i> &nbsp; Nearest
+                </div>
+                <div class="card-body text-muted monospace">
+                  <i class="fas fa-barcode"></i> &nbsp;
+                  <span id="nearestInstanceId"> &hellip; </span> &nbsp;
+                  <i class="fas fa-signal"></i> &nbsp;
+                  <span id="nearestRssi">&mdash; dBm</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+              <i class="fas fa-info-circle"></i> &nbsp; Paddle data
+            </div>
+            <div class="card-body">
+              <h5 class="card-title monospace">
+                <i class="fas fa-barcode"></i> &nbsp;
+                <span id="paddleTransmitterId">
+                  Waiting for accelerometer beacon
+                </span>
+              </h5>
+              <h6 class="card-subtitle mb-4 text-muted monospace">
+                <i class="fas fa-map-pin"></i> &nbsp;
+                <span id="paddleReceiverId"> &hellip; </span> &nbsp;
+                <i class="fas fa-signal"></i> &nbsp;
+                <span id="paddleRssi">&mdash; dBm</span>
+              </h6>
+              <div class="card">
+                <div class="card-header text-truncate bg-light">
+                  <i class="fas fa-rocket"></i> &nbsp; Acceleration
+                </div>
+                <div class="card-body" id="paddleAccelerationCard">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
