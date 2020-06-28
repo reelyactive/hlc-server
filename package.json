@@ -14,7 +14,7 @@
     "M2M",
     "IoT"
   ],
-  "version": "1.0.21",
+  "version": "1.0.22",
   "engines": {
     "node": ">=6.0.0"
   },
