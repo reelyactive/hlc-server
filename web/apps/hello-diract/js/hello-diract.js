@@ -10,7 +10,8 @@ const SORT_BY_OPTIONS = [
     '\u21e3 transmitterId'
 ];
 const SIGNATURE_SEPARATOR = '/';
-const DIRACT_PACKET_SIGNATURE = 'ff830501';
+const DIRACT_PACKET_SIGNATURE = 'ff830501'; // TODO: rename to PROXIMITY
+const DIRACT_DIGEST_SIGNATURE = 'ff830511';
 const DIRACT_PACKET_SIGNATURE_OFFSET = 24;
 
 // DOM elements
@@ -18,6 +19,7 @@ let idFilter = document.querySelector('#idFilter');
 let sortBy = document.querySelector('#sortBy');
 let displayCount = document.querySelector('#displayCount');
 let diractCards = document.querySelector('#diractCards');
+let diractDigests = document.querySelector('#diractDigests');
 
 // Create sortBy options
 SORT_BY_OPTIONS.forEach(function(element, index) {
@@ -30,6 +32,7 @@ SORT_BY_OPTIONS.forEach(function(element, index) {
 // Other variables
 let devices = {};
 let sortFunction;
+let latestDigests = [];
 updateSortFunction();
 
 // Connect to the socket.io stream and feed to beaver
@@ -43,6 +46,7 @@ beaver.on([ 0, 1, 2, 3 ], function(raddec) {
   if(isDirAct(raddec)) {
     updateDevice(raddec);
   }
+  handleDirActDigest(raddec);
 });
 
 // Disappearance events
@@ -73,6 +77,53 @@ function isDirAct(raddec) {
   }
 
   return foundDirActPacket;
+}
+
+
+// Handle any DirAct digest packets in the raddec
+function handleDirActDigest(raddec) {
+  let hasPackets = (raddec.hasOwnProperty('packets') &&
+                    (raddec.packets.length > 0));
+
+  if(hasPackets) {
+    raddec.packets.forEach(function(packet) {
+      let signature = packet.substr(DIRACT_PACKET_SIGNATURE_OFFSET,
+                                    DIRACT_DIGEST_SIGNATURE.length);
+      if(signature === DIRACT_DIGEST_SIGNATURE) {
+        displayDirActDigest(packet);
+      }
+    });
+  }
+}
+
+
+// Parse and display a DirAct digest packet
+function displayDirActDigest(packet) {
+  let data = packet.substr(30);
+  let frameLength = parseInt(data.substr(2,2), 16) & 0x1f;
+  let pageNumber = parseInt(data.substr(2,1), 16) >> 1;
+  let instanceId = data.substr(4,8);
+  let isLastPage = ((parseInt(data.substr(12,1), 16) & 0x8) === 0x8);
+  let digestTimestamp = parseInt(data.substr(12,6), 16) & 0x7fffff;
+  let page = [];
+
+  for(let pageIndex = 9; pageIndex < (frameLength + 2); pageIndex += 5) {
+    let instanceId = data.substr(pageIndex * 2, 8);
+    let count = parseInt(data.substr(pageIndex * 2 + 8, 2), 16);
+    if(count > 128) {
+      count = (count & 0x7f) << 8;
+    }
+    page.push( { instanceId: instanceId, count: count } );
+  }
+
+  let digest = { instanceId: instanceId, digestTimestamp: digestTimestamp,
+                 isLastPage: isLastPage, pageNumber: pageNumber, page: page };
+
+  latestDigests.push(JSON.stringify(digest, null, 2));
+  if(latestDigests.length > 12) {
+    latestDigests.pop();
+  }
+  diractDigests.textContent = latestDigests;
 }
 
 
