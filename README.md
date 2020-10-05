@@ -1,7 +1,7 @@
 hlc-server
 ==========
 
-Hyperlocal context (HLC) server combining all the core open source software packages of the reelyActive stack for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add radio infrastructure (ex: RFID readers, Raspberry Pi, ...) for source data.
+Hyperlocal context (HLC) server combining all the core open source software packages of [Pareto Anywhere by reelyActive](https://getpareto.com) for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add [radio-identification infrastructure](https://getpareto.com/platform/infrastructure/) to harness ambient source data.
 
 
 Getting Started Tutorials
@@ -46,6 +46,7 @@ Browse to [localhost:3001](http://localhost:3001) to see the landing page.
 __hlc-server__ will listen for data as follows:
 - reel packets over UDP on port 50000 (via [barnowl-reel](https://github.com/reelyactive/barnowl-reel) UdpListener)
 - encoded [raddecs](https://github.com/reelyactive/raddec) over UDP on port 50001
+- data using Minew's _Binary Long_ format via HTTP POST to /minew
 
 __hlc-server__ will output data as follows:
 - [socket.io](https://socket.io/) stream on port 3001 (via [barnacles-socketio](https://github.com/reelyactive/barnacles-socketio))

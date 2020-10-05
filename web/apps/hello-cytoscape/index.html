@@ -5,10 +5,11 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
-          content="Observe the behaviour of DirAct devices.">
+          content="Observe hyperlocal context as a graph using Cytoscape.">
     <link rel="stylesheet" href="../../style/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/reelyactive.css">
-    <title> Hello-DirAct! by reelyActive </title>
+    <link rel="stylesheet" href="style/hello-cytoscape.css">
+    <title> Hello-Cytoscape! by reelyActive </title>
   </head>
   <body>
     <!----- Navigation ----->
@@ -94,45 +95,11 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-          <form class="form-inline mt-4" onsubmit="return false;">
-            <div class="input-group mb-2 mr-sm-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <i class="fas fa-filter"></i> &nbsp; ID filter
-                </div>
-              </div>
-              <input type="text" class="form-control" id="idFilter" size="16"
-                     placeholder="Start typing">
-            </div>
-            <div class="input-group mb-2 mr-sm-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <i class="fas fa-sort"></i> &nbsp; Sort by
-                </div>
-              </div>
-              <select class="custom-select" id="sortBy"></select>
-            </div>
-            <div class="input-group mb-2 mr-sm-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <i class="fas fa-eye"></i> &nbsp; Displaying
-                </div>
-              </div>
-              <input type="text" class="form-control" id="displayCount"
-                     size="6" readonly>
-            </div>
-          </form>
-          <div id="diractCards">
-          </div>
-          <div class="card my-4">
-            <div class="card-body">
-              <h5 class="card-title"> DirAct Digests </h5>
-              <pre id="diractDigests" class="card-text">Listening for DirAct digest packets...</pre>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
+    <div id="cy"></div>
     <footer class="footer">
       <a href="https://github.com/reelyactive/hlc-server"> hlc-server </a>
       &nbsp; | &nbsp;
@@ -143,8 +110,11 @@
     <script defer src="../../js/fontawesome.min.js"></script>
     <script src="../../js/jquery-3.4.0.min.js"></script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/cytoscape.min.js"></script>
     <script src="../../js/socket.io.slim.js"></script>
     <script src="../../js/beaver.js"></script>
-    <script src="js/hello-diract.js"></script>
+    <script src="../../js/cormorant.js"></script>
+    <script src="../../js/cuttlefish.js"></script>
+    <script src="js/hello-cytoscape.js"></script>
   </body>
 </html>
