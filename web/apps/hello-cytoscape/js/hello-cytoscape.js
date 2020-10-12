@@ -10,10 +10,9 @@ const DEFAULT_LAYOUT_INTERVAL = 5000;
 const SIGNATURE_SEPARATOR = '/';
 const LAYOUT_OPTIONS = {
     name: "cose",
-    animationEasing: 950,
-    animationDuration: 1000,
+    animate: false,
     randomize: false,
-    initialTemp: 100
+    initialTemp: 40
 };
 const GRAPH_STYLE = [
     { selector: "node[type='transmitter']",
