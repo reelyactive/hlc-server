@@ -8,11 +8,17 @@
 const DEFAULT_RSSI_THRESHOLD = -70;
 const DEFAULT_LAYOUT_INTERVAL = 5000;
 const SIGNATURE_SEPARATOR = '/';
-const LAYOUT_OPTIONS = {
+const COSE_LAYOUT_OPTIONS = {
     name: "cose",
     animate: false,
     randomize: false,
     initialTemp: 40
+};
+const CONCENTRIC_LAYOUT_OPTIONS = {
+    name: "concentric",
+    startAngle: 0,
+    sweep: Math.PI,
+    concentric: concentric
 };
 const GRAPH_STYLE = [
     { selector: "node[type='transmitter']",
@@ -34,16 +40,21 @@ const GRAPH_STYLE = [
 let rssiThreshold = DEFAULT_RSSI_THRESHOLD;
 let layoutUpdateInterval = DEFAULT_LAYOUT_INTERVAL;
 let isInitialLayoutPending = true;
+let layoutOptions = COSE_LAYOUT_OPTIONS;
 let layoutPromise;
+let selectedReceiverId;
 
 
 // Initialise Cytoscape
 let cy = cytoscape({
   container: document.getElementById('cy'),
-  layout: LAYOUT_OPTIONS,
+  layout: COSE_LAYOUT_OPTIONS,
   style: GRAPH_STYLE
 });
 let layout = cy.layout({ name: "cose", cy: cy });
+cy.on("tap", "node[type='receiver']", handleReceiverTap);
+cy.on("tap", "node[type='transmitter']", handleTransmitterTap);
+
 
 
 // Connect to the socket.io stream and feed to beaver
@@ -237,10 +248,51 @@ function isAboveRssiThreshold(raddec) {
 }
 
 
+// Determine the level of the given node in the concentric layout
+function concentric(node) {
+  if(node.id() === selectedReceiverId) {
+    return 100;
+  }
+
+  return 0;
+}
+
+
+// Handle the tap of a receiver node
+function handleReceiverTap(evt) {
+  let node = evt.target;
+
+  let isNewSelectedReceiver = (node.id() !== selectedReceiverId);
+
+  if(isNewSelectedReceiver) {
+    selectedReceiverId = node.id();
+    updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
+  }
+  else if(layoutOptions.name === 'concentric') {
+    updateLayout(COSE_LAYOUT_OPTIONS);
+  }
+  else {
+    updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
+  }
+}
+
+
+// Handle the tap of a transmitter node
+function handleTransmitterTap(evt) {
+  let node = evt.target;
+  console.log('tapped transmitter ' + node.id());
+}
+
+
 // Update the layout and set a timeout for the next update
-function updateLayout() {
+function updateLayout(newLayoutOptions) {
+  if(newLayoutOptions) {
+    layoutOptions = newLayoutOptions;
+    clearTimeout(layoutPromise);
+  }
+
   layout.stop();
-  layout = cy.elements().makeLayout(LAYOUT_OPTIONS);
+  layout = cy.elements().makeLayout(layoutOptions);
   layout.run();
   layoutPromise = setTimeout(updateLayout, layoutUpdateInterval);
 }
