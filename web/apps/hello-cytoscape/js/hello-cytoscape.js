@@ -71,8 +71,10 @@ function addTransmitter(raddec) {
     return;
   }
 
-  cy.add({ group: "nodes", data: { id: transmitterSignature,
-                                   type: 'transmitter' } });
+  let renderedPosition = determineInitialRenderingPosition(raddec);
+
+  cy.add({ group: "nodes", renderedPosition: renderedPosition,
+           data: { id: transmitterSignature, type: 'transmitter' } });
   addReceiverEdges(raddec);
 
   if(isInitialLayoutPending) {
@@ -199,6 +201,31 @@ function determineTransmitterSignature(raddec) {
 // Determine the strongest receiver signature for the given raddec
 function determineReceiverSignature(entry) {
   return entry.receiverId + SIGNATURE_SEPARATOR + entry.receiverIdType;
+}
+
+
+// Determine an initial rendering position for the given raddec
+function determineInitialRenderingPosition(raddec) {
+  if(!Array.isArray(raddec.rssiSignature) ||
+     (raddec.rssiSignature.length < 1)) {
+    return { x: 0, y: 0 };
+  }
+
+  let receiverSignature = determineReceiverSignature(raddec.rssiSignature[0]);
+  let receiverNode = cy.getElementById(receiverSignature);
+  let isExistingNode = (receiverNode.size() > 0);
+
+  if(!isExistingNode) {
+    return { x: 0, y: 0 };
+  }
+
+  let receiverX = receiverNode.renderedPosition('x') || 0;
+  let receiverY = receiverNode.renderedPosition('y') || 0;
+  let receiverW = receiverNode.renderedWidth() || 50;
+  let randomRadians = Math.random() * Math.PI * 2;
+
+  return { x: receiverX + (Math.cos(randomRadians) * receiverW),
+           y: receiverY + (Math.sin(randomRadians) * receiverW) };
 }
 
 
