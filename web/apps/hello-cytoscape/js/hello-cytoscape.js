@@ -8,12 +8,20 @@
 const DEFAULT_RSSI_THRESHOLD = -70;
 const DEFAULT_LAYOUT_INTERVAL = 5000;
 const SIGNATURE_SEPARATOR = '/';
-const LAYOUT_OPTIONS = {
+const COSE_LAYOUT_OPTIONS = {
     name: "cose",
-    animationEasing: 950,
-    animationDuration: 1000,
+    animate: false,
     randomize: false,
-    initialTemp: 100
+    initialTemp: 40
+};
+const CONCENTRIC_LAYOUT_OPTIONS = {
+    name: "concentric",
+    startAngle: 0,
+    sweep: Math.PI,
+    concentric: concentric
+};
+const BREADTHFIRST_LAYOUT_OPTIONS = {
+    name: "breadthfirst"
 };
 const GRAPH_STYLE = [
     { selector: "node[type='transmitter']",
@@ -35,16 +43,22 @@ const GRAPH_STYLE = [
 let rssiThreshold = DEFAULT_RSSI_THRESHOLD;
 let layoutUpdateInterval = DEFAULT_LAYOUT_INTERVAL;
 let isInitialLayoutPending = true;
+let layoutOptions = COSE_LAYOUT_OPTIONS;
 let layoutPromise;
+let selectedReceiverId;
+let selectedTransmitterId;
 
 
 // Initialise Cytoscape
 let cy = cytoscape({
   container: document.getElementById('cy'),
-  layout: LAYOUT_OPTIONS,
+  layout: COSE_LAYOUT_OPTIONS,
   style: GRAPH_STYLE
 });
 let layout = cy.layout({ name: "cose", cy: cy });
+cy.on("tap", "node[type='receiver']", handleReceiverTap);
+cy.on("tap", "node[type='transmitter']", handleTransmitterTap);
+
 
 
 // Connect to the socket.io stream and feed to beaver
@@ -72,8 +86,10 @@ function addTransmitter(raddec) {
     return;
   }
 
-  cy.add({ group: "nodes", data: { id: transmitterSignature,
-                                   type: 'transmitter' } });
+  let renderedPosition = determineInitialRenderingPosition(raddec);
+
+  cy.add({ group: "nodes", renderedPosition: renderedPosition,
+           data: { id: transmitterSignature, type: 'transmitter' } });
   addReceiverEdges(raddec);
 
   if(isInitialLayoutPending) {
@@ -203,6 +219,31 @@ function determineReceiverSignature(entry) {
 }
 
 
+// Determine an initial rendering position for the given raddec
+function determineInitialRenderingPosition(raddec) {
+  if(!Array.isArray(raddec.rssiSignature) ||
+     (raddec.rssiSignature.length < 1)) {
+    return { x: 0, y: 0 };
+  }
+
+  let receiverSignature = determineReceiverSignature(raddec.rssiSignature[0]);
+  let receiverNode = cy.getElementById(receiverSignature);
+  let isExistingNode = (receiverNode.size() > 0);
+
+  if(!isExistingNode) {
+    return { x: 0, y: 0 };
+  }
+
+  let receiverX = receiverNode.renderedPosition('x') || 0;
+  let receiverY = receiverNode.renderedPosition('y') || 0;
+  let receiverW = receiverNode.renderedWidth() || 50;
+  let randomRadians = Math.random() * Math.PI * 2;
+
+  return { x: receiverX + (Math.cos(randomRadians) * receiverW),
+           y: receiverY + (Math.sin(randomRadians) * receiverW) };
+}
+
+
 // Determine if the strongest receiver is above the RSSI threshold
 function isAboveRssiThreshold(raddec) {
   return (Array.isArray(raddec.rssiSignature) &&
@@ -211,10 +252,65 @@ function isAboveRssiThreshold(raddec) {
 }
 
 
+// Determine the level of the given node in the concentric layout
+function concentric(node) {
+  if(node.id() === selectedReceiverId) {
+    return 100;
+  }
+
+  return 0;
+}
+
+
+// Handle the tap of a receiver node
+function handleReceiverTap(evt) {
+  let node = evt.target;
+
+  let isNewSelectedReceiver = (node.id() !== selectedReceiverId);
+
+  if(isNewSelectedReceiver) {
+    selectedReceiverId = node.id();
+    updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
+  }
+  else if(layoutOptions.name === 'concentric') {
+    updateLayout(COSE_LAYOUT_OPTIONS);
+  }
+  else {
+    updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
+  }
+}
+
+
+// Handle the tap of a transmitter node
+function handleTransmitterTap(evt) {
+  let node = evt.target;
+
+  let isNewSelectedTransmitter = (node.id() !== selectedTransmitterId);
+  let breadthfirstLayoutOptions = Object.assign({ roots: node },
+                                                BREADTHFIRST_LAYOUT_OPTIONS);
+
+  if(isNewSelectedTransmitter) {
+    selectedTransmitterId = node.id();
+    updateLayout(breadthfirstLayoutOptions);
+  }
+  else if(layoutOptions.name === 'breadthfirst') {
+    updateLayout(COSE_LAYOUT_OPTIONS);
+  }
+  else {
+    updateLayout(breadthfirstLayoutOptions);
+  }
+}
+
+
 // Update the layout and set a timeout for the next update
-function updateLayout() {
+function updateLayout(newLayoutOptions) {
+  if(newLayoutOptions) {
+    layoutOptions = newLayoutOptions;
+    clearTimeout(layoutPromise);
+  }
+
   layout.stop();
-  layout = cy.elements().makeLayout(LAYOUT_OPTIONS);
+  layout = cy.elements().makeLayout(layoutOptions);
   layout.run();
   layoutPromise = setTimeout(updateLayout, layoutUpdateInterval);
 }
