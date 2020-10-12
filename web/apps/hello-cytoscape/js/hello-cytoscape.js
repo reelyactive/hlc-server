@@ -20,6 +20,9 @@ const CONCENTRIC_LAYOUT_OPTIONS = {
     sweep: Math.PI,
     concentric: concentric
 };
+const BREADTHFIRST_LAYOUT_OPTIONS = {
+    name: "breadthfirst"
+};
 const GRAPH_STYLE = [
     { selector: "node[type='transmitter']",
       style: { "background-color": "#83b7d0" } },
@@ -43,6 +46,7 @@ let isInitialLayoutPending = true;
 let layoutOptions = COSE_LAYOUT_OPTIONS;
 let layoutPromise;
 let selectedReceiverId;
+let selectedTransmitterId;
 
 
 // Initialise Cytoscape
@@ -280,7 +284,21 @@ function handleReceiverTap(evt) {
 // Handle the tap of a transmitter node
 function handleTransmitterTap(evt) {
   let node = evt.target;
-  console.log('tapped transmitter ' + node.id());
+
+  let isNewSelectedTransmitter = (node.id() !== selectedTransmitterId);
+  let breadthfirstLayoutOptions = Object.assign({ roots: node },
+                                                BREADTHFIRST_LAYOUT_OPTIONS);
+
+  if(isNewSelectedTransmitter) {
+    selectedTransmitterId = node.id();
+    updateLayout(breadthfirstLayoutOptions);
+  }
+  else if(layoutOptions.name === 'breadthfirst') {
+    updateLayout(COSE_LAYOUT_OPTIONS);
+  }
+  else {
+    updateLayout(breadthfirstLayoutOptions);
+  }
 }
 
 
