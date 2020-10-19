@@ -27,7 +27,7 @@
     "url": "https://github.com/reelyactive/hlc-server.git"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^7.0.0",
+    "@elastic/elasticsearch": "^7.9.0",
     "barnacles": "^1.1.1",
     "barnacles-elasticsearch": "^0.2.0",
     "barnacles-socketio": "^0.1.0",
