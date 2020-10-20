@@ -58,6 +58,7 @@ let cy = cytoscape({
 let layout = cy.layout({ name: "cose", cy: cy });
 cy.on("tap", "node[type='receiver']", handleReceiverTap);
 cy.on("tap", "node[type='transmitter']", handleTransmitterTap);
+cy.on("touchstart", "node[type='receiver']",handleReceiverHover);
 
 
 
@@ -313,4 +314,24 @@ function updateLayout(newLayoutOptions) {
   layout = cy.elements().makeLayout(layoutOptions);
   layout.run();
   layoutPromise = setTimeout(updateLayout, layoutUpdateInterval);
+}
+
+
+// Handle the hover on a receiver node
+function handleReceiverHover(evt) {
+  let node = evt.target;
+
+  let isNewSelectedReceiver = (node.id() !== selectedReceiverId);
+  console.log('hovered over')
+
+  // if(isNewSelectedReceiver) {
+  //   selectedReceiverId = node.id();
+  //   updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
+  // }
+  // else if(layoutOptions.name === 'concentric') {
+  //   updateLayout(COSE_LAYOUT_OPTIONS);
+  // }
+  // else {
+  //   updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
+  // }
 }
