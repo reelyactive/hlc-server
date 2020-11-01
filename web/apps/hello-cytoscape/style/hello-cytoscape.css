@@ -1,5 +1,12 @@
 #cy {
-  width: 100%;
+  width: 85%;
+  height: calc(100% - 120px);
+  position: absolute;
+  top: 60px;
+  left: 0px;
+}
+#metadata {
+  width: 15%;
   height: calc(100% - 120px);
   position: absolute;
   top: 60px;
