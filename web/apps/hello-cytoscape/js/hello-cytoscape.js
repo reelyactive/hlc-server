@@ -350,5 +350,6 @@ function handleReceiverHover(evt) {
 function handleTransamitterHover(evt){
   let node = evt.target;
   let isNewSelectedTransmitter = (node.id() !== selectedTransmitterId);
-  
+  personElement['schema:name'] = node.id();
+  cuttlefish.render(personStory, metadata);
 }
