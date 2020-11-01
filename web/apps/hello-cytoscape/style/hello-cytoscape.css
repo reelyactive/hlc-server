@@ -1,14 +1,14 @@
 #cy {
-  width: 85%;
+  width: 80%;
   height: calc(100% - 120px);
   position: absolute;
   top: 60px;
   left: 0px;
 }
 #metadata {
-  width: 15%;
+  width: 20%;
   height: calc(100% - 120px);
-  position: absolute;
+  float: right;
   top: 60px;
   left: 0px;
 }

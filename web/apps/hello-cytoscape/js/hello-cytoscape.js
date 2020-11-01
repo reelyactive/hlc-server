@@ -59,10 +59,11 @@ let layout = cy.layout({ name: "cose", cy: cy });
 cy.on("tap", "node[type='receiver']", handleReceiverTap);
 cy.on("tap", "node[type='transmitter']", handleTransmitterTap);
 cy.on("touchstart", "node[type='receiver']",handleReceiverHover);
+cy.on("touchstart", "node[type='transmitter']",handleTransamitterHover);
 
 //Initialize metadata
-
-
+let metadata = document.getElementById('metadata');
+//metadata.innerHTML += 'test div';
 
 
 // Connect to the socket.io stream and feed to beaver
@@ -321,20 +322,33 @@ function updateLayout(newLayoutOptions) {
 
 
 // Handle the hover on a receiver node
+const DEFAULT_STORY = {
+  "@context": { "schema": "https://schema.org/" },
+  "@graph": []
+};
+const DEFAULT_PERSON_ELEMENT = { "@id": "person", "@type": "schema:Person" };
+
+let personStory = Object.assign({}, DEFAULT_STORY);
+let personElement = Object.assign({}, DEFAULT_PERSON_ELEMENT);
+personStory['@graph'].push(personElement);
+
 function handleReceiverHover(evt) {
   let node = evt.target;
 
   let isNewSelectedReceiver = (node.id() !== selectedReceiverId);
+
   console.log('hovered over')
 
-  // if(isNewSelectedReceiver) {
-  //   selectedReceiverId = node.id();
-  //   updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
-  // }
-  // else if(layoutOptions.name === 'concentric') {
-  //   updateLayout(COSE_LAYOUT_OPTIONS);
-  // }
-  // else {
-  //   updateLayout(CONCENTRIC_LAYOUT_OPTIONS);
-  // }
+  personElement['schema:name'] = node.id();
+  cuttlefish.render(personStory, metadata);
+
+}
+
+
+//Handle the hover on a transmitter node
+
+function handleTransamitterHover(evt){
+  let node = evt.target;
+  let isNewSelectedTransmitter = (node.id() !== selectedTransmitterId);
+  
 }
