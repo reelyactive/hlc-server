@@ -60,6 +60,9 @@ cy.on("tap", "node[type='receiver']", handleReceiverTap);
 cy.on("tap", "node[type='transmitter']", handleTransmitterTap);
 cy.on("touchstart", "node[type='receiver']",handleReceiverHover);
 
+//Initialize metadata
+
+
 
 
 // Connect to the socket.io stream and feed to beaver
