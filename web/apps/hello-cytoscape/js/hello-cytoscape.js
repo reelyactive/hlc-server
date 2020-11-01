@@ -331,19 +331,13 @@ function updateLayout(newLayoutOptions) {
 // Handle the hover on a receiver node
 function handleReceiverHover(evt) {
   let node = evt.target;
-
   let isNewSelectedReceiver = (node.id() !== selectedReceiverId);
-
-  console.log('hovered over')
-
   nodeElement['schema:name'] = node.id();
   cuttlefish.render(nodeStory, metadata);
-
 }
 
 
 //Handle the hover on a transmitter node
-
 function handleTransamitterHover(evt){
   let node = evt.target;
   let isNewSelectedTransmitter = (node.id() !== selectedTransmitterId);
