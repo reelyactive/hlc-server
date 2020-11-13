@@ -74,6 +74,7 @@ let metadata = document.getElementById('metadata');
 nodeStory['@graph'].push(nodeElement);
 
 // Connect to the socket.io stream and feed to beaver
+//let baseUrl = "http://192.168.0.41:3001";
 let baseUrl = window.location.protocol + '//' + window.location.hostname +
               ':' + window.location.port;
 let socket = io.connect(baseUrl);
@@ -269,7 +270,6 @@ function concentric(node) {
   if(node.id() === selectedReceiverId) {
     return 100;
   }
-
   return 0;
 }
 
@@ -331,16 +331,28 @@ function updateLayout(newLayoutOptions) {
 // Handle the hover on a receiver node
 function handleReceiverHover(evt) {
   let node = evt.target;
-  let isNewSelectedReceiver = (node.id() !== selectedReceiverId);
-  nodeElement['schema:name'] = node.id();
-  cuttlefish.render(nodeStory, metadata);
+  let signature = node.id();
+  cormorant.retrieveAssociations(baseUrl, signature, true,
+                                 function(associations, story) {
+    if(story) {
+      let imageUrl = cuttlefish.determineImageUrl(story);
+      nodeElement['schema:name'] = node.id();
+      nodeElement['schema:image'] = imageUrl;
+      cuttlefish.render(nodeStory, metadata);
+    }
+  });
+  //TO-DO: add node image and render with cuttlefish to the metadata
 }
 
 
 //Handle the hover on a transmitter node
 function handleTransamitterHover(evt){
   let node = evt.target;
+  let imageUrl =  "http://localhost:3000/images/IMG_1022.jpg";
+  //let imageUrl = cuttlefish.determineImageUrl(nodeStory);
   let isNewSelectedTransmitter = (node.id() !== selectedTransmitterId);
   nodeElement['schema:name'] = node.id();
+  nodeElement['schema:image'] = imageUrl;
   cuttlefish.render(nodeStory, metadata);
+  //TO-DO: add node image and render with cuttlefish to the metadata
 }
