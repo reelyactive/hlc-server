@@ -64,8 +64,8 @@ let cy = cytoscape({
 let layout = cy.layout({ name: "cose", cy: cy });
 cy.on("tap", "node[type='receiver']", handleReceiverTap);
 cy.on("tap", "node[type='transmitter']", handleTransmitterTap);
-cy.on("touchstart", "node[type='receiver']",handleReceiverHover);
-cy.on("touchstart", "node[type='transmitter']",handleTransamitterHover);
+cy.on("tap", "node[type='receiver']",handleReceiverHover);
+cy.on("tap", "node[type='transmitter']",handleTransamitterHover);
 
 //Initialize metadata
 let metadata = document.getElementById('metadata');
@@ -74,9 +74,9 @@ let metadata = document.getElementById('metadata');
 nodeStory['@graph'].push(nodeElement);
 
 // Connect to the socket.io stream and feed to beaver
-let baseUrl = "http://192.168.0.41:3001";
-//let baseUrl = window.location.protocol + '//' + window.location.hostname +
- //             ':' + window.location.port;
+//let baseUrl = "http://192.168.0.41:3001";
+let baseUrl = window.location.protocol + '//' + window.location.hostname +
+              ':' + window.location.port;
 let socket = io.connect(baseUrl);
 beaver.listen(socket, true);
 
@@ -332,42 +332,40 @@ function updateLayout(newLayoutOptions) {
 function handleReceiverHover(evt) {
   let node = evt.target;
   let signature = node.id();
+  let metadataNodes = document.getElementById("metadata");
+
+  //remove all exisiting children before updating metadata with the current node's metadata
+  while (metadataNodes.hasChildNodes()) {  
+    metadataNodes.removeChild(metadataNodes.firstChild);
+  }
+
+  let currentMetadata = document.createElement("div");
   cormorant.retrieveAssociations(baseUrl, signature, true,
                                  function(associations, story) {
     if(story) {
       let imageUrl = cuttlefish.determineImageUrl(story);
       nodeElement['schema:name'] = node.id();
       nodeElement['schema:image'] = imageUrl;
-      cuttlefish.render(nodeStory, metadata);
+      cuttlefish.render(nodeStory, currentMetadata);
+      document.getElementById("metadata").appendChild(currentMetadata);
     }
   });
 }
-
 
 //Handle the hover on a transmitter node
 function handleTransamitterHover(evt){
   let node = evt.target;
   let signature = node.id();
+  
+  let currentMetadata = document.createElement("div");
   cormorant.retrieveAssociations(baseUrl, signature, true,
                                  function(associations, story) {
     if(story) {
       let imageUrl = cuttlefish.determineImageUrl(story);
       nodeElement['schema:name'] = node.id();
       nodeElement['schema:image'] = imageUrl;
-      cuttlefish.render(nodeStory, metadata);
+      cuttlefish.render(nodeStory, currentMetadata);
+      document.getElementById("metadata").appendChild(currentMetadata);
     }
   });
-
-
-
-  // let imageUrl =  "http://localhost:3000/images/IMG_1022.jpg";
-  // let isNewSelectedTransmitter = (node.id() !== selectedTransmitterId);
-  // nodeElement['schema:name'] = node.id();
-
-
-
-
-  // nodeElement['schema:image'] = imageUrl;
-  // cuttlefish.render(nodeStory, metadata);
-  //TO-DO: add node image and render with cuttlefish to the metadata
 }
