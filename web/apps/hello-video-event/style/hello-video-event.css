@@ -1,0 +1,13 @@
+#videoframe {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}
+
+#video {
+  max-width: 100%;
+  max-height: 100%;
+}

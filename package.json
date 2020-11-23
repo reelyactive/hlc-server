@@ -14,7 +14,7 @@
     "M2M",
     "IoT"
   ],
-  "version": "1.0.27",
+  "version": "1.0.28",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -39,7 +39,7 @@
     "cors": "^2.8.5",
     "diract-digester": "^0.1.1",
     "express": "^4.17.1",
-    "json-silo": "^1.0.2",
+    "json-silo": "^1.0.5",
     "raddec": "^0.2.7",
     "starling": "^1.0.1"
   },
