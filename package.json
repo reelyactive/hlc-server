@@ -14,7 +14,7 @@
     "M2M",
     "IoT"
   ],
-  "version": "1.0.26",
+  "version": "1.0.27",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -27,7 +27,7 @@
     "url": "https://github.com/reelyactive/hlc-server.git"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^7.0.0",
+    "@elastic/elasticsearch": "7.9.0",
     "barnacles": "^1.1.1",
     "barnacles-elasticsearch": "^0.2.0",
     "barnacles-socketio": "^0.1.0",
@@ -39,7 +39,7 @@
     "cors": "^2.8.5",
     "diract-digester": "^0.1.1",
     "express": "^4.17.1",
-    "json-silo": "^1.0.2",
+    "json-silo": "^1.0.5",
     "raddec": "^0.2.7",
     "starling": "^1.0.1"
   },
