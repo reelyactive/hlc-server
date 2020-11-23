@@ -74,9 +74,8 @@ let metadata = document.getElementById('metadata');
 nodeStory['@graph'].push(nodeElement);
 
 // Connect to the socket.io stream and feed to beaver
-//let baseUrl = "http://192.168.0.41:3001";
 let baseUrl = window.location.protocol + '//' + window.location.hostname +
-              ':' + window.location.port;
+             ':' + window.location.port;
 let socket = io.connect(baseUrl);
 beaver.listen(socket, true);
 
@@ -334,11 +333,10 @@ function handleReceiverHover(evt) {
   let signature = node.id();
   let metadataNodes = document.getElementById("metadata");
 
-  //remove all exisiting children before updating metadata with the current node's metadata
   while (metadataNodes.hasChildNodes()) {  
     metadataNodes.removeChild(metadataNodes.firstChild);
   }
-
+  
   let currentMetadata = document.createElement("div");
   cormorant.retrieveAssociations(baseUrl, signature, true,
                                  function(associations, story) {
@@ -358,7 +356,6 @@ function handleTransamitterHover(evt){
   let signature = node.id();
   let metadataNodes = document.getElementById("metadata");
 
-  //remove all exisiting children before updating metadata with the current node's metadata
   while (metadataNodes.hasChildNodes()) {  
     metadataNodes.removeChild(metadataNodes.firstChild);
   }
