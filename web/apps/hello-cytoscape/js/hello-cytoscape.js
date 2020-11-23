@@ -346,8 +346,6 @@ function handleReceiverHover(evt) {
       let imageUrl = cuttlefish.determineImageUrl(story);
       nodeElement['schema:name'] = node.id();
       nodeElement['schema:image'] = imageUrl;
-      cuttlefish.render(nodeStory, currentMetadata);
-      document.getElementById("metadata").appendChild(currentMetadata);
     }
   });
 }
