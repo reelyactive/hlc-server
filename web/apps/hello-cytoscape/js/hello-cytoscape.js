@@ -356,7 +356,13 @@ function handleReceiverHover(evt) {
 function handleTransamitterHover(evt){
   let node = evt.target;
   let signature = node.id();
-  
+  let metadataNodes = document.getElementById("metadata");
+
+  //remove all exisiting children before updating metadata with the current node's metadata
+  while (metadataNodes.hasChildNodes()) {  
+    metadataNodes.removeChild(metadataNodes.firstChild);
+  }
+
   let currentMetadata = document.createElement("div");
   cormorant.retrieveAssociations(baseUrl, signature, true,
                                  function(associations, story) {
