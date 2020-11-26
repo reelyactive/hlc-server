@@ -327,7 +327,7 @@ function updateLayout(newLayoutOptions) {
 }
 
 
-// Handle the hover on a receiver node
+// Render receiver node metadata
 function handleReceiverHover(evt) {
   let node = evt.target;
   let signature = node.id();
@@ -336,7 +336,7 @@ function handleReceiverHover(evt) {
   while (metadataNodes.hasChildNodes()) {  
     metadataNodes.removeChild(metadataNodes.firstChild);
   }
-  
+
   let currentMetadata = document.createElement("div");
   cormorant.retrieveAssociations(baseUrl, signature, true,
                                  function(associations, story) {
@@ -350,7 +350,7 @@ function handleReceiverHover(evt) {
   });
 }
 
-//Handle the hover on a transmitter node
+//Render transmitter node metadata
 function handleTransamitterHover(evt){
   let node = evt.target;
   let signature = node.id();
