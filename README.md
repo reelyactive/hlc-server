@@ -1,7 +1,7 @@
 hlc-server
 ==========
 
-Hyperlocal context (HLC) server combining all the core open source software packages of [Pareto Anywhere by reelyActive](https://getpareto.com) for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add [radio-identification infrastructure](https://getpareto.com/platform/infrastructure/) to harness ambient source data.
+Hyperlocal context (HLC) server combining all the core open source software packages of [Pareto Anywhere by reelyActive](https://www.reelyactive.com/pareto/anywhere/) for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add [radio-identification infrastructure](https://www.reelyactive.com/pareto/anywhere/infrastructure/) to harness ambient source data.
 
 
 Getting Started Tutorials
