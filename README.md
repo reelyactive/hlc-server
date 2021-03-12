@@ -1,7 +1,7 @@
 hlc-server
 ==========
 
-Hyperlocal context (HLC) server combining all the core open source software packages of [Pareto Anywhere by reelyActive](https://getpareto.com) for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add [radio-identification infrastructure](https://getpareto.com/platform/infrastructure/) to harness ambient source data.
+Hyperlocal context (HLC) server combining all the core open source software packages of [Pareto Anywhere by reelyActive](https://www.reelyactive.com/pareto/anywhere/) for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add [radio-identification infrastructure](https://www.reelyactive.com/pareto/anywhere/infrastructure/) to harness ambient source data.
 
 
 Getting Started Tutorials
@@ -129,7 +129,7 @@ License
 
 MIT License
 
-Copyright (c) 2014-2020 [reelyActive](https://www.reelyactive.com)
+Copyright (c) 2014-2021 [reelyActive](https://www.reelyactive.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

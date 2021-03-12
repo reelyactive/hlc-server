@@ -14,7 +14,7 @@
     "M2M",
     "IoT"
   ],
-  "version": "1.0.28",
+  "version": "1.0.29",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -30,7 +30,7 @@
     "@elastic/elasticsearch": "7.9.0",
     "barnacles": "^1.1.1",
     "barnacles-elasticsearch": "^0.2.0",
-    "barnacles-socketio": "^0.1.0",
+    "barnacles-socketio": "^0.2.0",
     "barnowl": "^1.1.1",
     "barnowl-minew": "^0.1.3",
     "barnowl-reel": "^0.1.10",
