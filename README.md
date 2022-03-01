@@ -3,6 +3,8 @@ hlc-server
 
 Hyperlocal context (HLC) server combining all the core open source software packages of [Pareto Anywhere by reelyActive](https://www.reelyactive.com/pareto/anywhere/) for convenience and ease of exploration of features and applications.  _Observe who/what is where/how, in real time, in any physical space_ ([learn more](https://reelyactive.github.io/diy/rfid-unity/)). Just add [radio-identification infrastructure](https://www.reelyactive.com/pareto/anywhere/infrastructure/) to harness ambient source data.
 
+__hlc-server__ has been superseded by [pareto-anywhere](https://github.com/reelyactive/pareto-anywhere/) and is no longer under active development.
+
 
 Getting Started Tutorials
 -------------------------
@@ -10,6 +12,10 @@ Getting Started Tutorials
 The easiest way to get started with __hlc-server__:
 - [Install our open source software suite on a Laptop](https://reelyactive.github.io/diy/laptop-suite/)
 - [Install our open source software suite on a Pi](https://reelyactive.github.io/diy/pi-suite/)
+
+_However,_ we recommend migration to __pareto-anywhere__:
+- [Run Pareto Anywhere on a PC](https://reelyactive.github.io/diy/pareto-anywhere-pc/)
+- [Run Pareto Anywhere on a Raspberry Pi](https://reelyactive.github.io/diy/pareto-anywhere-pi/)
 
 
 Installation and Quick Start
